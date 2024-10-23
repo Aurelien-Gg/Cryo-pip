@@ -13,6 +13,7 @@ is called by main script to run Alignframes on .Tiff images to align the subfram
 SortEvenOdd.sh
 ```
 is used to move the Even and Odd .mrc images created with Alignframes into Even and Odd folders respectively
+
 Usage: ./SortEvenOdd.sh </path/to/EvenOdd/to/be/sorted/>
 
 ```

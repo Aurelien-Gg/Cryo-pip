@@ -44,7 +44,7 @@ Apply the changes: After saving the file, either restart your terminal or run:
 ```
 source ~/.bashrc
 ```
-# Cryo-CARE :
+#### Cryo-CARE :
 1. You will need CUDA Toolkit: https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=RHEL&target_version=8&target_type=rpm_local
 
 Installation instructions (type these in terminal):

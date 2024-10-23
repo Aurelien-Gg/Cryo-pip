@@ -35,16 +35,17 @@ Open your .bashrc through Terminal window:
 ```
 nano ~/.bashrc
 ```
-Add IMOD to your PATH: At the end of the file, add the following lines, replacing /path/to/IMOD with the actual path to your IMOD installation (use "which imod" to get path):
+Add IMOD to your PATH: At the end of the file, add the following lines, replacing /path/to/IMOD with the actual path to your IMOD installation (type "which imod" in Terminal to get path):
 ```
 export IMOD_DIR=/path/to/IMOD
 export PATH=$PATH:$IMOD_DIR:$IMOD_DIR/bin
 ```
+
 Apply the changes: After saving the file, either restart your terminal or run:
 ```
 source ~/.bashrc
 ```
-#### Cryo-CARE :
+#### Cryo-CARE
 1. You will need CUDA Toolkit: https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=RHEL&target_version=8&target_type=rpm_local
 
 Installation instructions (type these in terminal):

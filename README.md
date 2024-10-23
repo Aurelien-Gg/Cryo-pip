@@ -56,7 +56,7 @@ sudo rpm -i cuda-repo-rhel8-12-6-local-12.6.2_560.35.03-1.x86_64.rpm
 sudo dnf clean all
 sudo dnf -y install cuda-toolkit-12-6
 ```
-2. You will need to create a python environment (here we name it "cryocare_11") and install Cryocare in it https://pypi.org/project/cryoCARE/  (type these in terminal):
+2. You will need to create a python environment (here we name it "cryocare_11") and install Tensorflow and CryoCARE in it https://pypi.org/project/cryoCARE/  (type these in terminal):
 ```
 conda create -n cryocare_11 python=3.8 cudatoolkit=11.0 cudnn=8.0 -c conda-forge
 conda activate cryocare_11

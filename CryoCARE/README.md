@@ -1,5 +1,5 @@
 ## Manual
-cryoCARE uses `.json` configuration files and is run in three steps. If you already have a model <model_name.tar.gz>  then skip to 3.
+cryoCARE uses `.json` configuration files and is run in three steps. If you already have a model <model_name.tar.gz>  then skip to **3.**
 
 ### 1. Prepare Training Data
 To prepare the training data we have to provide all tomograms on which we want to train. 

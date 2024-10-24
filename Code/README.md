@@ -58,6 +58,7 @@ stack_name        = 'choose stack name'                         **Choose name fo
 # How to use IMODpip.m
 
 The following files
+
 ```
 AF_pip.sh
 ```
@@ -73,7 +74,9 @@ IMOD.m can be run from anywhere as long as full paths are provided
 ```
 
 # How to use SortEvenOdd.sh
+
 SortEvenOdd.sh looks for all faimg-*.mrc files in given path. It takes all even number of * and puts them in a folder called /even/. Same for /odd/.
+
 ```
 Usage: ./SortEvenOdd.sh </path/to/EvenOdd/to/be/sorted/>
 ```

@@ -5,7 +5,7 @@ Table of contents:
 
 [I just want to build a denoised Tomogram from my tilt series !!!](#Quick-guide)
 
-[Install guide](#Install-guide)
+[Full Install guide](#Full-Install-guide)
 
 [Getting Started](#Getting-started)
 
@@ -26,7 +26,7 @@ Download all files in [/Code/](Code/), [/ConfigurationFiles/](ConfigurationFiles
   - Modify the necessary paths to fit your config
   - Execute the code
 
-## Install guide
+## Full Install guide
 #### JAVA installation (needed to run Etomo GUI in IMOD)
 
 Check if correct Java is installed:

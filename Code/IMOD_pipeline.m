@@ -3,7 +3,7 @@
 
 %% MODIFY PATHS TO FIT YOUR CONFIG
 % Enter required filepaths:
-template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplateAutoFid2.adoc';  % Path of template file
+template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplate241024.adoc';  % Path of template file
 cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs/';               % Path of cryocare json files
 frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/';                             % Path of Stack/Metadata/Gain file
 gain_path         = ''; % Optional gain path. If left empty it will take the one in 'frame_dirpath'.
@@ -11,6 +11,12 @@ gain_path         = ''; % Optional gain path. If left empty it will take the one
 stack_name        = 'stack_AF';           % Choose name for .mrc stack output
 output_dirpath    = frame_dirpath;        % Choose directory path to output files. Usually same as frame_directory
 imod_folder       = 'imod';               % Choose directory that will be created to output results of Alignframes
+
+
+
+
+
+
 
 %% DON'T MODIFIY THE FOLLOWING:
 %% OPTIONAL EXCLUDING BAD SUBFRAMES % This creates new .tiff files where certain subframes (here 0 and 1) have been removed. Should probably always remove even number of frames since will be split in odd and even

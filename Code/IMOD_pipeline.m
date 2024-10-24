@@ -4,7 +4,6 @@
 %% MODIFY PATHS TO FIT YOUR CONFIG
 % Enter required filepaths:
 template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplate241024.adoc';  % Path of template file
-cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs/';               % Path of cryocare json files
 frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/';                             % Path of Stack/Metadata/Gain file
 gain_path         = ''; % Optional gain path. If left empty it will take the one in 'frame_dirpath'.
 % Choose output names:
@@ -25,10 +24,10 @@ imod_folder       = 'imod';               % Choose directory that will be create
 
 %% PROCESSING PART
 % Run ALIGN FRAMES using  AF_imod.sh
-status = system(['./AF_IMOD.sh -input ', frame_dirpath, ' -output ',output_dirpath,' -name ', imod_folder, ' -stack ', stack_name, '-gain ', gain_path]), if status ~= 0,    error('1Command failed with status %d', status), end
+status = system(['./AF_IMOD.sh -input ',frame_dirpath, ' -output ',output_dirpath,' -name ',imod_folder, ' -stack ',stack_name, '-gain ',gain_path]), if status ~= 0,    error('1Command failed with status %d', status), end
 
 % Run Processing using  BATCHRUNTOMO
-status = system(['batchruntomo -di ', template_filepath,' -ro ', stack_name ,' -current ' output_dirpath, imod_folder, ' -deliver ' , output_dirpath,imod_folder,' -gpu 1']), if status ~= 0,    error('3Command failed with status %d', status), end
+status = system(['batchruntomo -di ',template_filepath,' -ro ',stack_name,' -current ',output_dirpath,'/',imod_folder,' -deliver ' ,output_dirpath,'/',imod_folder,' -gpu 1']), if status ~= 0,    error('3Command failed with status %d', status), end
 
 %%  VALIDATION PART
 % Plot CTF defocus found in CTFcorrection.log

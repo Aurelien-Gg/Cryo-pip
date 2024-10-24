@@ -13,13 +13,18 @@ Table of contents:
 
 Download all files in /Code/, /ConfigurationFiles/, and /CryoCARE/. Set them up like described in [Getting Started](#Getting-started) for best practice.
 
-To get denoised Tomogram from tilt series:
+#### To get denoised Tomogram from tilt series:
 
   - Open Full_pipeline.m
   - Modify the necessary paths to fit your config
   - Execute the code
   - Follow instructions in [CryoCARE/Summary](CryoCARE/README.md)
 
+#### To only use IMOD (no CryoCARE)
+
+  - Open IMOD_pipeline.m
+  - Modify the necessary paths to fit your config
+  - Execute the code
 
 ## Install guide
 #### JAVA installation (needed to run Etomo GUI in IMOD)

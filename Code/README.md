@@ -14,7 +14,6 @@ SortEvenOdd.sh
 ```
 is used to move the Even and Odd .mrc images created with AF_atoz.sh into Even and Odd folders respectively
 
-Usage: ./SortEvenOdd.sh </path/to/EvenOdd/to/be/sorted/>
 
 ```
 ValidateGreat.m
@@ -39,15 +38,32 @@ AtoZ.m can be run from anywhere as long as full paths are provided
 > Stack file "<stack_name>.mrc", Metadata file "<stack_name>.mdoc", and Gain file "<gain_name>.dm4" need to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder (should be changed)
 
 ###### MODIFY PATHS TO FIT YOUR CONFIG
-template_filepath = '/path/to/AurelienTemplateAutoFid2.adoc';    ** Path of template file ** 
 
-cryo_path         = '/path/to/Cryo/JSon/files/';                 ** Path of cryocare json files ** 
+template_filepath = '/path/to/AurelienTemplateAutoFid2.adoc';   ** Path of template file ** 
 
-frame_dirpath     = '/path/to/frames/'                           **  Directory with frames ** 
+cryo_path         = '/path/to/Cryo/JSon/files/';                ** Path of cryocare json files ** 
 
-output_dirpath    = '/choose/path/to/output/;                    ** Directory path to output files. Usually same as frame_directory **
+frame_dirpath     = '/path/to/frames/'                          **  Directory with frames and .Mdoc** 
 
-imod_folder       = 'choose output folder name';                 ** Directory that will be created to put results of Alignframes **
+gain_path         = '/path/to/gain/'                            ** Gain path (optionnal). If left empty it will take the one in 'frame_direpath'.
+
+output_dirpath    = '/choose/path/to/output/'                   ** Choose directory path to output files. Usually same as frame_directory **
+
+imod_folder       = 'choose output folder name'                 ** Choose directory that will be created to output results of Alignframes **
+
+stack_name        = 'choose stack name'                         ** Choose name for .mrc stack output **
+
+%% MODIFY PATHS TO FIT YOUR CONFIG
+% Enter required filepaths:
+template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplateAutoFid2.adoc';  % Path of template file
+cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs/';               % Path of cryocare json files
+frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/';                             % Path of Stack/Metadata/Gain file
+gain_path         = ''; % Optional gain path. If left empty it will take the one in 'frame_direpath'.
+% Choose output names:
+output_dirpath    = frame_dirpath;        % Choose directory path to output files. Usually same as frame_directory
+imod_folder       = 'imod';               % Choose directory that will be created to output results of Alignframes
 
 
 
+
+Usage: ./SortEvenOdd.sh </path/to/EvenOdd/to/be/sorted/>

@@ -3,9 +3,23 @@ Cryo-EM tomogram reconstruction and analysis pipeline
 
 Table of contents:
 
+[I just want to build a denoised Tomogram from my tilt series !!!](#Guick-guide)
+
 [Install guide](#Install-guide)
 
 [Getting Started](#Getting-started)
+
+## Quick guide
+
+Download all files in /Code/, /ConfigurationFiles/, and /CryoCARE/. Set them up like described in [Getting Started](#Getting-started) for best practice.
+
+To get denoised Tomogram from tilt series:
+
+  - Open Full_pipeline.m
+  - Modify the necessary paths to fit your config
+  - Execute the code
+  - Follow instructions in [CryoCARE/Summary](CryoCARE/README.md)
+
 
 ## Install guide
 #### JAVA installation (needed to run Etomo GUI in IMOD)
@@ -98,7 +112,7 @@ Folder structure for tilt series to be processed:
     ├── <Metadata>.mdoc
     ├── Image_1.tiff
     ├── Image_2.tiff
-    ├── ...
+    ├── <gain_file>.md4
     ├── ...
 
 ```

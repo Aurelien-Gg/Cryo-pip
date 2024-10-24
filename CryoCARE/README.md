@@ -1,4 +1,32 @@
-## Manual
+Table of contents:
+
+[Summary](#Summary)
+
+[Full Manual](#Full-Manual)
+
+## Summary
+
+Running CryoCARE through Matlab turns out to be very slow so we will simply run the commands manually through the terminal.
+
+If Full_pipeline.m was run with no issues, then after activating the <cryocare_11> (replace with where your CryoCARE was installed) python environment using:
+
+```
+conda activate cryocare_11
+```
+then simply run the following three commands sequentially in order to
+
+  - Prepare Training Data
+  - Train model
+  - Denoise
+
+```
+cryoCARE_extract_train_data.py --conf train_data_config.json
+cryoCARE_train.py --conf train_config.json
+cryoCARE_predict.py --conf predict_config.json
+```
+
+
+## Full Manual
 cryoCARE uses `.json` configuration files and is run in three steps. If you already have a model <model_name.tar.gz>  then skip to **3.**
 
 ### 1. Prepare Training Data
@@ -100,6 +128,3 @@ Create an empty file called `predict_config.json`, copy-paste the following temp
 * `"overwrite"`: Allow previous files to be overwritten.
 * `"gpu_id"`: This is optional. Provide the ID of the GPU you wish to use. Alternatively, you can specify the GPU ID using the `CUDA_VISIBLE_DEVICES` environment variable. Note that prediction only supports a single GPU currently.
 
-#### Run Prediction:
-To run the training we run the following command:
-`cryoCARE_predict.py --conf predict_config.json`

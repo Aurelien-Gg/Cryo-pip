@@ -110,9 +110,10 @@ Folder structure for tilt series to be processed:
 ```bash
 └── /path/to/frames/
     ├── <Metadata>.mdoc
+    ├── <gain_file>.md4
     ├── Image_1.tiff
     ├── Image_2.tiff
-    ├── <gain_file>.md4
+    ├── ...
     ├── ...
 
 ```

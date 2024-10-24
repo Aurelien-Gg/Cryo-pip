@@ -1,6 +1,6 @@
 ## Short description of files
 ```
-AtoZ.m
+AtoZpip.m
 ```
 Full pipeline. Takes a series of .Tiff images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files & performs denoising using CryoCARE
 
@@ -8,6 +8,11 @@ Full pipeline. Takes a series of .Tiff images and reconstructs them into a 3D To
 AF_atoz.sh
 ```
 is called by main script to run Alignframes on .Tiff images to align the subframes & creates the Even/Odd images (using -debug 10000)
+
+```
+IMODpip.m
+```
+Pipeline without IsoCARE. Takes a series of .Tiff images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files
 
 ```
 SortEvenOdd.sh
@@ -20,7 +25,7 @@ ValidateGreat.m
 ```
 Plots and saves the Defocus values from ctfcorrection.log  &  Residual values from align.log
 
-# How to use AtoZ.m
+# How to use AtoZpip.m
 
 The following files
 ```
@@ -31,7 +36,7 @@ SortEvenOdd.sh
 need to be in the same folder as
 
 ```
-AtoZ.m
+AtoZpip.m
 ```
 AtoZ.m can be run from anywhere as long as full paths are provided
 > [!IMPORTANT]
@@ -50,6 +55,25 @@ stack_name        = 'choose stack name'                         **Choose name fo
 ```
 
 
+# How to use IMODpip.m
 
+The following files
+```
+AF_pip.sh
+```
+need to be in the same folder as
 
+```
+IMODpip.m
+```
+IMOD.m can be run from anywhere as long as full paths are provided
+
+> [!IMPORTANT]
+> Stack file "<stack_name>.mrc", Metadata file "<stack_name>.mdoc", and Gain file "<gain_name>.dm4" need to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder (should be changed)
+```
+
+# How to use SortEvenOdd.sh
+SortEvenOdd.sh looks for all faimg-*.mrc files in given path. It takes all even number of * and puts them in a folder called /even/. Same for /odd/.
+```
 Usage: ./SortEvenOdd.sh </path/to/EvenOdd/to/be/sorted/>
+```

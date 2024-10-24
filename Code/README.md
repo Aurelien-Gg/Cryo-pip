@@ -1,13 +1,20 @@
+Table of contents:
+
+[Short description of files](#Short-description-of-files
+
+[Getting Started](#Getting-started)
+
+
 ## Short description of files
 ```
-AtoZpip.m
+Full_pipeline.m
 ```
-AtoZpip.m  is full pipeline. Takes a series of .Tiff images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files **& performs denoising using CryoCARE**
+Full_pipeline.m  is full pipeline. Takes a series of .Tiff images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files **& prepares files for denoising using CryoCARE**
 
 ```
-AF_atoz.sh
+AF_fullpipe.sh
 ```
-AF_atoz.sh  is called by AtoZpip.m to run Alignframes on .Tiff images to align the subframes **& creates the Even/Odd images (using -debug 10000)**
+AF_fullpipe.sh  is called by AtoZpip.m to run Alignframes on .Tiff images to align the subframes **& creates the Even/Odd images (using -debug 10000)**
 
 ```
 SortEvenOdd.sh
@@ -15,7 +22,7 @@ SortEvenOdd.sh
 SortEvenOdd.sh  is used to move the Even and Odd .mrc images created with AF_atoz.sh (Alignframes -debug 10000) into Even and Odd folders respectively
 
 ```
-IMODpip.m
+IMOD.m
 ```
 IMODpip.m is pipeline **without CryoCARE**. Takes a series of .Tiff images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files
 

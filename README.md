@@ -5,7 +5,7 @@ Table of contents:
 
 [Install guide](#Install-guide)
 
-
+[Getting Started](#Getting-started)
 
 ## Install guide
 #### JAVA installation (needed to run Etomo GUI in IMOD)
@@ -69,3 +69,7 @@ pip install cryoCARE
 ```
 > [!IMPORTANT]
 > You need to type "conda activate cryocare_11" in Terminal window in order to have access to CryoCARE commands
+
+## Getting started
+
+

@@ -3,7 +3,7 @@
 
 %% MODIFY PATHS TO FIT YOUR CONFIG
 % Enter required filepaths (! don't forget to add '/' at the end for paths):
-template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplate241024.adoc';  % Path of template file
+template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplate241024.adoc';    % Path of template file
 cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs/';               % Path of cryocare json files
 frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/';                             % Path of Stack/Metadata/Gain file
 gain_path         = ''; % Optional gain path. If left empty it will take the one in 'frame_direpath'
@@ -45,13 +45,23 @@ status = system(['batchruntomo -di ', template_filepath,' -ro faimg-odd  -curren
 
 % Prepare and run CryoCARE prediction
 if ~exist([output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful'], 'dir'), mkdir([output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful']), end
-copyfile([cryo_path,'/*'], [output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/'])
+copyfile([cryo_path,'/train_data_config.json'], [output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/'])
+copyfile([cryo_path,'/train_config.json'], [output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/'])
+copyfile([cryo_path,'/predict_config.json'], [output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/'])
 
-status = system(['sed -i "s|\"even\": \".*\"|\"even\": \"', output_dirpath, 'even/faimg-even/faimg-even_rec.mrc\"|" ', output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
-status = system(['sed -i "s|\"odd\": \".*\"|\"odd\": \"',  output_dirpath, 'odd/faimg-odd/faimg-odd_rec.mrc\"|" ',   output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
-status = system(['sed -i "s|\"output\": \".*\"|\"output\": \"',  output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/denoised.rec\"|" ',   output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
-status = system(['bash -c ''source ~/.bashrc && conda activate cryocare_11 && cryoCARE_predict.py --conf ', output_dirpath, imod_folder, '/', stack_name, '/CryoCAREful/predict_config.json'''])
-% [status, result] = system(['bash -c ''source ~/.bashrc && conda activate cryocare_11 && cryoCARE_predict.py --conf ', output_dirpath, imod_folder, '/', stack_name, '/CryoCAREful/predict_config.json'' 2> cryocare_error.log'], '-echo');
+
+status = system(['sed -i "s|\"even\": \".*\"|\"even\": \"',output_dirpath, 'even/faimg-even/faimg-even_rec.mrc\"|" ',output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/train_data_config.json']);
+status = system(['sed -i "s|\"odd\": \".*\"|\"odd\": \"',  output_dirpath, 'odd/faimg-odd/faimg-odd_rec.mrc\"|" ',   output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/train_data_config.json']);
+status = system(['sed -i "s|\"path\": \".*\"|\"path\": \"',output_dirpath,imod_folder,'/',stack_name,'/CryoCAREful/\"|" ',output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/train_data_config.json']);
+status = system(['sed -i "s|\"train_data\": \".*\"|\"train_data\": \"',output_dirpath,imod_folder,'/',stack_name,'/CryoCAREful/\"|" ',output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/train_config.json']);
+status = system(['sed -i "s|\"path\": \".*\"|\"path\": \"',output_dirpath,imod_folder,'/',stack_name,'/CryoCAREful/\"|" ',output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/train_config.json']);
+status = system(['sed -i "s|\"path\": \".*\"|\"path\": \"',output_dirpath,imod_folder,'/',stack_name,'/CryoCAREful/\"|" ',output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
+status = system(['sed -i "s|\"even\": \".*\"|\"even\": \"',output_dirpath, 'even/faimg-even/faimg-even_rec.mrc\"|" ', output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
+status = system(['sed -i "s|\"odd\": \".*\"|\"odd\": \"',  output_dirpath, 'odd/faimg-odd/faimg-odd_rec.mrc\"|" ',    output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
+status = system(['sed -i "s|\"output\": \".*\"|\"output\": \"',output_dirpath,imod_folder,'/',stack_name,'/CryoCAREful/denoised.rec\"|" ',output_dirpath,imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
+% status = system(['bash -c ''source ~/.bashrc && conda activate cryocare_11 && cryoCARE_extract_train_data.py --conf ', output_dirpath, imod_folder, '/', stack_name, '/CryoCAREful/train_data_config.json'''])
+% status = system(['bash -c ''source ~/.bashrc && conda activate cryocare_11 && cryoCARE_train.py --conf ', output_dirpath, imod_folder, '/', stack_name, '/CryoCAREful/train_config.json'''])
+% status = system(['bash -c ''source ~/.bashrc && conda activate cryocare_11 && cryoCARE_predict.py --conf ', output_dirpath, imod_folder, '/', stack_name, '/CryoCAREful/predict_config.json'''])
 
 
 %%  VALIDATION PART

@@ -62,7 +62,7 @@ stack_name        = 'choose stack name'                         **Choose name fo
 
 The following files
 ```
-AF_pip.sh
+AF_imod.sh
 ```
 need to be in the same folder as
 ```

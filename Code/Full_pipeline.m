@@ -25,8 +25,8 @@ imod_folder       = 'imod';               % Choose directory name that will be c
 % status = system(['for file in ',frame_dirpath,'/*_fractions.tiff; do newstack -exclude 0,1 "$file" temp_output.tiff && mv temp_output.tiff "$file"; done']);
 
 %% PROCESSING PART
-% Run ALIGN FRAMES using  AF_atoz.sh
-status = system(['./AF_IMODCryo.sh -input ',frame_dirpath,' -output ',output_dirpath,' -name ',imod_folder,' -stack ',stack_name,' -gain ', gain_path]), if status ~= 0,    error('1Command failed with status %d', status), end
+% Run ALIGN FRAMES using  AF_Fullpipe.sh
+status = system(['./AF_Fullpipe.sh -input ',frame_dirpath,' -output ',output_dirpath,' -name ',imod_folder,' -stack ',stack_name,' -gain ', gain_path]), if status ~= 0,    error('1Command failed with status %d', status), end
 
 % Sort EVEN / ODD frame-aligned images into /even/ and /odd/ folder
 status = system(['/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/BestScripts/CryoCareful/SortEvenOdd.sh ',frame_dirpath])                      , if status ~= 0,    error('2Command failed with status %d', status), end

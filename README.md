@@ -25,26 +25,25 @@ sudo yum install java-1.8.0-openjdk
 
 Download link (redhat): https://bio3d.colorado.edu/imod/AMD64-RHEL5/imod_4.11.25_RHEL7-64_CUDA10.1.sh
 
-Go where file is downloaded, open Terminal window, and type
-```
-imod_4.11.25_RHEL7-64_CUDA10.1.sh
-```
-You need to add IMOD to your PATH so that Linux can find the commands.
+1. Go where file is downloaded, open Terminal window, and type
+  ```
+  imod_4.11.25_RHEL7-64_CUDA10.1.sh
+  ```
+2. You need to add IMOD to your PATH so that Linux can find the commands.
 
-Open your .bashrc through Terminal window:
-```
-nano ~/.bashrc
-```
-Add IMOD to your PATH: At the end of the file, add the following lines, replacing /path/to/IMOD with the actual path to your IMOD installation (type "which imod" in Terminal to get path):
-```
-export IMOD_DIR=/path/to/IMOD
-export PATH=$PATH:$IMOD_DIR:$IMOD_DIR/bin
-```
-
-Apply the changes: After saving the file, either restart your terminal or run:
-```
-source ~/.bashrc
-```
+  - Open your .bashrc through Terminal window:
+  ```
+  nano ~/.bashrc
+  ```
+  - Add IMOD to your PATH: At the end of the file, add the following lines, replacing /path/to/IMOD with the actual path to your IMOD installation (type "which imod" in Terminal to get path):
+  ```
+  export IMOD_DIR=/path/to/IMOD
+  export PATH=$PATH:$IMOD_DIR:$IMOD_DIR/bin
+  ```
+  - Apply the changes: After saving the file, either restart your terminal or run:
+  ```
+  source ~/.bashrc
+  ```
 #### Cryo-CARE
 1. You will need CUDA Toolkit: https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=RHEL&target_version=8&target_type=rpm_local
 

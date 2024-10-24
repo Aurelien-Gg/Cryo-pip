@@ -95,7 +95,7 @@ Folder structure for tilt series to be processed:
 
 ```bash
 └── /path/to/frames/
-    ├── <Metadata>.Mdoc
+    ├── <Metadata>.mdoc
     ├── Image_1.tiff
     ├── Image_2.tiff
     ├── ...

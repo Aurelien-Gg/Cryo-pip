@@ -44,7 +44,7 @@ AtoZ.m can be run from anywhere as long as full paths are provided
 > [!IMPORTANT]
 > Stack file "<stack_name>.mrc", Metadata file "<stack_name>.mdoc" need to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder
 
-Denoised Tomogram can be found in /output_dirpath/imod_folder/stack_name/CryoCAREful/denoised.rec/'
+Denoised Tomogram output can be found in /output_dirpath/imod_folder/stack_name/CryoCAREful/denoised.rec/'
 
 ###### MODIFY PATHS TO FIT YOUR CONFIG
 

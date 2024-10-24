@@ -8,7 +8,7 @@ Table of contents:
 
 Running CryoCARE through Matlab turns out to be very slow so we will simply run the commands manually through the terminal.
 
-If Full_pipeline.m was run with no issues, then open a terminal window in /<output_dirpath>/<imod_folder>/<stack_name>/CryoCAREful/ 
+If **Full_pipeline.m** was run with no issues, then open a terminal window in **/<output_dirpath>/<imod_folder>/<stack_name>/CryoCAREful/ **
 
 - Find out where your CryoCARE commands are installed by typing:
 
@@ -17,7 +17,7 @@ which cryoCARE_train.py
 ```
 that should output something like **~/anaconda3/envs/cryocare_11/bin/cryoCARE_train.py**
 
-- Activate the <cryocare_11> (replace with your CryoCARE environment name) python environment using:
+- Activate the **<cryocare_11>** (replace with your CryoCARE environment name) python environment using:
 
 ```
 conda activate cryocare_11
@@ -33,7 +33,7 @@ cryoCARE_train.py --conf train_config.json
 cryoCARE_predict.py --conf predict_config.json
 ```
 
-Your denoised tomogram will be in '/denoise.rec/faimg-even_rec.mrc'
+Your denoised tomogram will be in **'/denoise.rec/faimg-even_rec.mrc'**
 
 
 ## Full Manual

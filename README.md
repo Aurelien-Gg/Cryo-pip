@@ -77,17 +77,19 @@ I recommend creating the following folder structure:
 ```bash
 └── Cryo-Pip
     ├── Code
-    │   ├── AF_atoz.sh
-    │   ├── AF_imod.sh
-    │   ├── AtoZpip.m
-    │   ├── IMODpip.m
+    │   ├── IMODCryo_pipeline.m
+    │   ├── AF_IMODCryo.sh
+    │   ├── IMOD_pipeline.m
+    │   ├── AF_IMOD.sh
     │   ├── SortEvenOdd.sh
     │   └── ValidateGreat.m
     ├── ConfigurationFiles
-    │   └── AurelienTemplateAutoFid2.adoc 
+    │   └── AurelienTemplate241024.adoc 
     └── CryoCARE
         ├── train_data_config.json
         ├── train_config.json
         └── predict_config.json
 ```
+
+
 

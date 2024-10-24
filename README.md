@@ -20,7 +20,7 @@ Download all files in /Code/, /ConfigurationFiles/, and /CryoCARE/. Set them up 
   - Execute the code
   - Follow instructions in [CryoCARE/Summary](CryoCARE/README.md)
 
-#### To only use IMOD (no CryoCARE)
+#### To only get tomogram only using IMOD (no CryoCARE denoising)
 
   - Open IMOD_pipeline.m
   - Modify the necessary paths to fit your config

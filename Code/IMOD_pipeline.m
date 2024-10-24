@@ -24,8 +24,8 @@ imod_folder       = 'imod';               % Choose directory name that will be c
 % status = system(['for file in ',frame_dirpath,'/*_fractions.tiff; do newstack -exclude 0,1 "$file" temp_output.tiff && mv temp_output.tiff "$file"; done']);
 
 %% PROCESSING PART
-% Run ALIGN FRAMES using  AF_imod.sh
-status = system(['./AF_IMOD.sh -input ',frame_dirpath, ' -output ',output_dirpath,' -name ',imod_folder,' -stack ',stack_name,' -gain ',gain_path]), if status ~= 0,    error('1Command failed with status %d', status), end
+% Run ALIGN FRAMES using  AF_IMODpipe.sh
+status = system(['./AF_IMODpipe.sh -input ',frame_dirpath, ' -output ',output_dirpath,' -name ',imod_folder,' -stack ',stack_name,' -gain ',gain_path]), if status ~= 0,    error('1Command failed with status %d', status), end
 
 % Run Processing using  BATCHRUNTOMO
 status = system(['batchruntomo -di ',template_filepath,' -ro ',stack_name,' -current ',output_dirpath,'/',imod_folder,' -deliver ' ,output_dirpath,'/',imod_folder,' -gpu 1']), if status ~= 0,    error('3Command failed with status %d', status), end

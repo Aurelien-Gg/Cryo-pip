@@ -1,6 +1,6 @@
 Table of contents:
 
-[Short description of files](#Short-description-of-files
+[Short description of files](#Short-description-of-files)
 
 [Getting Started](#Getting-started)
 

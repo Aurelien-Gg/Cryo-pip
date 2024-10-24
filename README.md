@@ -11,7 +11,7 @@ Table of contents:
 
 ## Quick guide
 
-Download all files in /Code/, /ConfigurationFiles/, and /CryoCARE/. Set them up like described in [Getting Started](#Getting-started) for best practice.
+Download all files in [/Code/](Code/), [/ConfigurationFiles/](ConfigurationFiles/), and [/CryoCARE/](CryoCARE/). Set them up like described in [Getting Started](#Getting-started) for best practice.
 
 #### To get denoised Tomogram from tilt series:
 

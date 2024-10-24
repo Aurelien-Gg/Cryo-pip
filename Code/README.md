@@ -67,13 +67,13 @@ need to be in the same folder as
 ```
 IMODpip.m
 ```
-IMOD.m can be run from anywhere as long as full paths are provided
+IMODpip.m can be run from anywhere as long as full paths are provided
 
 > [!IMPORTANT]
 > Stack file "<stack_name>.mrc", Metadata file "<stack_name>.mdoc", and Gain file "<gain_name>.dm4" need to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder (should be changed)
-```
 
-# How to use SortEvenOdd.sh
+
+## How to use SortEvenOdd.sh
 
 SortEvenOdd.sh looks for all faimg-*.mrc files in given path. It takes all even number of * and puts them in a folder called /even/. Same for /odd/.
 

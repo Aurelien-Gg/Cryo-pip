@@ -2,17 +2,17 @@
 ```
 AtoZ.m
 ```
-is the main script which will take a series of .Tiff images and reconstruct them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files
+Full pipeline. Takes a series of .Tiff images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files & performs denoising using CryoCARE
 
 ```
-Pipeline.sh
+AF_atoz.sh
 ```
-is called by main script to run Alignframes on .Tiff images to align the subframes. It also creates the Even/Odd images (using -debug 10000, remove this option in the file to skip this)
+is called by main script to run Alignframes on .Tiff images to align the subframes & creates the Even/Odd images (using -debug 10000)
 
 ```
 SortEvenOdd.sh
 ```
-is used to move the Even and Odd .mrc images created with Alignframes into Even and Odd folders respectively
+is used to move the Even and Odd .mrc images created with AF_atoz.sh into Even and Odd folders respectively
 
 Usage: ./SortEvenOdd.sh </path/to/EvenOdd/to/be/sorted/>
 
@@ -25,7 +25,7 @@ Plots and saves the Defocus values from ctfcorrection.log  &  Residual values fr
 
 The following files
 ```
-Pipeline.sh
+AF_atoz.sh
 SortEvenOdd.sh
 ```
 

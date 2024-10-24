@@ -6,7 +6,7 @@
 template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplateAutoFid2.adoc';  % Path of template file
 cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs/';               % Path of cryocare json files
 frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/';                             % Path of Stack/Metadata/Gain file
-gain_path         = ''; % Optional gain path. If left empty it will take the one in 'frame_direpath'.
+gain_path         = ''; % Optional gain path. If left empty it will take the one in 'frame_direpath'
 % Choose output names:
 stack_name        = 'stack_AF';           % Choose name for .mrc stack output
 output_dirpath    = frame_dirpath;        % Choose directory path to output files (USE FULL PATH). Usually same as frame_directory

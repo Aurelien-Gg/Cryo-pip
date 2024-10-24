@@ -86,6 +86,6 @@ exportgraphics(fighandnm, fullfile([output_dirpath, imod_folder, '/', stack_name
 
 %% Open reconstructed tomogram
 system(['3dmod ',output_dirpath,imod_folder,'/',stack_name,'/',stack_name,'_rec.mrc'])
-system(['3dmod ',output_dirpath,imod_folder,'/',stack_name,'/',stack_name,'_ali.mrc'])
-system(['3dmod ',output_dirpath,imod_folder,'/',stack_name,'/CryoCAREful/denoised.rec/faimg-even_rec.mrc'])
+% system(['3dmod ',output_dirpath,imod_folder,'/',stack_name,'/',stack_name,'_ali.mrc'])
+% system(['3dmod ',output_dirpath,imod_folder,'/',stack_name,'/CryoCAREful/denoised.rec/faimg-even_rec.mrc'])
 

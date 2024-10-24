@@ -15,7 +15,7 @@ imod_folder       = 'imod';
 % status = system(['mkdir ',frame_dirpath,'/Backup/ && cp ',frame_dirpath,'/*_fractions.tiff ',frame_dirpath,'/Backup/'])
 % status = system(['for file in ',frame_dirpath,'/*_fractions.tiff; do newstack -exclude 0,1 "$file" temp_output.tiff && mv temp_output.tiff "$file"; done']);
 
-%% PROCESSING PART
+%% PROCESSING PART test
 % Run ALIGN FRAMES using  Pipeline.sh
 status = system(['./Pipeline.sh -input ', frame_dirpath, ' -output ',output_dirpath,' -name ', imod_folder])                                            , if status ~= 0,    error('1Command failed with status %d', status), end
 

@@ -3,7 +3,7 @@ Cryo-EM tomogram reconstruction and analysis pipeline
 
 Table of contents:
 
-[I just want to build a denoised Tomogram from my tilt series !!!](#Guick-guide)
+[I just want to build a denoised Tomogram from my tilt series !!!](#Quick-guide)
 
 [Install guide](#Install-guide)
 

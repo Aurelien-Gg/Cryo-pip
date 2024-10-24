@@ -1,5 +1,12 @@
 # Cryo-pip
 Cryo-EM tomogram reconstruction and analysis pipeline
+
+Table of contents:
+
+[Install guide](#Install-guide)
+
+
+
 ## Install guide
 #### JAVA installation (needed to run Etomo GUI in IMOD)
 

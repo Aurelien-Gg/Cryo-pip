@@ -39,29 +39,20 @@ AtoZ.m can be run from anywhere as long as full paths are provided
 
 ###### MODIFY PATHS TO FIT YOUR CONFIG
 
-template_filepath = '/path/to/AurelienTemplateAutoFid2.adoc';   ** Path of template file ** 
+template_filepath = '/path/to/AurelienTemplateAutoFid2.adoc';   **Path of template file** 
 
-cryo_path         = '/path/to/Cryo/JSon/files/';                ** Path of cryocare json files ** 
+cryo_path         = '/path/to/Cryo/JSon/files/';                **Path of cryocare json files** 
 
-frame_dirpath     = '/path/to/frames/'                          **  Directory with frames and .Mdoc** 
+frame_dirpath     = '/path/to/frames/'                          **Directory with frames and .Mdoc** 
 
-gain_path         = '/path/to/gain/'                            ** Gain path (optionnal). If left empty it will take the one in 'frame_direpath'.
+gain_path         = '/path/to/gain/'                            **Gain path (optionnal). If left empty it will take the one in 'frame_direpath'**
 
-output_dirpath    = '/choose/path/to/output/'                   ** Choose directory path to output files. Usually same as frame_directory **
+output_dirpath    = '/choose/path/to/output/'                   **Choose directory path to output files. Usually same as frame_directory**
 
-imod_folder       = 'choose output folder name'                 ** Choose directory that will be created to output results of Alignframes **
+imod_folder       = 'choose output folder name'                 **Choose directory that will be created to output results of Alignframes**
 
-stack_name        = 'choose stack name'                         ** Choose name for .mrc stack output **
+stack_name        = 'choose stack name'                         **Choose name for .mrc stack output**
 
-%% MODIFY PATHS TO FIT YOUR CONFIG
-% Enter required filepaths:
-template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplateAutoFid2.adoc';  % Path of template file
-cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs/';               % Path of cryocare json files
-frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/';                             % Path of Stack/Metadata/Gain file
-gain_path         = ''; % Optional gain path. If left empty it will take the one in 'frame_direpath'.
-% Choose output names:
-output_dirpath    = frame_dirpath;        % Choose directory path to output files. Usually same as frame_directory
-imod_folder       = 'imod';               % Choose directory that will be created to output results of Alignframes
 
 
 

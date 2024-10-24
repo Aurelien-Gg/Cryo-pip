@@ -25,6 +25,7 @@ cryoCARE_train.py --conf train_config.json
 cryoCARE_predict.py --conf predict_config.json
 ```
 
+Your denoised tomogram will be in '/denoise.rec/faimg-even_rec.mrc'
 
 ## Full Manual
 cryoCARE uses `.json` configuration files and is run in three steps. If you already have a model <model_name.tar.gz>  then skip to **3.**

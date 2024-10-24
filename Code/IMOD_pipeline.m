@@ -24,32 +24,32 @@ imod_folder       = 'imod';               % Choose directory that will be create
 
 %% PROCESSING PART
 % Run ALIGN FRAMES using  AF_imod.sh
-status = system(['./AF_IMOD.sh -input ',frame_dirpath, ' -output ',output_dirpath,' -name ',imod_folder, ' -stack ',stack_name, '-gain ',gain_path]), if status ~= 0,    error('1Command failed with status %d', status), end
+status = system(['./AF_IMOD.sh -input ',frame_dirpath, ' -output ',output_dirpath,' -name ',imod_folder,' -stack ',stack_name,' -gain ',gain_path]), if status ~= 0,    error('1Command failed with status %d', status), end
 
 % Run Processing using  BATCHRUNTOMO
 status = system(['batchruntomo -di ',template_filepath,' -ro ',stack_name,' -current ',output_dirpath,'/',imod_folder,' -deliver ' ,output_dirpath,'/',imod_folder,' -gpu 1']), if status ~= 0,    error('3Command failed with status %d', status), end
 
 %%  VALIDATION PART
 % Plot CTF defocus found in CTFcorrection.log
-[status, defocus_str] = system(['grep -oP "defocus\[\d+\] = \K[0-9\.]+" ',output_dirpath,imod_folder,'/',stack_name,'/ctfcorrection.log']);
+[status, defocus_str] = system(['grep -oP "defocus\[\d+\] = \K[0-9\.]+" ',output_dirpath,'/',imod_folder,'/',stack_name,'/ctfcorrection.log']);
 if status ~= 0,    error('3Command failed with status %d', status), else
     defocus_values = str2double(strsplit(defocus_str));
     titleCTF = strsplit(frame_dirpath,"/");
     figure,     plot(defocus_values),    xlabel('Slice Number'),    ylabel('Defocus (microns)'),    ylim([min(defocus_values)-0.1,max(defocus_values)+0.1]), title(['Defocus values across slices for ',[titleCTF{end-3},'/',titleCTF{end-2},'/',titleCTF{end-1}]],'Interpreter','none');
-    if ~exist([output_dirpath, imod_folder, '/', stack_name, '/Validate_plots'], 'dir'), mkdir([output_dirpath, imod_folder, '/', stack_name, '/Validate_plots']), end
-    exportgraphics(fighandnm, fullfile([output_dirpath, imod_folder, '/', stack_name, '/Validate_plots/defocus_values.png']),"Resolution",70);
+    if ~exist([output_dirpath,'/',imod_folder, '/', stack_name, '/Validate_plots'], 'dir'), mkdir([output_dirpath,'/',imod_folder, '/', stack_name, '/Validate_plots']), end
+    exportgraphics(fighandnm, fullfile([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots/defocus_values.png']),"Resolution",70);
 end
 % Plot residuals per frame and ratio of measured/unknowns from Align.log
-[~, data]  = system(['awk ''/resid-nm/{flag=1; next} flag && NF==0 {flag=0; exit} flag {print $NF}'' ', output_dirpath, imod_folder, '/', stack_name, '/align.log | tr ''\n'' '' ''']);
-[~, data2] = system(['grep "Ratio of total measured values to all unknowns =" ', output_dirpath, '/', imod_folder, '/', stack_name, '/align.log | sed ''s/^[^=]*= //''']);
+[~, data]  = system(['awk ''/resid-nm/{flag=1; next} flag && NF==0 {flag=0; exit} flag {print $NF}'' ',output_dirpath,'/',imod_folder,'/',stack_name,'/align.log | tr ''\n'' '' ''']);
+[~, data2] = system(['grep "Ratio of total measured values to all unknowns =" ',output_dirpath, '/',imod_folder,'/',stack_name,'/align.log | sed ''s/^[^=]*= //''']);
 resid = str2double(strsplit(strtrim(data)));
 fighandnm = figure, plot(resid), xlabel('Frame'), ylabel('Residual (nm)'), title('Residuals from Align.log for each frames');
-text(mean(xlim), max(ylim), ['Ratio of measured to unknowns =',data2], 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'FontSize', 70);
-if ~exist([output_dirpath, imod_folder, '/', stack_name, '/Validate_plots'], 'dir'), mkdir([output_dirpath, imod_folder, '/', stack_name, '/Validate_plots']), end
-exportgraphics(fighandnm, fullfile([output_dirpath, imod_folder, '/', stack_name, '/Validate_plots/residual_values.png']),"Resolution",70);
+text(mean(xlim), max(ylim), ['Ratio of measured to unknowns =',data2], 'HorizontalAlignment', 'center', 'VerticalAlignment','top','FontSize', 70);
+if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots'],'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots']), end
+exportgraphics(fighandnm, fullfile([output_dirpath,imod_folder,'/',stack_name,'/Validate_plots/residual_values.png']),"Resolution",70);
 
 %% Open reconstructed tomogram
-system(['3dmod ',output_dirpath,imod_folder,'/',stack_name,'/',stack_name,'_rec.mrc'])
+system(['3dmod ',output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'_rec.mrc'])
 
 
 

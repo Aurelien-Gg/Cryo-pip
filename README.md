@@ -1,5 +1,3 @@
-How use much good few words?
-
 # Cryo-pip
 Cryo-EM tomogram reconstruction and analysis pipeline
 ## Install guide

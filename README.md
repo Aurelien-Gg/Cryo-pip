@@ -72,7 +72,7 @@ pip install cryoCARE
 
 ## Getting started
 
-I recommend creating the following folder structure:
+I recommend creating the following folder structure for the various scripts/config files:
 
 ```bash
 └── Cryo-Pip
@@ -90,6 +90,22 @@ I recommend creating the following folder structure:
         ├── train_config.json
         └── predict_config.json
 ```
+
+Folder structure for tilt series to be processed:
+
+```bash
+└── /path/to/frames/
+    ├── <Metadata>.mdoc
+    ├── Image_1.tiff
+    ├── Image_2.tiff
+    ├── ...
+    ├── ...
+
+```
+
+
+
+
 
 
 

@@ -2,14 +2,14 @@
 % !! Stack file "<stack_name>.mrc", Metadata file "<stack_name>.mdoc", and Gain file <gain_flipx.dm4>  need to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder (should be changed)
 
 %% MODIFY PATHS TO FIT YOUR CONFIG
-% Enter required filepaths:
+% Enter required filepaths (! don't forget to add '/' at the end for paths):
 template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplateAutoFid2.adoc';  % Path of template file
 cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs/';               % Path of cryocare json files
 frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/';                             % Path of Stack/Metadata/Gain file
 gain_path         = ''; % Optional gain path. If left empty it will take the one in 'frame_direpath'.
 % Choose output names:
 stack_name        = 'stack_AF';           % Choose name for .mrc stack output
-output_dirpath    = frame_dirpath;        % Choose directory path to output files. Usually same as frame_directory
+output_dirpath    = frame_dirpath;        % Choose directory path to output files (USE FULL PATH). Usually same as frame_directory
 imod_folder       = 'imod';               % Choose directory that will be created to output results of Alignframes
 
 %% DON'T MODIFIY THE FOLLOWING:

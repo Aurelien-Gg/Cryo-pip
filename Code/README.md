@@ -39,8 +39,8 @@ AtoZ.m can be run from anywhere as long as full paths are provided
 
 ###### MODIFY PATHS TO FIT YOUR CONFIG
 
+```
 template_filepath = '/path/to/AurelienTemplateAutoFid2.adoc';   **Path of template file** 
-
 cryo_path         = '/path/to/Cryo/JSon/files/';                **Path of cryocare json files** 
 
 frame_dirpath     = '/path/to/frames/'                          **Directory with frames and .Mdoc** 
@@ -52,7 +52,7 @@ output_dirpath    = '/choose/path/to/output/'                   **Choose directo
 imod_folder       = 'choose output folder name'                 **Choose directory that will be created to output results of Alignframes**
 
 stack_name        = 'choose stack name'                         **Choose name for .mrc stack output**
-
+```
 
 
 

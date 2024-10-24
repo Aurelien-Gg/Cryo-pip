@@ -82,13 +82,12 @@ I recommend creating the following folder structure:
     │   ├── AtoZpip.m
     │   ├── IMODpip.m
     │   ├── SortEvenOdd.sh
-    │   ├── ValidateGreat.m
+    │   └── ValidateGreat.m
     ├── ConfigurationFiles
-    │   ├── AurelienTemplateAutoFid2.adoc 
+    │   └── AurelienTemplateAutoFid2.adoc 
     └── CryoCARE
         ├── train_data_config.json
         ├── train_config.json
         └── predict_config.json
 ```
 
-TESTESTEST

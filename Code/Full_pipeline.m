@@ -3,10 +3,10 @@
 
 %% MODIFY PATHS TO FIT YOUR CONFIG
 % Enter required filepaths (! don't forget to add '/' at the end for paths):
-template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplate241024.adoc';    % PATH of template file
-cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs';               % PATH of the 3 cryocare json files
+template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/BestScripts/Git/ConfigurationFiles/AurelienTemplate241024.adoc';    % FILEPATH of '.adoc' template file
+cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/BestScripts/Git/CryoCARE';               % PATH of the 3 cryocare json files
 frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/FullPipeTest';                             % PATH of Stack/Metadata/Gain file
-gain_path         = ''; % PATH to gain file. Optional, if left empty it will take the one in 'frame_dirpath'
+gain_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula'; % PATH to gain file. Optional, if left empty it will take the one in 'frame_dirpath'
 
 % Choose output names (or leave these default):
 stack_name        = 'stack_AF';           % Choose name for .mrc stack output
@@ -29,7 +29,7 @@ imod_folder       = 'imod';               % Choose directory name that will be c
 status = system(['./AF_Fullpipe.sh -input ',frame_dirpath,' -output ',output_dirpath,' -name ',imod_folder,' -stack ',stack_name,' -gain ', gain_path]), if status ~= 0,    error('1Command failed with status %d', status), end
 
 % Sort EVEN / ODD frame-aligned images into /even/ and /odd/ folder
-status = system(['/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/BestScripts/CryoCareful/SortEvenOdd.sh ',frame_dirpath])                      , if status ~= 0,    error('2Command failed with status %d', status), end
+status = system(['./SortEvenOdd.sh ',frame_dirpath])                      , if status ~= 0,    error('2Command failed with status %d', status), end
 
 % Run Processing using  BATCHRUNTOMO
 status = system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1']), if status ~= 0,    error('3Command failed with status %d', status), end
@@ -45,7 +45,7 @@ status = system(['batchruntomo -di ',template_filepath,' -ro faimg-even -current
 status = system(['batchruntomo -di ',template_filepath,' -ro faimg-odd -current ', output_dirpath,'/odd/ -deliver ', output_dirpath, '/odd/  -gpu 1']), if status ~= 0,    error('7Command failed with status %d', status), end
 
 % Prepare and run CryoCARE prediction
-if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful'], 'dir'), mkdir([output_dirpath, imod_folder,'/',stack_name,'/CryoCAREful']), end
+if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful'], 'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful']), end
 copyfile([cryo_path,'/train_data_config.json'], [output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/'])
 copyfile([cryo_path,'/train_config.json'], [output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/'])
 copyfile([cryo_path,'/predict_config.json'], [output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/'])
@@ -71,7 +71,7 @@ status = system(['sed -i "s|\"output\": \".*\"|\"output\": \"',output_dirpath,'/
 if status ~= 0,    error('3Command failed with status %d', status), else
     defocus_values = str2double(strsplit(defocus_str));
     titleCTF = strsplit(frame_dirpath,"/");
-    figure, plot(defocus_values), xlabel('Slice Number'), ylabel('Defocus (microns)'), ylim([min(defocus_values)-0.1,max(defocus_values)+0.1]), title(['Defocus values across slices for ',[titleCTF{end-3},'/',titleCTF{end-2},'/',titleCTF{end-1}]],'Interpreter','none');
+    fighandnm = figure, plot(defocus_values), xlabel('Slice Number'), ylabel('Defocus (microns)'), ylim([min(defocus_values)-0.1,max(defocus_values)+0.1]), title(['Defocus values across slices for ',[titleCTF{end-3},'/',titleCTF{end-2},'/',titleCTF{end-1}]],'Interpreter','none');
     if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots'], 'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots']), end
     exportgraphics(fighandnm, fullfile([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots/defocus_values.png']),"Resolution",70);
 end

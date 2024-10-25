@@ -105,9 +105,9 @@ if [ ! -f "$gain_file" ]; then
         echo "'.dm4' not found. Check the log for details."
         exit 1
     fi
-else
-    log "Found gain file: '$gain_file'"
 fi
+log "Found gain file: '$gain_file'"
+echo "Found gain file: '$gain_file'"
 
 # Check for .mdoc file
 mdoc_files=("$TARGET_DIR"/*.mdoc)
@@ -138,7 +138,7 @@ cd "$TARGET_DIR"
 # Adjust the command below based on your specific requirements and environment
 mdoc_name=$(basename "$mdoc_file")
 gain_name=$(basename "$gain_file")
-align_command="alignframes -mdoc $mdoc_name -output $IMOD_FOLDER/$STACK_NAME.mrc -adjust -binning 8,2 -gain $gain_name -pi 1.35 -debug 100000"
+align_command="alignframes -mdoc $mdoc_name -output $IMOD_FOLDER/$STACK_NAME.mrc -adjust -binning 8,2 -gain $gain_file -pi 1.35 -debug 10000"
 
 log "Running alignframes command: $align_command"
 

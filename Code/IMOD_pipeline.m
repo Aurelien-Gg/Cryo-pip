@@ -36,7 +36,7 @@ status = system(['batchruntomo -di ',template_filepath,' -ro ',stack_name,' -cur
 if status ~= 0,    error('3Command failed with status %d', status), else
     defocus_values = str2double(strsplit(defocus_str));
     titleCTF = strsplit(frame_dirpath,"/");
-    figure,     plot(defocus_values),    xlabel('Slice Number'),    ylabel('Defocus (microns)'),    ylim([min(defocus_values)-0.1,max(defocus_values)+0.1]), title(['Defocus values across slices for ',[titleCTF{end-3},'/',titleCTF{end-2},'/',titleCTF{end-1}]],'Interpreter','none');
+    fighandnm = figure,     plot(defocus_values),    xlabel('Slice Number'),    ylabel('Defocus (microns)'),    ylim([min(defocus_values)-0.1,max(defocus_values)+0.1]), title(['Defocus values across slices for ',[titleCTF{end-3},'/',titleCTF{end-2},'/',titleCTF{end-1}]],'Interpreter','none');
     if ~exist([output_dirpath,'/',imod_folder, '/', stack_name, '/Validate_plots'], 'dir'), mkdir([output_dirpath,'/',imod_folder, '/', stack_name, '/Validate_plots']), end
     exportgraphics(fighandnm, fullfile([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots/defocus_values.png']),"Resolution",70);
 end

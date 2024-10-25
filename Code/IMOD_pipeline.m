@@ -3,9 +3,9 @@
 
 %% MODIFY PATHS TO FIT YOUR CONFIG
 % Enter required filepaths:
-template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplate241024.adoc';  % PATH of template file
-frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/';                           % PATH of Stack/Metadata/Gain file
-gain_path         = ''; % Path to gain file. Optional, if left empty it will take the one in 'frame_dirpath'
+template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/BestScripts/Git/ConfigurationFiles/AurelienTemplate241024.adoc';  % PATH of template file
+frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/IMODpipTest';                           % PATH of Stack/Metadata/Gain file
+gain_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula'; % PATH to gain file. Optional, if left empty it will take the one in 'frame_dirpath'
 
 % Choose output names (or leave these default):
 stack_name        = 'stack_AF';           % Choose name for .mrc stack output
@@ -47,7 +47,7 @@ resid = str2double(strsplit(strtrim(data)));
 fighandnm = figure, plot(resid), xlabel('Frame'), ylabel('Residual (nm)'), title('Residuals from Align.log for each frames');
 text(mean(xlim), max(ylim), ['Ratio of measured to unknowns =',data2], 'HorizontalAlignment', 'center', 'VerticalAlignment','top','FontSize', 70);
 if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots'],'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots']), end
-exportgraphics(fighandnm, fullfile([output_dirpath,imod_folder,'/',stack_name,'/Validate_plots/residual_values.png']),"Resolution",70);
+exportgraphics(fighandnm, fullfile([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots/residual_values.png']),"Resolution",70);
 
 %% Open reconstructed tomogram
 system(['3dmod ',output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'_rec.mrc'])

@@ -3,8 +3,8 @@
 
 %% MODIFY PATHS TO FIT YOUR CONFIG
 
-search_dirpath  = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/imod/'; % Directory to search in
-save_images     = 'YES';                   % 'YES/NO' : Choose if images are to be saved (in same folder as where the align.log and CTFcorrection.log files are) 
+search_dirpath  = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/raw/PaulaNavarro_20231129_NAR_3/'; % Directory to search in
+save_images     = 'YfdfdES';                   % 'YES' : Choose if images are to be saved (in same folder as where the align.log and CTFcorrection.log files are) 
 
 figPosition     = [997   653   966   552]; % Just to resize the figures so the title fit.
 Resolution      = 70;                      % DPI of images to be saved

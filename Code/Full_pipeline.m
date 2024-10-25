@@ -4,8 +4,8 @@
 %% MODIFY PATHS TO FIT YOUR CONFIG
 % Enter required filepaths (! don't forget to add '/' at the end for paths):
 template_filepath = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/AurelienTemplate241024.adoc';    % PATH of template file
-cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs/';               % PATH of the 3 cryocare json files
-frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/test/';                             % PATH of Stack/Metadata/Gain file
+cryo_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs';               % PATH of the 3 cryocare json files
+frame_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/FullPipeTest';                             % PATH of Stack/Metadata/Gain file
 gain_path         = ''; % PATH to gain file. Optional, if left empty it will take the one in 'frame_dirpath'
 
 % Choose output names (or leave these default):

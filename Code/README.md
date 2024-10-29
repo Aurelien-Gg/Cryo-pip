@@ -7,7 +7,7 @@ Table of contents:
 ```
 Full_pipeline.m
 ```
-Full_pipeline.m  is full pipeline. Takes a series of .Tiff images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files **& prepares files for denoising using CryoCARE**
+Full_pipeline.m  is full pipeline. Takes a series of .Tif images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files **& prepares files for denoising using CryoCARE**
 
 ```
 AF_Fullpipe.sh

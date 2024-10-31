@@ -7,27 +7,27 @@ Table of contents:
 ```
 Full_pipeline.m
 ```
-Full_pipeline.m  is full pipeline. Takes a series of .Tiff images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files **& prepares files for denoising using CryoCARE**
+Full_pipeline.m  is full pipeline. Takes a series of .Tif images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files **& prepares files for denoising using CryoCARE**
 
 ```
 AF_Fullpipe.sh
 ```
-AF_Fullpipe.sh  is called by Full_pipeline.m to run Alignframes on .Tiff images to align the subframes **& creates the Even/Odd images (using -debug 10000)**
+AF_Fullpipe.sh  is called by Full_pipeline.m to run Alignframes on .Tif images to align the subframes **& creates the Even/Odd images (using -debug 10000)**
 
 ```
 SortEvenOdd.sh
 ```
-SortEvenOdd.sh  is used to move the Even and Odd .mrc images created with AF_atoz.sh (Alignframes -debug 10000) into Even and Odd folders respectively
+SortEvenOdd.sh  is used to move the Even and Odd .mrc images created with AF_Fullpipe.sh (Alignframes -debug 10000) into Even and Odd folders respectively
 
 ```
 IMOD_pipeline.m
 ```
-IMODpip.m is pipeline **without CryoCARE**. Takes a series of .Tiff images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files
+IMODpip.m is pipeline **without CryoCARE**. Takes a series of .Tif images and reconstructs them into a 3D Tomogram using .Mdoc (metadata) and .md4 (gain) files
 
 ```
 AF_IMODpipe.sh
 ```
-AF_IMODpipe.sh is called by IMODpipeline.m to run Alignframes on .Tiff images to align the subframes
+AF_IMODpipe.sh is called by IMODpipeline.m to run Alignframes on .Tif images to align the subframes
 
 ```
 ValidateGreat.m
@@ -47,7 +47,7 @@ Full_pipeline.m
 ```
 Full_pipeline.m can be run from anywhere as long as full paths are provided
 > [!IMPORTANT]
-> Stack file "<stack_name>.mrc", Metadata file "<stack_name>.mdoc" need to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder
+> Stack file "<stack_name>.mrc", Metadata file "<stack_name>.mdoc" need to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder.
 
 Denoised Tomogram output can be found in **'/output_dirpath/imod_folder/stack_name/CryoCAREful/denoised.rec/'**
 

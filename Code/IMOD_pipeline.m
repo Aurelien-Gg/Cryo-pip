@@ -10,7 +10,7 @@ gain_path         = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_P
 % Choose output names (or leave these default):
 stack_name        = 'stack_AF';           % Choose name for .mrc stack output
 output_dirpath    = frame_dirpath;        % Choose PATH to output files (USE FULL PATH). Usually same as 'frame_dirpath'
-imod_folder       = 'imod';               % Choose directory name that will be created to output results of Alignframes
+imod_folder       = 'imodbin1';               % Choose directory name that will be created to output results of Alignframes
 
 
 

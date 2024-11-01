@@ -24,7 +24,7 @@ Download all files in [/Code/](Code/), [/ConfigurationFiles/](ConfigurationFiles
 
 More info can be found [HERE](Code/README.md/#How-to-use-Full_pipeline.m)
 
-#### To only get tomogram only using IMOD (no CryoCARE denoising)
+#### To only get tomogram only using IMOD (no CryoCARE denoising or Even/Odd splitting)
 
   - Open IMOD_pipeline.m
   - Modify the necessary paths to fit your config

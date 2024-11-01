@@ -9,6 +9,8 @@ Table of contents:
 
 [Getting Started](#Getting-started)
 
+[MAC specific](#MAC-specific-sh*t)
+
 ## Quick guide
 
 Download all files in [/Code/](Code/), [/ConfigurationFiles/](ConfigurationFiles/), and [/CryoCARE/](CryoCARE/). Set them up like described in [Getting Started](#Getting-started) for best practice.
@@ -126,6 +128,17 @@ Folder structure for tilt series to be processed:
 ```
 
 
+## MAC specific sh*t
+
+> [!IMPORTANT]
+> MATLAB must be opened using the terminal, and not using your fancy-schmancy Dock
+
+Matlab is likely installed in /Applications/MATLAB_yourversion.app/
+
+```bash
+open /Applications/MATLAB_2018b.app/
+```
+Modifiy the command line so it fits your config.
 
 
 

@@ -133,7 +133,7 @@ Folder structure for tilt series to be processed:
 > [!IMPORTANT]
 > MATLAB must be opened using the terminal, and not using your fancy-schmancy Dock
 
-Matlab is likely installed in /Applications/MATLAB_yourversion.app/
+Matlab is likely installed in /Applications/MATLAB_yourversion.app/. To open it use the following command in terminal window:
 
 ```bash
 open /Applications/MATLAB_2018b.app/

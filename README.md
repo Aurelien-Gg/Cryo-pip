@@ -9,7 +9,7 @@ Table of contents:
 
 [Getting Started](#Getting-started)
 
-[MAC specific](#MAC-specific-sh*t)
+[MAC specific](#MAC-specific-sht)
 
 ## Quick guide
 

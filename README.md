@@ -100,10 +100,10 @@ I recommend creating the following folder structure for the various scripts/conf
 ```bash
 └── Cryo-Pip
     ├── Code
-    │   ├── IMODCryo_pipeline.m
-    │   ├── AF_IMODCryo.sh
     │   ├── IMOD_pipeline.m
-    │   ├── AF_IMOD.sh
+    │   ├── Full_pipeline.m
+    │   ├── AF_IMODpipe.sh
+    │   ├── AF_Fullpipe.sh
     │   ├── SortEvenOdd.sh
     │   └── ValidateGreat.m
     ├── ConfigurationFiles
@@ -126,7 +126,7 @@ Folder structure for tilt series to be processed:
     ├── ...
 
 ```
-
+Don't put multiple .mdoc or .md4 files in the folders, can confuse the code.
 
 ## MAC specific sh*t
 

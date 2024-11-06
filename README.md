@@ -15,6 +15,13 @@ Table of contents:
 
 Download all files in [/Code/](Code/), [/ConfigurationFiles/](ConfigurationFiles/), and [/CryoCARE/](CryoCARE/). Set them up like described in [Getting Started](#Getting-started) for best practice.
 
+**OR**
+
+Do this automatically by opening Terminal in desired directory and using the command:
+```
+git clone https://github.com/Aurelien-Gg/Cryo-pip
+```
+
 #### To get denoised Tomogram from tilt series:
 
   - Open Full_pipeline.m

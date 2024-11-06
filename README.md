@@ -138,7 +138,7 @@ Don't put multiple .mdoc or .md4 files in the folders, can confuse the code.
 ## MAC specific sh*t
 
 > [!IMPORTANT]
-> MATLAB must be opened using the terminal, and not using your fancy-schmancy Dock
+> MATLAB must be opened using the terminal, and *not using your fancy-schmancy Dock*
 
 Matlab is likely installed in /Applications/MATLAB_yourversion.app/. To open it use the following command in terminal window:
 

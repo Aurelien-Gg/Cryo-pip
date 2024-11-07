@@ -35,6 +35,13 @@ cryoCARE_predict.py --conf predict_config.json
 
 Your denoised tomogram will be in **'/denoise.rec/faimg-even_rec.mrc'**
 
+cryoCARE_extract_train_data.py --conf train_data_config.json   is quit fast (<2mn usually)
+
+cryoCARE_train.py --conf train_config.json                     is long training, proportional to Epochs/Iter selected (1h+ at least)
+
+cryoCARE_predict.py --conf predict_config.json                 is pretty fast (<10mn)
+
+
 
 ## Full Manual
 cryoCARE uses `.json` configuration files and is run in three steps. If you already have a model <model_name.tar.gz>  then skip to **3.**

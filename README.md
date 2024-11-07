@@ -148,36 +148,54 @@ open /Applications/MATLAB_2018b.app/
 Modifiy the command line so it fits your config.
 
 ```
-NNNNNNNN        NNNNNNNN            AAA    VVVVVVVVV         VVVVVVVVV    AAA             RRRRRRRRRRRRRRRRR    RRRRRRRRRRRRRRRRR         ❆❆❆❆❆❆❆❆❆     
-N:::::::N       N::::::N           A:::A   V::::::V V       V V::::::V   A:::A            R::::::::::::::::R   R::::::::::::::::R      ❆❆:::::::::❆❆   
-N::::::::N      N::::::N          A:::::A  V::::::V  V     V  V::::::V  A:::::A           R::::::RRRRRR:::::R  R::::::RRRRRR:::::R   ❆❆:::::::::::::❆❆ 
-N:::::::::N     N::::::N         A:::::::A V::::::V   V   V   V::::::V A:::::::A          RR:::::R     R:::::R RR:::::R     R:::::R ❆:::::::❆❆❆:::::::❆
-N::::::::::N    N::::::N        A:::::::::A V:::::V    V V    V:::::V A:::::::::A           R::::R     R:::::R   R::::R     R:::::R ❆::::::❆   ❆::::::❆
-N:::::::::::N   N::::::N       A:::::A:::::A V:::::V         V:::::V A:::::A:::::A          R::::R     R:::::R   R::::R     R:::::R ❆:::::❆     ❆:::::❆
-N:::::::N::::N  N::::::N      A:::::A A:::::A V:::::V       V:::::V A:::::A A:::::A         R::::RRRRRR:::::R    R::::RRRRRR:::::R  ❆:::::❆     ❆:::::❆
-N::::::N N::::N N::::::N     A:::::A   A:::::A V:::::V     V:::::V A:::::A   A:::::A        R:::::::::::::RR     R:::::::::::::RR   ❆:::::❆     ❆:::::❆
-N::::::N  N::::N:::::::N    A:::::A     A:::::A V:::::V   V:::::V A:::::A     A:::::A       R::::RRRRRR:::::R    R::::RRRRRR:::::R  ❆:::::❆     ❆:::::❆
-N::::::N   N:::::::::::N   A:::::AAAAAAAAA:::::A V:::::V V:::::V A:::::AAAAAAAAA:::::A      R::::R     R:::::R   R::::R     R:::::R ❆:::::❆     ❆:::::❆
-N::::::N    N::::::::::N  A:::::::::::::::::::::A V:::::V:::::V A:::::::::::::::::::::A     R::::R     R:::::R   R::::R     R:::::R ❆:::::❆     ❆:::::❆
-N::::::N     N:::::::::N A:::::AAAAAAAAAAAAA:::::A V:::::::::V A:::::AAAAAAAAAAAAA:::::A    R::::R     R:::::R   R::::R     R:::::R ❆::::::❆   ❆::::::❆
-N::::::N      N::::::::N A:::::A           A:::::A  V:::::::V A:::::A             A:::::A RR:::::R     R:::::R RR:::::R     R:::::R ❆:::::::❆❆❆:::::::❆
-N::::::N       N:::::::N A:::::A           A:::::A   V:::::V  A:::::A             A:::::A R::::::R     R:::::R R::::::R     R:::::R  ❆❆:::::::::::::❆❆ 
-N::::::N        N::::::N A:::::A           A:::::A    V:::V   A:::::A             A:::::A R::::::R     R:::::R R::::::R     R:::::R    ❆❆:::::::::❆❆   
-NNNNNNNN         NNNNNNN AAAAAAA           AAAAAAA     VVV    AAAAAAA             AAAAAAA RRRRRRRR     RRRRRRR RRRRRRRR     RRRRRRR      ❆❆❆❆❆❆❆❆     
- LLLLLLLLLLL                         AAA            BBBBBBBBBBBBBBBBB   
- L:::::::::L                        A:::A           B::::::::::::::::B
- L:::::::::L                       A:::::A          B::::::BBBBBB:::::B 
- LL:::::::LL                      A:::::::A         BB:::::B     B:::::B
-   L:::::L                       A:::::::::A          B::::B     B:::::B
-   L:::::L                      A:::::A:::::A         B::::B     B:::::B
-   L:::::L                     A:::::A A:::::A        B::::BBBBBB:::::B 
-   L:::::L                    A:::::A   A:::::A       B:::::::::::::BB  
-   L:::::L                   A:::::A     A:::::A      B::::BBBBBB:::::B 
-   L:::::L                  A:::::AAAAAAAAA:::::A     B::::B     B:::::B
-   L:::::L                 A:::::::::::::::::::::A    B::::B     B:::::B
-   L:::::L         LLLLLL A:::::AAAAAAAAAAAAA:::::A   B::::B     B:::::B
- LL:::::::LLLLLLLLL:::::L A:::::A           A:::::A BB:::::BBBBBB::::::B
- L::::::::::::::::::::::L A:::::A           A:::::A B:::::::::::::::::B 
- L::::::::::::::::::::::L A:::::A           A:::::A B::::::::::::::::B  
- LLLLLLLLLLLLLLLLLLLLLLLL AAAAAAA           AAAAAAA BBBBBBBBBBBBBBBBB
+❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+
+NNNNNNNN        NNNNNNNN             AAA     VVVVVVVVV         VVVVVVVVV
+N:::::::N       N::::::N            A:::A    V::::::V V       V V::::::V
+N::::::::N      N::::::N           A:::::A   V::::::V  V     V  V::::::V
+N:::::::::N     N::::::N          A:::::::A  V::::::V   V   V   V::::::V
+N::::::::::N    N::::::N         A:::::::::A  V:::::V    V V    V:::::V 
+N:::::::::::N   N::::::N        A:::::A:::::A  V:::::V         V:::::V
+N:::::::N::::N  N::::::N       A:::::A A:::::A  V:::::V       V:::::V
+N::::::N N::::N N::::::N      A:::::A   A:::::A  V:::::V     V:::::V
+N::::::N  N::::N:::::::N     A:::::A     A:::::A  V:::::V   V:::::V
+N::::::N   N:::::::::::N    A:::::AAAAAAAAA:::::A  V:::::V V:::::V
+N::::::N    N::::::::::N   A:::::::::::::::::::::A  V:::::V:::::V
+N::::::N     N:::::::::N  A:::::AAAAAAAAAAAAA:::::A  V:::::::::V 
+N::::::N      N::::::::N  A:::::A           A:::::A   V:::::::V 
+N::::::N       N:::::::N  A:::::A           A:::::A    V:::::V                                       
+N::::::N        N::::::N  A:::::A           A:::::A     V:::V                               
+                                    A:::A             R::::::::::::::R   R::::::::::::::R       ❄❄:::::::::❄❄   
+                                   A:::::A            R::::RRRRRR:::::R  R::::RRRRRR:::::R   ❄❄:::::::::::::❄❄ 
+                                  A:::::::A           R::::R     R:::::R R::::R     R:::::R ❄:::::::❄❄❄:::::::❄
+                                 A:::::::::A          R::::R     R:::::R R::::R     R:::::R ❄::::::❄    ❄::::::❄
+                                A:::::A:::::A         R::::R     R:::::R R::::R     R:::::R ❄:::::❄      ❄:::::❄
+                               A:::::A A:::::A        R::::RRRRRR:::::R  R::::RRRRRR:::::R  ❄:::::❄      ❄:::::❄
+                              A:::::A   A:::::A       R:::::::::::::RR   R:::::::::::::RR   ❄:::::❄      ❄:::::❄
+                             A:::::A     A:::::A      R::::RRRRRR:::::R  R::::RRRRRR:::::R  ❄:::::❄      ❄:::::❄
+                            A:::::AAAAAAAAA:::::A     R::::R     R:::::R R::::R     R::::R  ❄:::::❄      ❄:::::❄
+                           A:::::::::::::::::::::A    R::::R     R:::::R R::::R     R::::R  ❄:::::❄      ❄:::::❄
+                          A:::::AAAAAAAAAAAAA:::::A   R::::R     R:::::R R::::R     R::::R  ❄::::::❄    ❄::::::❄
+                          A:::::A           A:::::A   R::::R     R:::::R R::::R     R::::R  ❄:::::::❄❄❄:::::::❄
+                          A:::::A           A:::::A   R::::R     R:::::R R::::R     R::::R   ❄❄:::::::::::::❄❄ 
+                          A:::::A           A:::::A   R::::R     R:::::R R::::R     R::::R     ❄❄:::::::::❄❄         
+L:::::::::L                         A:::A             B:::::::::::::B                      
+L:::::::::L                        A:::::A            B::::BBBBBB:::::B                    
+LL:::::::LL                       A:::::::A           B::::B     B:::::B
+  L:::::L                        A:::::::::A          B::::B     B:::::B
+  L:::::L                       A:::::A:::::A         B::::B     B:::::B
+  L:::::L                      A:::::A A:::::A        B::::BBBBBB:::::B 
+  L:::::L                     A:::::A   A:::::A       B:::::::::::::BB  
+  L:::::L                    A:::::A     A:::::A      B::::BBBBBB:::::B 
+  L:::::L                   A:::::AAAAAAAAA:::::A     B::::B     B:::::B
+  L:::::L                  A:::::::::::::::::::::A    B::::B     B:::::B
+  L:::::L         LLLLLL  A:::::AAAAAAAAAAAAA:::::A   B::::B     B:::::B
+LL:::::::LLLLLLLLL:::::L  A:::::A           A:::::A   B::::BBBBBB::::::B
+L::::::::::::::::::::::L  A:::::A           A:::::A   B:::::::::::::::B 
+L::::::::::::::::::::::L  A:::::A           A:::::A   B::::::::::::::B  
+LLLLLLLLLLLLLLLLLLLLLLLL  AAAAAAA           AAAAAAA   BBBBBBBBBBBBBBB
+
+❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
+❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄ 
 ```

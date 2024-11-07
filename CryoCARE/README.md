@@ -39,7 +39,7 @@ Your denoised tomogram will be in **'/denoise.rec/faimg-even_rec.mrc'**
 
 *cryoCARE_train.py --conf train_config.json*                     is long training, proportional to Epochs/Iter selected (1h+ at least)
 
-*cryoCARE_predict.py --conf predict_config.json*                 is pretty fast (<10mn)
+*cryoCARE_predict.py --conf predict_config.json*                 is pretty fast (<20mn)
 
 
 

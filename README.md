@@ -147,7 +147,7 @@ open /Applications/MATLAB_2018b.app/
 ```
 Modifiy the command line so it fits your config.
 
-
+```
 NNNNNNNN        NNNNNNNN            AAA    VVVVVVVVV         VVVVVVVVV    AAA             RRRRRRRRRRRRRRRRR    RRRRRRRRRRRRRRRRR         ❆❆❆❆❆❆❆❆❆     
 N:::::::N       N::::::N           A:::A   V::::::V V       V V::::::V   A:::A            R::::::::::::::::R   R::::::::::::::::R      ❆❆:::::::::❆❆   
 N::::::::N      N::::::N          A:::::A  V::::::V  V     V  V::::::V  A:::::A           R::::::RRRRRR:::::R  R::::::RRRRRR:::::R   ❆❆:::::::::::::❆❆ 
@@ -179,6 +179,5 @@ NNNNNNNN         NNNNNNN AAAAAAA           AAAAAAA     VVV    AAAAAAA           
  LL:::::::LLLLLLLLL:::::L A:::::A           A:::::A BB:::::BBBBBB::::::B
  L::::::::::::::::::::::L A:::::A           A:::::A B:::::::::::::::::B 
  L::::::::::::::::::::::L A:::::A           A:::::A B::::::::::::::::B  
- LLLLLLLLLLLLLLLLLLLLLLLL AAAAAAA           AAAAAAA BBBBBBBBBBBBBBBBB   
-
-
+ LLLLLLLLLLLLLLLLLLLLLLLL AAAAAAA           AAAAAAA BBBBBBBBBBBBBBBBB
+```

@@ -150,7 +150,7 @@ Modifiy the command line so it fits your config.
 
 ## Patch notes (Version 2.0)
 
-**Bug Fixes**
+<ins>**Bug Fixes**</ins>
 
 **Tomogram Duplication**: Fixed an issue where processing one tomogram would occasionally lead to duplicate stacks across all directories. (Unless you liked that bug?)
 
@@ -160,7 +160,7 @@ Modifiy the command line so it fits your config.
 
 **Nobel Alert System**: Fixed a bug where the software kept notifying users that they deserve a Nobel Prize for their work. Now it only appears every 10 hours.
 
-**New Features**
+<ins>**New Features**</ins>
 
 **Hyperchill Mode™**: Added a "Relax and Denoise" button for those tomograms that just need to vibe. Warning: may lead to surreal image reconstructions if used too liberally.
 
@@ -168,7 +168,7 @@ Modifiy the command line so it fits your config.
 
 **Artifact Whack-a-Mole**: All artifacts should theoretically be removed, but if one shows up, now you can just click it! Each artifact whacked spawns two new ones (work in progress).
 
-**Improvements**
+<ins>**Improvements**</ins>
 
 **Improved Error Messages**: Now with helpful tips like, “Oops, try again!” or “Consider a different career?” for those elusive error codes.
 
@@ -176,7 +176,7 @@ Modifiy the command line so it fits your config.
 
 **CryoCAREful**: Improved prediction algorithm now offers more personalized predictions about why your denoising failed this time.
 
-**Known Issues**
+<ins>**Known Issues**</ins>
 
 **Infinite Training Mode**: Occasionally, training just keeps going, saying "Just one more epoch…" We’re working on this one.
 

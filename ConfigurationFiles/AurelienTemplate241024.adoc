@@ -48,6 +48,6 @@ comparam.ctfplotter.ctfplotter.DefocusTol=50
 comparam.ctfcorrection.ctfphaseflip.UseGPU=1
 comparam.tilt.tilt.LOG=
 comparam.tilt.tilt.FakeSIRTiterations=30
-comparam.tilt.tilt.THICKNESS=1000
+comparam.tilt.tilt.THICKNESS=2000
 runtime.Reconstruction.any.doBackprojAlso=1
 runtime.Trimvol.any.reorient=2

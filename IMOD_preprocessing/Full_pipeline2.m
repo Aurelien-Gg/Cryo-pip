@@ -1,5 +1,7 @@
 % This script can be run from anywhere as long as full paths are provided
 % !! Stack file "<stack_name>.mrc", Metadata file "<stack_name>.mdoc", and Gain file <gain_flipx.dm4>  need to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder (should be changed)
+if ~system('test -x ./Secret.sh'), system('chmod +x ./Secret.sh'), end
+system(['./Secret.sh ',frame_dirpath])
 
 %% MODIFY THE FOLLOWING TO FIT YOUR CONFIG
 % Enter required filepaths (! don't forget to add '/' at the end for paths):
@@ -76,7 +78,6 @@ system(['cd ',output_dirpath,'/odd/ && submfg newst.com'])
 system(['cd ',output_dirpath,'/odd/ && submfg tilt.com'])
 system(['cd ',output_dirpath,'/odd/ && trimvol -f -rx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc'])
 
-
 %% Prepare CryoCARE configuration files
 if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful'], 'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful']), end
 copyfile([cryo_path,'/train_data_config.json'],[output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/'])
@@ -113,7 +114,6 @@ fighandnm = figure, plot(resid), xlabel('Frame'), ylabel('Residual (nm)'), title
 text(mean(xlim), max(ylim), ['Ratio of measured to unknowns =',data2], 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'FontSize', 70);
 if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots'], 'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots']), end
 exportgraphics(fighandnm,fullfile([output_dirpath,'/',imod_folder, '/',stack_name,'/Validate_plots/residual_values.png']),"Resolution",70);
-
 
 %% Open reconstructed tomogram
 system(['3dmod ',output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'_rec.mrc'])

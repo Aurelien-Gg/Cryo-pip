@@ -147,47 +147,38 @@ open /Applications/MATLAB_2018b.app/
 ```
 Modifiy the command line so it fits your config.
 
-```
-❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
 
-NNNNNNNNN      NNNNNNN        AAAAAAAAA VVVVVVV                VVVVVVV
-N::::::::N     N:::::N       A:::::::::A V:::::V  V       V   V:::::V
-N:::::::::N    N:::::N      A:::::A:::::A V:::::V   V   V    V:::::V 
-N::::::::::N   N:::::N     A:::::A A:::::A V:::::V    V     V:::::V
-N::::::N::::N  N:::::N    A:::::A   A:::::A V:::::V       V:::::V
-N:::::N N::::N N:::::N   A:::::A     A:::::A V:::::V     V:::::V
-N:::::N  N::::N::::::N  A:::::AAAAAAAAA:::::A V:::::V   V:::::V
-N:::::N   N::::::::::N A:::::::::::::::::::::A V:::::V V:::::V
-N:::::N    N:::::::::N A::::AAAAAAAAAAAAA::::A  V:::::V:::::V
-N:::::N     N::::::::N A::::A           A::::A   V:::::::::V 
-N:::::N      N:::::::N A::::A           A::::A    V:::::::V 
-NNNNNNN       NNNNNNNN A::::A           A::::A     V:::::V          
-                      A:::::::A        R::::::::::::::R   R::::::::::::::R      OOOOOOOOOOOOO   
-   .        .        A:::::::::A       R::::RRRRRR:::::R  R::::RRRRRR:::::R   OO:::::::::::::OO 
-    \      /        A:::::A:::::A      R::::R     R:::::R R::::R     R:::::R O:::::::OOO:::::::O
-    _\/  \/_       A:::::A A:::::A     R::::R     R:::::R R::::R     R:::::R O::::::O   O::::::O
- \   _\/\/_   /   A:::::A   A:::::A    R::::R     R:::::R R::::R     R:::::R O:::::O     O:::::O
- _\_\_\/\/_/_/_  A:::::A     A:::::A   R::::RRRRRR:::::R  R::::RRRRRR:::::R  O:::::O     O:::::O
-  / /_/\/\_\ \  A:::::AAAAAAAAA:::::A  R:::::::::::::RR   R:::::::::::::RR   O:::::O     O:::::O
- /   _/\/\_   \A:::::::::::::::::::::A R::::RRRRRR:::::R  R::::RRRRRR:::::R  O:::::O     O:::::O
-     /\  /\    A::::AAAAAAAAAAAAA::::A R::::R     R::::R  R::::R     R::::R  O::::::O   O::::::O
-    /      \   A::::A           A::::A R::::R     R::::R  R::::R     R::::R  O:::::::OOO:::::::O
-   '        '  A::::A           A::::A R::::R     R::::R  R::::R     R::::R   OO:::::::::::::OO 
-               AAAAAA           A::::A RRRRRR     R::::R  RRRRRR     RRRRRR     OOOOOOOOOOOOO   
-LLLLLLLLLL                    A:::::::A        B:::::::::::::B  
- LL::::LL                    A:::::::::A       B::::BBBBBB:::::B      
-  L::::L                    A:::::A:::::A      B::::B     B:::::B
-  L::::L                   A:::::A A:::::A     B::::B     B:::::B
-  L::::L                  A:::::A   A:::::A    B::::BBBBBB:::::B 
-  L::::L                 A:::::A     A:::::A   B:::::::::::::BB  
-  L::::L                A:::::AAAAAAAAA:::::A  B::::BBBBBB:::::B 
-  L::::L               A:::::::::::::::::::::A B::::B     B:::::B
-  L::::L         LLLLL A::::AAAAAAAAAAAAA::::A B::::B     B:::::B
-LL::::::LLLLLLLLL::::L A::::A           A::::A B::::BBBBBB::::::B
-L::::::::::::::::::::L A::::A           A::::A B:::::::::::::::B 
-LLLLLLLLLLLLLLLLLLLLLL AAAAAA           AAAAAA BBBBBBBBBBBBBBBB   
+## Patch notes (Version 2.0)
 
-❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄
-❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄❄ 
-```
+<ins>**Bug Fixes**</ins>
+
+**Tomogram Duplication**: Fixed an issue where processing one tomogram would occasionally lead to duplicate stacks across all directories. (Unless you liked that bug?)
+
+**Random U-Net Seizures**: No more spontaneous convulsions of the U-Net layer. Processing should now be less… dramatic.
+
+**Temperature Drops**: Cryo-ET pipeline should no longer try to make the lab 4K compatible. You can keep the AC off now.
+
+**Nobel Alert System**: Fixed a bug where the software kept notifying users that they deserve a Nobel Prize for their work. Now it only appears every 10 hours.
+
+<ins>**New Features**</ins>
+
+**Hyperchill Mode™**: Added a "Relax and Denoise" button for those tomograms that just need to vibe. Warning: may lead to surreal image reconstructions if used too liberally.
+
+**Virtual Lab Assistant "Cryo-Bob"**: Bob now offers random bits of wisdom during processing (e.g., "Have you tried turning it off and back on?").
+
+**Artifact Whack-a-Mole**: All artifacts should theoretically be removed, but if one shows up, now you can just click it! Each artifact whacked spawns two new ones (work in progress).
+
+<ins>**Improvements**</ins>
+
+**Improved Error Messages**: Now with helpful tips like, “Oops, try again!” or “Consider a different career?” for those elusive error codes.
+
+**Compression 2.0**: Implemented a new compression scheme where everything compresses to the size of an atomic nucleus. (Unfortunately, it's still experimental, so you might need a magnifying glass to read your files.)
+
+**CryoCAREful**: Improved prediction algorithm now offers more personalized predictions about *why* your denoising failed this time.
+
+<ins>**Known Issues**</ins>
+
+**Infinite Training Mode**: Occasionally, training just keeps going, saying "Just one more epoch…" We’re working on this one.
+
+**RAM-ivore Bug**: If you have over 64GB of RAM, expect the pipeline to consume it all and ask for dessert.
+

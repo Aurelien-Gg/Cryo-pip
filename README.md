@@ -174,7 +174,7 @@ Modifiy the command line so it fits your config.
 
 **Compression 2.0**: Implemented a new compression scheme where everything compresses to the size of an atomic nucleus. (Unfortunately, it's still experimental, so you might need a magnifying glass to read your files.)
 
-**CryoCAREful**: Improved prediction algorithm now offers more personalized predictions about why your denoising failed this time.
+**CryoCAREful**: Improved prediction algorithm now offers more personalized predictions about *why* your denoising failed this time.
 
 <ins>**Known Issues**</ins>
 

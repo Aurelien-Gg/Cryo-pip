@@ -120,3 +120,49 @@ system(['3dmod ',output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'_
 system(['3dmod ',output_dirpath,'/even/',stack_name,'_rec.mrc'])
 system(['3dmod ',output_dirpath,'/odd/',stack_name,'_rec.mrc'])
 
+%% Function for Frame exclusion GUI + writing Exclude_views.txt
+function keep_list = Exclude_views(mrc_file)
+
+[mrc_path, mrcname, mrcext] = fileparts(mrc_file)
+slice_output = [mrc_path,'/Slices/'];
+if exist([slice_output,'/Exclude_views.txt']), system(['rm ',slice_output,'/Exclude_views.txt']), end
+if ~exist(slice_output, 'dir'), mkdir(slice_output), end
+
+system(['3dmod ',mrc_file])
+system(['mrc2tif -C b,w ',mrc_path,'/',mrcname,mrcext,' ',slice_output,'/slice']) 
+
+files = dir([slice_output,'/*.tif']);
+nFiles = length(files);
+status = zeros(nFiles,1);
+k=1;
+while k < nFiles+1
+    img = imread([files(k).folder, '/', files(k).name]);
+    img = imadjust(img);
+    imshow(img);
+    xlabel('Left click: Accept.  Right click: Reject.  Middle click: Return to previous. ''s'' to accept and skip 5 images', 'Color', 'red', 'FontSize', 50, 'FontWeight', 'bold');
+    title(['Image ', num2str(k), ' of ', num2str(nFiles), ': ', files(k).name],'FontSize', 50);
+    [~,~,button] = ginput(1);
+    if button == 1              % Left click to keep
+        status(k) = 1;
+        ['Image ',num2str(k),' is kept']
+        k=k+1;
+    elseif button == 3          % Right click to reject
+        status(k) = 0;
+        ['Image ',num2str(k),' is rejected']
+        k=k+1;
+    elseif button == 2          % Middle click to go back
+        status(k) = 0;
+        ['Going back to image ',num2str(k-1)]
+        if k>1, k=k-1; end
+    elseif button == 115        % 's' key to skip and accept 5 images
+        status(k:k+4) = 1;  
+        ['Skipping and keeping images ',num2str(k),' up to image ',num2str(k+4)]
+        k=k+5;
+    end
+end
+close gcf
+
+% Save the status information for later use
+keep_list = status(1:nFiles);
+writematrix(keep_list, [slice_output,'/Exclude_views.txt'], 'Delimiter', 'tab');
+end

@@ -1,0 +1,19 @@
+{
+  "even": [
+    "/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/PaulaNavarro_20231129_NAR_3/testframes/frames/imodeven/faimg-even/faimg-even_rec.mrc"
+  ],
+  "odd": [
+    "/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/PaulaNavarro_20231129_NAR_3/testframes/frames/imododd/faimg-odd/faimg-odd_rec.mrc"
+  ],
+  "patch_shape": [
+    72,
+    72,
+    72
+  ],
+  "num_slices": 1200,
+  "split": 0.9,
+  "tilt_axis": "X",
+  "n_normalization_samples": 500,
+  "path": "./",
+  "overwrite": true
+}

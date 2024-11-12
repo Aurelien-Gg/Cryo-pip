@@ -1,9 +1,0 @@
-{
-  "path": "/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/AwesomeComs/CryoCarefulComs/model_name.tar.gz",
-  "even": "/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/PaulaNavarro_20231129_NAR_3/TESTLx_Position_2TEST/frames/imodeven/faimg-even/faimg-even_rec.mrc",
-  "odd": "/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/PaulaNavarro_20231129_NAR_3/TESTLx_Position_2TEST/frames/imododd/faimg-odd/faimg-odd_rec.mrc",
-  "n_tiles": [1,1,1],
-  "output": "denoised.rec",
-  "overwrite": true,
-  "gpu_id": 0
-}

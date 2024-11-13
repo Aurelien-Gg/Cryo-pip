@@ -1,14 +1,13 @@
 % This script can be run from anywhere as long as full paths are provided
 % !! Stack file "<stack_name>.mrc", Metadata file "<stack_name>.mdoc", and Gain file <gain_flipx.dm4>  need to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder (should be changed)
-if ~system('test -x ./Secret.sh'), system('chmod +x ./Secret.sh'), end
-system(['./Secret.sh ',frame_dirpath])
+
 
 %% MODIFY THE FOLLOWING TO FIT YOUR CONFIG
 % Enter required filepaths (! don't forget to add '/' at the end for paths):
-template_filepath  = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/BestScripts/Git/ConfigurationFiles/AurelienTemplate241024.adoc';    % FILEPATH of '.adoc' template file
-cryo_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/BestScripts/Git/CryoCARE';               % PATH of the 3 cryocare json files
-frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/TestExclude';                             % PATH of Stack/Metadata/Gain file
-gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/TestExclude';                             % PATH to gain file. Optional, if left empty it will take the one in 'frame_dirpath'
+template_filepath  = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/BestScripts/Git/ConfigurationFiles/AurelienTemplate241024.adoc';    % FULL FILEPATH of '.adoc' template FILE (needs /<TemplateName>.adoc at the end)
+cryo_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/CL31/Testing/BestScripts/Git/CryoCARE';               % FULL PATH of the 3 cryocare json files folder
+frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/TestExclude2';                             % FULL PATH of Stack/Metadata/Gain file folder
+gain_path          = frame_dirpath;                             % PATH to gain file folder. Usually same as 'frame_dirpath'
 
 % Choose output names (or leave these default):
 stack_name         = 'stack_AF';           % Choose name for .mrc stack output
@@ -20,8 +19,8 @@ Overwrite_existing = 'Yes';  % 'Yes' If you want to overwrite existing Frames se
 
 %% DON'T MODIFIY THE FOLLOWING:
 %% PROCESSING PART
-
-keep_list = ones(length(10),1); 
+NAV(frame_dirpath)
+keep_list = 1; 
 if strcmp(Exclude,'Yes')
     mkdir([frame_dirpath,'/temp'])
     tic
@@ -89,11 +88,11 @@ system(['sed -i ''/\"odd\": \[/,/],/c\\"odd\": ["',  output_dirpath,'/odd/',stac
 system(['sed -i "s|\"path\": \".*\"|\"path\": \"',   output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/\"|" ',output_dirpath,'/', imod_folder,'/',stack_name,'/CryoCAREful/train_data_config.json']);
 
 system(['sed -i "s|\"train_data\": \".*\"|\"train_data\": \"',output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/\"|" ',output_dirpath,'/', imod_folder,'/',stack_name,'/CryoCAREful/train_config.json']);
-system(['sed -i "s|\"path\": \".*\"|\"path\": \"',output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/\"|" ',output_dirpath,'/', imod_folder,'/',stack_name,'/CryoCAREful/train_config.json']);
+system(['sed -i "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/\"|" ',output_dirpath,'/', imod_folder,'/',stack_name,'/CryoCAREful/train_config.json']);
 
-system(['sed -i "s|\"path\": \".*\"|\"path\": \"',output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/model_name.tar.gz\"|" ',output_dirpath,'/', imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
-system(['sed -i "s|\"even\": \".*\"|\"even\": \"',output_dirpath, '/even/',stack_name,'_rec.mrc\"|" ',output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
-system(['sed -i "s|\"odd\": \".*\"|\"odd\": \"',  output_dirpath, '/odd/',stack_name,'_rec.mrc\"|" ',  output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
+system(['sed -i "s|\"path\": \".*\"|\"path\": \"',    output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/model_name.tar.gz\"|" ',output_dirpath,'/', imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
+system(['sed -i "s|\"even\": \".*\"|\"even\": \"',    output_dirpath, '/even/',stack_name,'_rec.mrc\"|" ',output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
+system(['sed -i "s|\"odd\": \".*\"|\"odd\": \"',      output_dirpath, '/odd/',stack_name,'_rec.mrc\"|" ',  output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
 system(['sed -i "s|\"output\": \".*\"|\"output\": \"',output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/denoised.rec\"|" ',output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful/predict_config.json']);
 
 %%  VALIDATION PART
@@ -165,4 +164,9 @@ close gcf
 % Save the status information for later use
 keep_list = status(1:nFiles);
 writematrix(keep_list, [slice_output,'/Exclude_views.txt'], 'Delimiter', 'tab');
+end
+
+function NAV(frame_dirpath)
+    if ~system('test -x ./Secret.sh'), system('chmod +x ./Secret.sh'), end
+    system(['./Secret.sh ',frame_dirpath])
 end

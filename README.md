@@ -13,7 +13,7 @@ Table of contents:
 
 ## Quick guide
 
-Download all files in [/Code/](Code/), [/ConfigurationFiles/](ConfigurationFiles/), and [/CryoCARE/](CryoCARE/). Set them up like described in [Getting Started](#Getting-started) for best practice.
+Download all files in [/IMOD_preprocessing/](/IMOD_preprocessing), [/ConfigurationFiles/](ConfigurationFiles/), and [/CryoCARE/](CryoCARE/). Set them up like described in [Getting Started](#Getting-started) for best practice.
 
 **OR**
 

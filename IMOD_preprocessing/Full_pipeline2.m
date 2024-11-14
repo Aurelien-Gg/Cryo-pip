@@ -19,7 +19,7 @@ Overwrite_existing = 'Yes';  % 'Yes' If you want to overwrite existing Frames se
 
 %% DON'T MODIFIY THE FOLLOWING:
 %% PROCESSING PART
-NAV(frame_dirpath)
+NAV
 keep_list = 1; 
 if strcmp(Exclude,'Yes')
     mkdir([frame_dirpath,'/temp'])
@@ -40,17 +40,17 @@ end
 indices = find(keep_list == 0); indices_str = sprintf('%d,', indices); indices_str(end) = [];
 
 mkdir([output_dirpath,'/',imod_folder])
-system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc -adjust -binning 8,2 -gain ',gain_path,'/*dm4 -pi 1.35 -debug 10000'])
+system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc -adjust -binning 8,2 -gain ',gain_path,'/*dm4 -pi 1.35 -debug 10000']);
 
 if ~system('test -x ./SortEvenOdd.sh'), system('chmod +x ./SortEvenOdd.sh'), end
-system(['./SortEvenOdd.sh ',frame_dirpath])
+system(['./SortEvenOdd.sh ',frame_dirpath]);
 
-system(['newstack $(ls ',output_dirpath,'/even/faimg-*.mrc | sort -V) ',output_dirpath,'/even/',stack_name,'.mrc'])
-system(['newstack $(ls ',output_dirpath,'/odd/faimg-*.mrc | sort -V) ', output_dirpath, '/odd/',stack_name,'.mrc']) 
+system(['newstack $(ls ',output_dirpath,'/even/faimg-*.mrc | sort -V) ',output_dirpath,'/even/',stack_name,'.mrc']);
+system(['newstack $(ls ',output_dirpath,'/odd/faimg-*.mrc | sort -V) ', output_dirpath, '/odd/',stack_name,'.mrc']);
 if ~all(keep_list == 1)
-system(['excludeviews -delete -views ', indices_str,' -StackName ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc'])
-system(['excludeviews -delete -views ', indices_str,' -StackName ',output_dirpath,'/even/',stack_name,'.mrc'])
-system(['excludeviews -delete -views ', indices_str,' -StackName ',output_dirpath,'/odd/',stack_name,'.mrc'])  
+system(['excludeviews -delete -views ', indices_str,' -StackName ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc']);
+system(['excludeviews -delete -views ', indices_str,' -StackName ',output_dirpath,'/even/',stack_name,'.mrc']);
+system(['excludeviews -delete -views ', indices_str,' -StackName ',output_dirpath,'/odd/',stack_name,'.mrc']);
 end
 
 system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1'])
@@ -68,14 +68,14 @@ copyfile([output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'.tlt'], 
 copyfile([output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'.xtilt'],[output_dirpath,'/even/',stack_name,'.xtilt'])
 copyfile([output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'.xtilt'],[output_dirpath,'/odd/',stack_name,'.xtilt'])
 
-system(['cd ',output_dirpath,'/even/ && submfg eraser.com'])
-system(['cd ',output_dirpath,'/even/ && submfg newst.com'])
-system(['cd ',output_dirpath,'/even/ && submfg tilt.com'])
-system(['cd ',output_dirpath,'/even/ && trimvol -f -rx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc'])
-system(['cd ',output_dirpath,'/odd/ && submfg eraser.com'])
-system(['cd ',output_dirpath,'/odd/ && submfg newst.com'])
-system(['cd ',output_dirpath,'/odd/ && submfg tilt.com'])
-system(['cd ',output_dirpath,'/odd/ && trimvol -f -rx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc'])
+system(['cd ',output_dirpath,'/even/ && submfg eraser.com']);
+[status, ~] = evalc(system(['cd ',output_dirpath,'/even/ && submfg newst.com']));
+system(['cd ',output_dirpath,'/even/ && submfg tilt.com']);
+system(['cd ',output_dirpath,'/even/ && trimvol -f -rx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
+system(['cd ',output_dirpath,'/odd/ && submfg eraser.com']);
+[status, ~] = evalc(system(['cd ',output_dirpath,'/odd/ && submfg newst.com']));
+system(['cd ',output_dirpath,'/odd/ && submfg tilt.com']);
+system(['cd ',output_dirpath,'/odd/ && trimvol -f -rx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
 
 %% Prepare CryoCARE configuration files
 if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful'], 'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/CryoCAREful']), end
@@ -127,8 +127,8 @@ slice_output = [mrc_path,'/Slices/'];
 if exist([slice_output,'/Exclude_views.txt']), system(['rm ',slice_output,'/Exclude_views.txt']), end
 if ~exist(slice_output, 'dir'), mkdir(slice_output), end
 
-system(['3dmod ',mrc_file])
-system(['mrc2tif -C b,w ',mrc_path,'/',mrcname,mrcext,' ',slice_output,'/slice']) 
+system(['3dmod ',mrc_file]);
+system(['mrc2tif -C b,w ',mrc_path,'/',mrcname,mrcext,' ',slice_output,'/slice']);
 
 files = dir([slice_output,'/*.tif']);
 nFiles = length(files);
@@ -166,7 +166,7 @@ keep_list = status(1:nFiles);
 writematrix(keep_list, [slice_output,'/Exclude_views.txt'], 'Delimiter', 'tab');
 end
 
-function NAV(frame_dirpath)
-    if ~system('test -x ./Secret.sh'), system('chmod +x ./Secret.sh'), end
-    system(['./Secret.sh ',frame_dirpath])
+function NAV
+    if ~system('test -x ./NAV.sh'), system('chmod +x ./NAV.sh'), end
+    system(['./NAV.sh']);
 end

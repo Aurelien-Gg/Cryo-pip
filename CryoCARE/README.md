@@ -1,10 +1,10 @@
 Table of contents:
 
-[Summary](#Summary)
+[Quick Guide](#Quick-Guide)
 
 [Full Manual](#Full-Manual)
 
-## Summary
+## Quick Guide
 
 Running CryoCARE through Matlab turns out to be very slow so we will simply run the commands manually through the terminal.
 

@@ -15,12 +15,13 @@ Table of contents:
 
 Download all files in [/IMOD_preprocessing/](/IMOD_preprocessing), [/ConfigurationFiles/](ConfigurationFiles/), and [/CryoCARE/](CryoCARE/). Set them up like described in [Getting Started](#Getting-started) for best practice.
 
-**OR**
+**OR, BETTER WAY:**
 
 Do this automatically by opening Terminal in desired directory and using the command:
 ```
 git clone https://github.com/Aurelien-Gg/Cryo-pip
 ```
+This will download everything from the Github and place them in the same directory structure
 
 #### To get denoised Tomogram from tilt series:
 

@@ -156,7 +156,7 @@ Modifiy the command line so it fits your config.
 
 **How to set up environment so you can launch Matlab simply by typing 'Matlab' in any terminal window**
 
-1 Locate the MATLAB Installation Path:
+1. Locate the MATLAB Installation Path:
 
 Open Finder and navigate to Applications.
 
@@ -167,7 +167,7 @@ MATLAB’s executable is located in the bin folder within this .app package. For
 /Applications/MATLAB_R2023b.app/bin/
 ```
 
-2 Edit the Shell Configuration File:
+2. Edit the Shell Configuration File:
 
 Open Terminal.
 
@@ -178,7 +178,7 @@ echo $SHELL
 ```
 If your shell is zsh (default for macOS Catalina and later), you’ll edit the .zshrc file. If it’s bash (default in earlier versions of macOS), you’ll edit .bash_profile.
 
-3 Add MATLAB to the PATH:
+3. Add MATLAB to the PATH:
 
 In Terminal, open the appropriate file in a text editor:
 ```bash
@@ -192,12 +192,12 @@ export PATH="/Applications/MATLAB_R2023b.app/bin:$PATH"
 Save and close the editor (for nano, press Ctrl + X, then Y, and Enter).
 Apply the Changes:
 
-4 Reload your shell’s configuration by running:
+4. Reload your shell’s configuration by running:
 ```bash
 source ~/.zshrc        # For zsh users
 source ~/.bash_profile  # For bash users
 ```
-5 Verify the Setup:
+5. Verify the Setup:
 
 Open a new terminal window (or in the same window) and type:
 ```bash

@@ -42,8 +42,7 @@ indices = find(keep_list == 0); indices_str = sprintf('%d,', indices); indices_s
 mkdir([output_dirpath,'/',imod_folder])
 system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc -adjust -binning 8,2 -gain ',gain_path,'/*dm4 -pi 1.35 -debug 10000']);
 
-if ~system('test -x ./SortEvenOdd.sh'), system('chmod +x ./SortEvenOdd.sh'), end
-system(['./SortEvenOdd.sh ',frame_dirpath]);
+SortEvenOdd(frame_dirpath)
 
 system(['newstack $(ls ',output_dirpath,'/even/faimg-*.mrc | sort -V) ',output_dirpath,'/even/',stack_name,'.mrc']);
 system(['newstack $(ls ',output_dirpath,'/odd/faimg-*.mrc | sort -V) ', output_dirpath, '/odd/',stack_name,'.mrc']);
@@ -169,4 +168,20 @@ end
 function NAV
     if ~system('test -x ./NAV.sh'), system('chmod +x ./NAV.sh'), end
     system(['./NAV.sh']);
+end
+
+function SortEvenOdd(frame_dirpath)
+    mkdir(fullfile(frame_dirpath, 'even'));
+    mkdir(fullfile(frame_dirpath, 'odd'));
+    files = dir(fullfile(frame_dirpath, 'faimg-*.mrc'));
+    for i = 1:length(files)
+        file = files(i).name;
+        num = str2double(regexp(file, '\d+', 'match', 'once'));
+        if mod(num, 2) == 0
+            movefile(fullfile(frame_dirpath, file), fullfile(frame_dirpath, 'even', file));
+        else
+            movefile(fullfile(frame_dirpath, file), fullfile(frame_dirpath, 'odd', file));
+        end
+    end
+    fprintf("Files moved to 'even' and 'odd' folders.\n");
 end

@@ -15,24 +15,29 @@ Table of contents:
 
 Download all files in [/IMOD_preprocessing/](/IMOD_preprocessing), [/ConfigurationFiles/](ConfigurationFiles/), and [/CryoCARE/](CryoCARE/). Set them up like described in [Getting Started](#Getting-started) for best practice.
 
-**OR**
+**OR, BETTER WAY:**
 
 Do this automatically by opening Terminal in desired directory and using the command:
 ```
 git clone https://github.com/Aurelien-Gg/Cryo-pip
 ```
+This will download everything from the Github and place them in the same directory structure
 
 #### To get denoised Tomogram from tilt series:
 
-  - Open Full_pipeline.m
+  - Open Full_pipeline2.m
   - Modify the necessary paths to fit your config
   - Execute the code
-  - Follow instructions in [CryoCARE/Summary](CryoCARE/README.md)
+
+For CryoCARE:
+  - The code takes the 3 .Json files, modifies them to fit our configuration, and put them in /output_folder/CryoCAREful/
+  - To run CryoCARE simply open terminal in /CryoCAREful/ folder and run the 3 command lines found in: [CryoCARE/Summary](CryoCARE/README.md)
 
 More info can be found [HERE](Code/README.md/#How-to-use-Full_pipeline.m)
 
 #### To only get tomogram only using IMOD (no CryoCARE denoising or Even/Odd splitting)
 
+OBSOLETE AT THE MOMENT
   - Open IMOD_pipeline.m
   - Modify the necessary paths to fit your config
   - Execute the code

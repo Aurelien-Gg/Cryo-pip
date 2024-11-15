@@ -201,7 +201,7 @@ pip install cryoCARE
 
 **RAM-ivore Bug**: If you have over 64GB of RAM, expect the pipeline to consume it all and ask for dessert.
 
-
+```
 NNNNNNNNN      NNNNNNN        AAAAAAAAA VVVVVVV                VVVVVVV
 
 N::::::::N     N:::::N       A:::::::::A V:::::V  V       V   V:::::V
@@ -273,5 +273,5 @@ LL::::::LLLLLLLLL::::L A::::A           A::::A B::::BBBBBB::::::B
 L::::::::::::::::::::L A::::A           A::::A B:::::::::::::::B 
 
 LLLLLLLLLLLLLLLLLLLLLL AAAAAA           AAAAAA BBBBBBBBBBBBBBBB   
-
+```
 

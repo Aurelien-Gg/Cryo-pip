@@ -9,6 +9,7 @@ Table of contents:
 
 [Full Install guide](#Full-Install-guide)
 
+[Patch notes](#Patch-notes-(Version-2.0))
 
 ## Quick guide
 

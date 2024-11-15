@@ -165,42 +165,6 @@ pip install cryoCARE
 > [!IMPORTANT]
 > You need to type "conda activate cryocare_11" in Terminal window in order to have access to CryoCARE commands
 
-## Getting started
-
-I recommend creating the following folder structure for the various scripts/config files:
-
-```bash
-└── Cryo-Pip
-    ├── Code
-    │   ├── IMOD_pipeline.m
-    │   ├── Full_pipeline.m
-    │   ├── AF_IMODpipe.sh
-    │   ├── AF_Fullpipe.sh
-    │   ├── SortEvenOdd.sh
-    │   └── ValidateGreat.m
-    ├── ConfigurationFiles
-    │   └── AurelienTemplate241024.adoc 
-    └── CryoCARE
-        ├── train_data_config.json
-        ├── train_config.json
-        └── predict_config.json
-```
-
-Folder structure for tilt series to be processed:
-
-```bash
-└── /path/to/frames/
-    ├── <Metadata>.mdoc
-    ├── <gain_file>.md4
-    ├── Image_1.tiff
-    ├── Image_2.tiff
-    ├── ...
-    ├── ...
-
-```
-Don't put multiple .mdoc or .md4 files in the folders, can confuse the code.
-
-
 
 ## Patch notes (Version 2.0)
 

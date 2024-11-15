@@ -51,7 +51,7 @@ open /Applications/MATLAB_2023b.app/
 ```
 Modifiy the command line so it fits your config.
 
-#### **How to set up environment so you can launch Matlab simply by typing 'Matlab' in any terminal window**
+### How to set up environment so you can launch Matlab simply by typing 'Matlab' in any terminal window
 
 1. Locate the MATLAB Installation Path:
 

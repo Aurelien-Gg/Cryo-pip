@@ -38,9 +38,9 @@ More info can be found [HERE](Code/README.md/#How-to-use-Full_pipeline.m)
 #### To only get tomogram only using IMOD (no CryoCARE denoising or Even/Odd splitting)
 
 OBSOLETE AT THE MOMENT
-  <ins>- Open IMOD_pipeline.m<ins>
-  <ins>- Modify the necessary paths to fit your config<ins>
-  <ins>- Execute the code<ins>
+  <ins>- Open IMOD_pipeline.m</ins>
+  <ins>- Modify the necessary paths to fit your config</ins>
+  <ins>- Execute the code</ins>
 
 ## Full Install guide
 #### JAVA installation (needed to run Etomo GUI in IMOD)

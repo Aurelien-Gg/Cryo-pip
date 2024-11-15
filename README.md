@@ -5,9 +5,10 @@ Table of contents:
 
 [I just want to build a denoised Tomogram from my tilt series !!!](#Quick-guide)
 
+[MAC USERS, please read](#MAC-specific-sht)
+
 [Full Install guide](#Full-Install-guide)
 
-[MAC USERS, please read](#MAC-specific-sht)
 
 ## Quick guide
 
@@ -35,6 +36,71 @@ OBSOLETE AT THE MOMENT
   - ~~Open IMOD_pipeline.m~~
   - ~~Modify the necessary paths to fit your config~~
   - ~~Execute the code~~
+
+## MAC specific sh*t
+
+#### MATLAB
+
+> [!IMPORTANT]
+> MATLAB must be opened using the terminal, and *not using your fancy-schmancy Dock*
+
+Your Matlab is likely installed in /Applications/MATLAB_yourversion.app/. To open it use the following command in terminal window:
+
+```bash
+open /Applications/MATLAB_2023b.app/
+```
+Modifiy the command line so it fits your config.
+
+**How to set up environment so you can launch Matlab simply by typing 'Matlab' in any terminal window**
+
+1. Locate the MATLAB Installation Path:
+
+Open Finder and navigate to Applications.
+
+Find the MATLAB application, which should look like MATLAB_R2023b.app (substitute R2023b with your version if it's different).
+
+MATLAB’s executable is located in the bin folder within this .app package. For example, for MATLAB R2023b, the path is:
+```
+/Applications/MATLAB_R2023b.app/bin/
+```
+
+2. Edit the Shell Configuration File:
+
+Open Terminal.
+
+Determine your default shell by running:
+
+```bash
+echo $SHELL
+```
+If your shell is zsh (default for macOS Catalina and later), you’ll edit the .zshrc file. If it’s bash (default in earlier versions of macOS), you’ll edit .bash_profile.
+
+3. Add MATLAB to the PATH:
+
+In Terminal, open the appropriate file in a text editor:
+```bash
+nano ~/.zshrc        # For zsh users
+nano ~/.bash_profile  # For bash users
+```
+Add this line to the end of the file, adjusting the MATLAB version if necessary:
+```bash
+export PATH="/Applications/MATLAB_R2023b.app/bin:$PATH"
+```
+Save and close the editor (for nano, press Ctrl + X, then Y, and Enter).
+Apply the Changes:
+
+4. Reload your shell’s configuration by running:
+```bash
+source ~/.zshrc        # For zsh users
+source ~/.bash_profile  # For bash users
+```
+5. Verify the Setup:
+
+Open a new terminal window (or in the same window) and type:
+```bash
+matlab
+```
+MATLAB should start up if everything is set up correctly.
 
 ## Full Install guide
 #### JAVA installation (needed to run Etomo GUI in IMOD)
@@ -134,72 +200,7 @@ Folder structure for tilt series to be processed:
 ```
 Don't put multiple .mdoc or .md4 files in the folders, can confuse the code.
 
-## MAC specific sh*t
 
-#### MATLAB
-
-> [!IMPORTANT]
-> MATLAB must be opened using the terminal, and *not using your fancy-schmancy Dock*
-
-Your Matlab is likely installed in /Applications/MATLAB_yourversion.app/. To open it use the following command in terminal window:
-
-```bash
-open /Applications/MATLAB_2023b.app/
-```
-Modifiy the command line so it fits your config.
-
-**How to set up environment so you can launch Matlab simply by typing 'Matlab' in any terminal window**
-
-1. Locate the MATLAB Installation Path:
-
-Open Finder and navigate to Applications.
-
-Find the MATLAB application, which should look like MATLAB_R2023b.app (substitute R2023b with your version if it's different).
-
-MATLAB’s executable is located in the bin folder within this .app package. For example, for MATLAB R2023b, the path is:
-```
-/Applications/MATLAB_R2023b.app/bin/
-```
-
-2. Edit the Shell Configuration File:
-
-Open Terminal.
-
-Determine your default shell by running:
-
-```bash
-echo $SHELL
-```
-If your shell is zsh (default for macOS Catalina and later), you’ll edit the .zshrc file. If it’s bash (default in earlier versions of macOS), you’ll edit .bash_profile.
-
-3. Add MATLAB to the PATH:
-
-In Terminal, open the appropriate file in a text editor:
-```bash
-nano ~/.zshrc        # For zsh users
-nano ~/.bash_profile  # For bash users
-```
-Add this line to the end of the file, adjusting the MATLAB version if necessary:
-```bash
-export PATH="/Applications/MATLAB_R2023b.app/bin:$PATH"
-```
-Save and close the editor (for nano, press Ctrl + X, then Y, and Enter).
-Apply the Changes:
-
-4. Reload your shell’s configuration by running:
-```bash
-source ~/.zshrc        # For zsh users
-source ~/.bash_profile  # For bash users
-```
-5. Verify the Setup:
-
-Open a new terminal window (or in the same window) and type:
-```bash
-matlab
-```
-MATLAB should start up if everything is set up correctly.
-
-####
 
 ## Patch notes (Version 2.0)
 

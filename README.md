@@ -38,7 +38,7 @@ OBSOLETE AT THE MOMENT
   - ~~Modify the necessary paths to fit your config~~
   - ~~Execute the code~~
 
-## MAC specific sh*t
+## MAC specific
 
 ### MATLAB
 

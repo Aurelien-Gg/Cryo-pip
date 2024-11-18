@@ -2,20 +2,23 @@
 # Dataset:  ...aulaNavarro_20231129_NAR_3/Lx_Position_3/frames/imod/stack_MC.edf
 # Dataset saved at:  Tue Oct 08 12:23:08 CEST 2024
 
+setupset.scanHeader=1
 setupset.copyarg.dual=0
 setupset.copyarg.montage=0
-setupset.copyarg.pixel=1.35
+# setupset.copyarg.pixel=1.35
 setupset.copyarg.gold=10.0
-setupset.copyarg.rotation=-87.01
-setupset.copyarg.twodir=-1.21
-setupset.copyarg.defocus=5000
+# setupset.copyarg.rotation=-87.01
+# setupset.copyarg.twodir=-1.21
+setupset.copyarg.defocus=200000
 setupset.copyarg.voltage=300
 runtime.Preprocessing.any.removeXrays=1
 runtime.Preprocessing.any.archiveOriginal=0
 comparam.eraser.ccderaser.PeakCriterion=8.0
 comparam.eraser.ccderaser.DiffCriterion=6.0
-comparam.prenewst.newstack.BinByFactor=4
+# Coarse alignment:
+comparam.prenewst.newstack.BinByFactor=1
 comparam.prenewst.newstack.AntialiasFilter=-1
+# Patch tracking options:
 runtime.Fiducials.any.trackingMethod=1
 comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=200,200
 comparam.xcorr_pt.tiltxcorr.OverlapOfPatchesXandY=0.5,0.5
@@ -29,26 +32,25 @@ comparam.align.tiltalign.TiltOption=2
 comparam.align.tiltalign.RobustFitting=1
 comparam.align.tiltalign.KFactorScaling=0.9
 comparam.align.tiltalign.WeightWholeTracks=1
-runtime.Positioning.any.wholeTomogram=0
-runtime.Positioning.any.thickness=1000
+# CTF estimation and correction:
 runtime.AlignedStack.any.correctCTF=1
-runtime.AlignedStack.any.eraseGold=0
-runtime.AlignedStack.any.filterStack=0
-runtime.AlignedStack.any.linearInterpolation=0
-runtime.AlignedStack.any.binByFactor=4
-comparam.newst.newstack.TaperAtFill=1,1
-comparam.newst.newstack.AntialiasFilter=-1
+runtime.AlignedStack.any.linearInterpolation=1
+runtime.AlignedStack.any.binByFactor=1
 comparam.golderaser.ccderaser.ExpandCircleIterations=3
 runtime.CTFplotting.any.autoFitRangeAndStep=6,0
 comparam.ctfplotter.ctfplotter.FrequencyRangeToFit=0.06,0.17
 comparam.ctfplotter.ctfplotter.VaryExponentInFit=1
-comparam.ctfplotter.ctfplotter.BaselineFittingOrder=2
-comparam.ctfplotter.ctfplotter.SearchAstigmatism=0
-comparam.ctfplotter.ctfplotter.SearchPhaseShift=0
-comparam.ctfplotter.ctfplotter.DefocusTol=50
+#comparam.ctfplotter.ctfplotter.BaselineFittingOrder=2
+#comparam.ctfplotter.ctfplotter.DefocusTol=50
+comparam.ctfplotter.ctfplotter.ScanDefocusRange=500,300000
 comparam.ctfcorrection.ctfphaseflip.UseGPU=1
+# Make final aligned stack:
+comparam.newst.newstack.AntialiasFilter=-1
+comparam.newst.newstack.TaperAtFill=1,1
+# Tomogram reconstruction:
 comparam.tilt.tilt.LOG=
 comparam.tilt.tilt.FakeSIRTiterations=30
-comparam.tilt.tilt.THICKNESS=4000
-runtime.Reconstruction.any.doBackprojAlso=1
-runtime.Trimvol.any.reorient=2
+comparam.tilt.tilt.THICKNESS=2500
+# runtime.Trimvol.any.reorient=2
+# runtime.Cleanup.any.doCleanup=1
+# runtime.Cleanup.any.keepAligned=1

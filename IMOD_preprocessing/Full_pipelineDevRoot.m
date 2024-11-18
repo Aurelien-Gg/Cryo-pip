@@ -8,7 +8,7 @@ frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_
     % FULLPATH to specific gain file or folder (if folder, will use first *.dm4 it finds). Usually same as 'frame_dirpath':
 gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien';                             
     % FULLPATH to output files folder. Usually same as 'frame_dirpath':
-output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/TestOutputBin1_1_Cryo4';
+output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/TestOutputBin1_1_Cryo4_ctf_mode0';
 
 % Choose output names
 stack_name         = 'stack_AF'; % Choose rootname for .mrc stack output
@@ -24,7 +24,7 @@ IMOD_bin_aligned   =  1;         %  1 for no binning. Binning amount to be perfo
 % CRYOCARE options
 CryoCARE_prepare   = 'Yes';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
 CryoCARE_run       = 'Yes';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
-CryoCARE_bin       =  1;         %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)              
+CryoCARE_bin       =  4;         %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)              
 
 
 
@@ -33,6 +33,14 @@ CryoCARE_bin       =  1;         %  1 for no binning. Binning amount to be perfo
 %% DON'T MODIFIY THE FOLLOWING:
 %% PROCESSING PART
 NAV
+script_dir = fileparts(matlab.desktop.editor.getActiveFilename);
+git_root_dir = fileparts(script_dir);
+template_filepath = fullfile(git_root_dir, 'ConfigurationFiles', 'AurelienTemplate241024.adoc');
+cryo_path = fullfile(git_root_dir, 'CryoCARE');
+if isfolder(gain_path), gain_path = [gain_path, '/*dm4']; end
+if ~exist(output_dirpath, 'dir'), mkdir(output_dirpath), end
+mkdir([output_dirpath,'/',imod_folder])
+
 % Create and write to TimeCapsule.txt
 fileID = fopen([output_dirpath,'/TimeCapsule.txt'], 'w');
 fprintf(fileID, '--- Template File Contents ---\n');
@@ -41,14 +49,6 @@ fprintf(fileID, '--- Current Script Code ---\n');
 fprintf(fileID, '%s\n\n', fileread([mfilename('fullpath'), '.m']));
 fclose(fileID);
 disp('TimeCapsule.txt created.');
-
-script_dir = fileparts(matlab.desktop.editor.getActiveFilename);
-git_root_dir = fileparts(script_dir);
-template_filepath = fullfile(git_root_dir, 'ConfigurationFiles', 'AurelienTemplate241024.adoc');
-cryo_path = fullfile(git_root_dir, 'CryoCARE');
-if isfolder(gain_path), gain_path = [gain_path, '/*dm4']; end
-if ~exist(output_dirpath, 'dir'), mkdir(output_dirpath), end
-mkdir([output_dirpath,'/',imod_folder])
 
 system(['sed -i ''s/^comparam\.prenewst\.newstack\.BinByFactor=.*/comparam.prenewst.newstack.BinByFactor=' num2str(IMOD_bin_coarse) '/'' ' template_filepath]);
 system(['sed -i ''s/^runtime\.AlignedStack\.any\.binByFactor=.*/runtime.AlignedStack.any.binByFactor=' num2str(IMOD_bin_aligned) '/'' ' template_filepath]);

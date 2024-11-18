@@ -18,6 +18,7 @@ comparam.eraser.ccderaser.DiffCriterion=6.0
 # Coarse alignment:
 comparam.prenewst.newstack.BinByFactor=1
 comparam.prenewst.newstack.AntialiasFilter=-1
+comparam.prenewst.newstack.ModeToOutput=0
 # Patch tracking options:
 runtime.Fiducials.any.trackingMethod=1
 comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=200,200
@@ -42,7 +43,7 @@ comparam.ctfplotter.ctfplotter.FrequencyRangeToFit=0.06,0.17
 comparam.ctfplotter.ctfplotter.VaryExponentInFit=1
 #comparam.ctfplotter.ctfplotter.BaselineFittingOrder=2
 #comparam.ctfplotter.ctfplotter.DefocusTol=50
-comparam.ctfplotter.ctfplotter.ScanDefocusRange=500,300000
+comparam.ctfplotter.ctfplotter.ScanDefocusRange=500,1000000
 comparam.ctfcorrection.ctfphaseflip.UseGPU=1
 # Make final aligned stack:
 comparam.newst.newstack.AntialiasFilter=-1

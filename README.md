@@ -21,13 +21,12 @@ This will download everything from the Github and place them in the correct dire
 
 #### To get denoised Tomogram from tilt series:
 
-  - Open Full_pipeline2.m
+  - Open IMOD_preprocessing/Full_pipelineDevRoot.m
   - Modify the necessary paths to fit your config
   - Execute the code
 
 For CryoCARE:
-  - Full_pipeline2.m prepares the three necessary .Json files for CryoCARE and puts them in /output_folder/CryoCAREful/
-  - To run CryoCARE simply open terminal in /CryoCAREful/ folder and run the 3 command lines found in: [CryoCARE/Summary](CryoCARE/README.md)
+  - Full_pipelineDevRoot.m prepares the three necessary .Json files for CryoCARE and puts them in /output_folder/CryoCAREful/
 
 ~~More info can be found [HERE](Code/README.md/#How-to-use-Full_pipeline.m)~~
 

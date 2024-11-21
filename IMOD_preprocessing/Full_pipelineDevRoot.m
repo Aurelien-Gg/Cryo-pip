@@ -4,20 +4,22 @@
 
 % Define Path of your data
     % FULL PATH of Frames + Metadata file folder:
-frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/TestDevRoot';
+frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/RawAll';
     % FULLPATH to specific gain file or folder (if folder, will use first *.dm4 it finds). Usually same as 'frame_dirpath':
 gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien';                             
     % FULLPATH to output files folder. Usually same as 'frame_dirpath':
-output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/TestOutputBin1_1_Cryo4_ctf_mode0';
+output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/FullFull_fixed';
 
 % Choose output names
 stack_name         = 'stack_AF'; % Choose rootname for .mrc stack output
-imod_folder        = 'imod';     % Choose directory name that will be created to output results of Alignframes
+imod_folder        = 'imod_1_1_8mode0';     % Choose directory name that will be created to output results of Alignframes
 
 % IMOD Pre-Processing options
 Exclude_Frames     = 'Yes';      % 'Yes' If you want to be prompted to select Frames to exclude from processing
 Overwrite_exclude  = 'No';       % 'Yes' If you want to overwrite existing Frames selection that are in Exclude_views.txt (For example if you have already previously selected the Frames to reject and don't want to redo)
+User_boundary      = 'Yes';      % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
 User_trim          = 'No';       % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
+
 IMOD_bin_coarse    =  1;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (pre_ali) 
 IMOD_bin_aligned   =  1;         %  1 for no binning. Binning amount to be performed when running IMOD aligned stack
 
@@ -25,13 +27,15 @@ IMOD_bin_aligned   =  1;         %  1 for no binning. Binning amount to be perfo
 CryoCARE_prepare   = 'Yes';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
 CryoCARE_run       = 'Yes';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
 CryoCARE_bin       =  4;         %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)              
-
+        
 
 
 
 
 %% DON'T MODIFIY THE FOLLOWING:
 %% PROCESSING PART
+% comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=500,500
+disp(datetime('now', 'Format', 'HH:mm:ss'))
 NAV
 script_dir = fileparts(matlab.desktop.editor.getActiveFilename);
 git_root_dir = fileparts(script_dir);
@@ -55,30 +59,30 @@ system(['sed -i ''s/^runtime\.AlignedStack\.any\.binByFactor=.*/runtime.AlignedS
 
 keep_list = 1;
 if strcmp(Exclude_Frames,'Yes')
-    mkdir([output_dirpath,'/temp'])
-    tic
-    system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/temp/Temp_AF.mrc -adjust -binning 16,8 -gain ',gain_path,' -pi 1.35']);
-    toc
     if exist([output_dirpath,'/temp/Slices/Exclude_views.txt'])
         if strcmp(Overwrite_exclude,'Yes')
+            mkdir([output_dirpath,'/temp'])
+            system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/temp/Temp_AF.mrc -adjust -binning 16,8 -gain ',gain_path,' -pi 1.35']);
             keep_list = Exclude_views([output_dirpath,'/temp/Temp_AF.mrc']);
         else
             keep_list = readmatrix([output_dirpath,'/temp/Slices/Exclude_views.txt']);
         end
-    end
-    if ~exist([output_dirpath,'/temp/Slices/Exclude_views.txt'])
+    else
+        mkdir([output_dirpath,'/temp'])
+        system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/temp/Temp_AF.mrc -adjust -binning 16,8 -gain ',gain_path,' -pi 1.35']);
         keep_list = Exclude_views([output_dirpath,'/temp/Temp_AF.mrc']);
     end
 end
 indices = find(keep_list == 0); indices_str = sprintf('%d,', indices); indices_str(end) = [];
 
 if strcmp(CryoCARE_prepare,'Yes')
-    system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc -adjust -binning 8,2 -gain ',gain_path,' -pi 1.35 -debug 10000']);
+    % system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc -adjust -binning 8,2 -gain ',gain_path,' -pi 1.35 -debug 10000']);
+    system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc -mode 0 -adjust -binning 8,2 -gain ',gain_path,' -pi 1.35 -debug 10000']);
     SortEvenOdd(frame_dirpath,output_dirpath)
     'Creating Even stack'
-    [status, ~] = system(['newstack $(ls ',output_dirpath,'/even/faimg-*.mrc | sort -V) ',output_dirpath,'/even/',stack_name,'.mrc']);
+    [status, ~] = system(['newstack -ModeToOutput 0 $(ls ',output_dirpath,'/even/faimg-*.mrc | sort -V) ',output_dirpath,'/even/',stack_name,'.mrc']);
     'Creating Odd stack'
-    [status, ~] = system(['newstack $(ls ',output_dirpath,'/odd/faimg-*.mrc | sort -V) ', output_dirpath,'/odd/', stack_name,'.mrc']);
+    [status, ~] = system(['newstack -ModeToOutput 0 $(ls ',output_dirpath,'/odd/faimg-*.mrc | sort -V) ', output_dirpath,'/odd/', stack_name,'.mrc']);
     if ~all(keep_list == 1)
         system(['excludeviews -delete -views ', indices_str,' -StackName ', output_dirpath,'/even/',stack_name,'.mrc']);
         system(['excludeviews -delete -views ', indices_str,' -StackName ', output_dirpath,'/odd/', stack_name,'.mrc']) ; 
@@ -109,9 +113,17 @@ if strcmp(User_trim,'Yes')
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && submfg tilt.com']);
     system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1 -start 15']);
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && clip rotx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
+elseif strcmp(User_boundary,'Yes')
+    system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1 -end 3'])
+    system(['3dmod ',output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'_preali.mrc ',output_dirpath,'/',imod_folder,'/',stack_name,'/stack_AF_ptbound.mod']); % Try if this can be done on Stack_AF.mrc instead of _preali
+    input('Press Enter when you are done with 3dmod...');
+    string_to_replace = strcat(output_dirpath, '/', imod_folder, '/', stack_name, '/stack_AF_ptbound.mod');
+    system(sprintf('sed -i ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1%s#'' "%s"', string_to_replace, template_filepath));
+    system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1 -start 4'])
 else
     system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1'])
 end
+    'Running clip rotx'
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && clip rotx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
 
 fileID = fopen([output_dirpath,'/TimeCapsule.txt'], 'a');
@@ -135,19 +147,23 @@ if strcmp(CryoCARE_prepare,'Yes')
     copyfile([output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'.xtilt'],[output_dirpath,'/odd/',stack_name,'.xtilt'])
     tic
                   system(['cd ',output_dirpath,'/even/ && submfg eraser.com']);
+                  system(['cd ',output_dirpath,'/even/ && mv ',stack_name,'.mrc ',stack_name,'_notfixed.mrc']);
+                  system(['cd ',output_dirpath,'/even/ && mv ',stack_name,'_fixed.mrc ',stack_name,'.mrc']);
     [status, ~] = system(['cd ',output_dirpath,'/even/ && submfg newst.com']);
                   system(['cd ',output_dirpath,'/even/ && submfg tilt.com']);
-                  % system(['cd ',output_dirpath,'/even/ && trimvol -f -rx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
+                  'Running clip rotx for even stack'
                   system(['cd ',output_dirpath,'/even/ && clip rotx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
-                  system(['tomocleanup -aligned ',output_dirpath,'/even/']);
+                  % system(['tomocleanup -aligned ',output_dirpath,'/even/']);
     toc
     tic
                   system(['cd ',output_dirpath,'/odd/ && submfg eraser.com']);
+                  system(['cd ',output_dirpath,'/odd/ && mv ',stack_name,'.mrc ',stack_name,'_notfixed.mrc']);
+                  system(['cd ',output_dirpath,'/odd/ && mv ',stack_name,'_fixed.mrc ',stack_name,'.mrc']);
     [status, ~] = system(['cd ',output_dirpath,'/odd/ && submfg newst.com']);
                   system(['cd ',output_dirpath,'/odd/ && submfg tilt.com']);
-                  % system(['cd ',output_dirpath,'/odd/ && trimvol -f -rx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
+                  'Running clip rotx for odd stack'
                   system(['cd ',output_dirpath,'/odd/ && clip rotx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
-                  system(['tomocleanup -aligned ',output_dirpath,'/odd/']);
+                  % system(['tomocleanup -aligned ',output_dirpath,'/odd/']);
     toc
     if ~exist([output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/'], 'dir'), mkdir([output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/']), end
     copyfile([cryo_path,'/train_data_config.json'],[output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/'])
@@ -198,14 +214,14 @@ text(mean(xlim), max(ylim), ['Ratio of measured to unknowns =',data2], 'Horizont
 if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots'], 'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots']), end
 exportgraphics(fighandnm,fullfile([output_dirpath,'/',imod_folder, '/',stack_name,'/Validate_plots/residual_values.png']),"Resolution",70);
 
-system(['3dmod ',output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'_rec.mrc'])
-if strcmp(CryoCARE_run,'Yes')
-    if isnumeric(CryoCARE_bin) && mod(CryoCARE_bin, 1) == 0 && CryoCARE_bin > 1
-        system(['3dmod ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/denoised.rec/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc'])
-    else
-        system(['3dmod ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/denoised.rec/',stack_name,'_rec.mrc'])
-    end
-end
+% system(['3dmod ',output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'_rec.mrc'])
+% if strcmp(CryoCARE_run,'Yes')
+%     if isnumeric(CryoCARE_bin) && mod(CryoCARE_bin, 1) == 0 && CryoCARE_bin > 1
+%         system(['3dmod ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/denoised.rec/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc'])
+%     else
+        % system(['3dmod ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/denoised.rec/',stack_name,'_rec.mrc'])
+%     end
+% end
 
 %% FUNCTIONS
 

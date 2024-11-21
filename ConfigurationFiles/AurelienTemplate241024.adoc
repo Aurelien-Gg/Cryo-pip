@@ -21,9 +21,12 @@ comparam.prenewst.newstack.AntialiasFilter=-1
 comparam.prenewst.newstack.ModeToOutput=0
 # Patch tracking options:
 runtime.Fiducials.any.trackingMethod=1
-comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=200,200
+comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=500,500
 comparam.xcorr_pt.tiltxcorr.OverlapOfPatchesXandY=0.5,0.5
+comparam.xcorr_pt.tiltxcorr.FilterRadius2=0.125
+comparam.xcorr_pt.tiltxcorr.FilterSigma2=0.03
 runtime.PatchTracking.any.adjustTiltAngles=1
+runtime.PatchTracking.any.prealiBoundaryModel=/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/FullFull_fixed/imod_1_1_8mode0/stack_AF/stack_AF_ptbound.mod
 comparam.track.beadtrack.SobelFilterCentering=1
 comparam.track.beadtrack.ScalableSigmaForSobel=0.12
 comparam.align.tiltalign.SurfacesToAnalyze=1
@@ -50,7 +53,7 @@ comparam.newst.newstack.AntialiasFilter=-1
 comparam.newst.newstack.TaperAtFill=1,1
 # Tomogram reconstruction:
 comparam.tilt.tilt.LOG=
-comparam.tilt.tilt.FakeSIRTiterations=30
+# comparam.tilt.tilt.FakeSIRTiterations=30
 comparam.tilt.tilt.THICKNESS=2500
 # runtime.Trimvol.any.reorient=2
 # runtime.Cleanup.any.doCleanup=1

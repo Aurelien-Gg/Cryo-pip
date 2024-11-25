@@ -3,16 +3,14 @@
 %% MODIFY THE FOLLOWING TO FIT YOUR CONFIG
 
 % Define Path of your data
-    % FULL PATH of Frames + Metadata file folder:
-frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/RawAll';
-    % FULLPATH to specific gain file or folder (if folder, will use first *.dm4 it finds). Usually same as 'frame_dirpath':
-gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien';                             
-    % FULLPATH to output files folder. Usually same as 'frame_dirpath':
-output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/TestTrimvol';
+
+frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/RawAll';      % FULL PATH of Frames + Metadata file folder:
+gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien';             % FULLPATH to specific gain file or folder (if folder, will use first *.dm4 it finds). Usually same as 'frame_dirpath':                    
+output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/Test_full';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
 
 % Choose output names
-stack_name         = 'stack_AF'; % Choose rootname for .mrc stack output
-imod_folder        = 'imod_4_2';     % Choose directory name that will be created to output results of Alignframes
+stack_name         = 'stack_AF';             % Choose rootname for .mrc stack output
+imod_folder        = 'imod_1_1_6_50_75';     % Choose directory name that will be created to output results of Alignframes
 
 % IMOD Pre-Processing options
 Exclude_Frames     = 'Yes';      % 'Yes' If you want to be prompted to select Frames to exclude from processing
@@ -20,16 +18,16 @@ Overwrite_exclude  = 'No';       % 'Yes' If you want to overwrite existing Frame
 User_boundary      = 'Yes';      % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
 User_trim          = 'Yes';      % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
 
-IMOD_bin_coarse    =  4;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (pre_ali) 
-IMOD_bin_aligned   =  2;         %  1 for no binning. Binning amount to be performed when running IMOD aligned stack
+IMOD_bin_coarse    =  1;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (pre_ali) 
+IMOD_bin_aligned   =  1;         %  1 for no binning. Binning amount to be performed when running IMOD aligned stack
 
 % CRYOCARE options
-CryoCARE_prepare   = 'No';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
-CryoCARE_run       = 'No';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
-CryoCARE_bin       =   1;       %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
+CryoCARE_prepare   = 'Yes';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
+CryoCARE_run       = 'Yes';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
+CryoCARE_bin       =   6;       %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
 
-Epochs             =  20;       % Number of epochs for CryoCARE training
-Steps              = 100;       % Number of steps (per epochs) for CryoCARE training
+Epochs             =  50;       % Number of epochs for CryoCARE training
+Steps              =  75;       % Number of steps (per epochs) for CryoCARE training
 
 
 
@@ -111,6 +109,8 @@ if strcmp(User_trim,'Yes') && strcmp(User_boundary,'Yes')
     
     % Continue batchruntomo from step 4 up to step 12
     system(['batchruntomo -di ', template_filepath, ' -ro ', stack_name, ' -current ', output_dirpath, '/', imod_folder, ' -deliver ', output_dirpath, '/', imod_folder, ' -gpu 1 -start 4 -end 12']);
+    command_file = [output_dirpath, '/', imod_folder, '/', stack_name, '/tilt.com']; % THESE TWO LINES WERE IN ELSEIF BELOW BUT NOT HERE SO I ADDED THEM BECAUSE PROB SHOULD BE HERE? REMEMBER TO CHANGE THIS TO BE RELATIVE TO SIZE IN Y AND TAKING BINNING INTO ACCOUNT??
+    system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS 3000" ',command_file]);   % THIS DOESN'T TAKE BINNING INTO ACCOUNT I BELIEVE
     
     % Run sample alignment
     system(['cd ', output_dirpath, '/', imod_folder, '/', stack_name, '/ && submfg sample.com']);
@@ -131,7 +131,6 @@ if strcmp(User_trim,'Yes') && strcmp(User_boundary,'Yes')
     Xaxistilt = str2double(strtrim(XaxisA)) + str2double(strtrim(XaxisB));
     
     % Update tilt.com with new parameters
-    command_file = [output_dirpath, '/', imod_folder, '/', stack_name, '/tilt.com'];
     system(['grep -q "THICKNESS" ',command_file, ' && sed -i "/THICKNESS/c\THICKNESS ',strtrim(Thickness), '" ',command_file, ' || sed -i "/SCALE/a\THICKNESS ', strtrim(Thickness), '" ',command_file]);
     system(['grep -q "XAXISTILT" ',command_file, ' && sed -i "/AXISTILT/c\XAXISTILT ',num2str(Xaxistilt), '" ', command_file, ' || sed -i "/SCALE/a\XAXISTILT ', num2str(Xaxistilt), '" ', command_file]);
     system(['grep -q "OFFSET" ',command_file, ' && sed -i "/OFFSET/c\OFFSET ',strtrim(Offset), '" ',command_file, ' || sed -i "/SCALE/a\OFFSET ',strtrim(Offset), '" ',command_file]);
@@ -146,14 +145,14 @@ if strcmp(User_trim,'Yes') && strcmp(User_boundary,'Yes')
 elseif strcmp(User_trim,'Yes')
     system(['batchruntomo -di ',template_filepath,' -ro ',stack_name,' -current ',output_dirpath,'/',imod_folder,' -deliver ' ,output_dirpath,'/',imod_folder,' -gpu 1 -end 12'])
     command_file = [output_dirpath, '/', imod_folder, '/', stack_name, '/tilt.com']; % REMEMBER TO CHANGE THIS TO BE RELATIVE TO SIZE IN Y AND TAKING BINNING INTO ACCOUNT??
-    system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS 3000" ',command_file]);
+    system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS 3000" ',command_file]);   % THIS DOESN'T TAKE BINNING INTO ACCOUNT I BELIEVE
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && submfg sample.com']);
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && 3dmod top_rec.mrc mid_rec.mrc bot_rec.mrc tomopitch.mod']);
     input('Press Enter when you are done with 3dmod...');
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && submfg tomopitch.com']);
     [status, XaxisA] = system(['grep -m 1 "XAXISTILT" ',output_dirpath,'/',imod_folder,'/',stack_name,'/sample.log | sed ''s/.*XAXISTILT = //''']);
     [status, XaxisB] = system(['sed -n ''/Pitch between samples/ s/.*X-axis tilt of *\([-0-9.]*\)/\1/p'' ',output_dirpath,'/',imod_folder,'/',stack_name,'/tomopitch.log']);
-    [status, Thickness] = system(['grep -o "thickness of .* set to *[0-9]*" ',output_dirpath,'/',imod_folder,'/',stack_name,'/tomopitch.log | tail -1 | awk ''{print $NF}''']);
+    [status, Thickness]      = system(['grep -o "thickness of .* set to *[0-9]*" ',output_dirpath,'/',imod_folder,'/',stack_name,'/tomopitch.log | tail -1 | awk ''{print $NF}''']);
     [status, Zshift] = system(['sed -n ''/Z shift of/ s/.*Z shift of *\([-0-9.]*\);.*/\1/p'' ',output_dirpath,'/',imod_folder,'/',stack_name,'/tomopitch.log | tail -n 1']);
     [status, Offset] = system(['grep "to make level, add" ',output_dirpath,'/',imod_folder,'/',stack_name,'/tomopitch.log | tail -n 1 | sed ''s/.*add  *\(-*[0-9.]*\).*/\1/''']);
     Xaxistilt = str2double(strtrim(XaxisA))+str2double(strtrim(XaxisB));
@@ -163,7 +162,7 @@ elseif strcmp(User_trim,'Yes')
     system(['grep -q "SHIFT" ', command_file,' && sed -i "/SHIFT/c\SHIFT ',strtrim(Zshift),'" ',  command_file,' || sed -i "/SCALE/a\SHIFT ',strtrim(Zshift),'" ', command_file]);
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && submfg tilt.com']);
     system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1 -start 15']);
-    system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && clip rotx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
+
 elseif strcmp(User_boundary,'Yes')
     system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1 -end 3'])
     system(['3dmod ',output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'_preali.mrc ',output_dirpath,'/',imod_folder,'/',stack_name,'/stack_AF_ptbound.mod']); % Try if this can be done on Stack_AF.mrc instead of _preali
@@ -171,6 +170,7 @@ elseif strcmp(User_boundary,'Yes')
     string_to_replace = strcat(output_dirpath, '/', imod_folder, '/', stack_name, '/stack_AF_ptbound.mod');
     system(sprintf('sed -i ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1%s#'' "%s"', string_to_replace, template_filepath));
     system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1 -start 4'])
+    
 else
     system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1'])
 end
@@ -228,6 +228,7 @@ if strcmp(CryoCARE_prepare,'Yes')
     system(['sed -i "s|\"train_data\": \".*\"|\"train_data\": \"',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_config.json']);
     system(['sed -i "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_config.json']);
     system(['sed -i "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/model_name.tar.gz\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
+    system(['sed -i "s|\"output\": \".*\"|\"output\": \"',        output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/denoised.rec\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
     system(sprintf('sed -i "s/\\\"epochs\\\": [0-9]*/\\\"epochs\\\": %d/" %s/CryoCAREful/Bin_%d/train_config.json && sed -i "s/\\\"steps_per_epoch\\\": [0-9]*/\\\"steps_per_epoch\\\": %d/" %s/CryoCAREful/Bin_%d/train_config.json', Epochs, output_dirpath, CryoCARE_bin, Steps, output_dirpath, CryoCARE_bin));
   
     if CryoCARE_bin == 1
@@ -235,7 +236,7 @@ if strcmp(CryoCARE_prepare,'Yes')
         system(['sed -i ''/\"odd\": \[/,/],/c\\"odd\": ["',       output_dirpath,'/odd/', stack_name,'_rec.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
         system(['sed -i "s|\"even\": \".*\"|\"even\": \"',        output_dirpath,'/even/',stack_name,'_rec.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
         system(['sed -i "s|\"odd\": \".*\"|\"odd\": \"',          output_dirpath,'/odd/', stack_name,'_rec.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
-   end 
+    end 
     if isnumeric(CryoCARE_bin) && mod(CryoCARE_bin, 1) == 0 && CryoCARE_bin > 1
         'Creating Even Binned stack for CryoCARE'
         disp(datetime('now', 'Format', 'HH:mm:ss'))

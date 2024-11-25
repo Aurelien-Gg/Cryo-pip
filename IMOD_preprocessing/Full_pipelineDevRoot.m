@@ -18,7 +18,7 @@ imod_folder        = 'imod_4_2';     % Choose directory name that will be create
 Exclude_Frames     = 'Yes';      % 'Yes' If you want to be prompted to select Frames to exclude from processing
 Overwrite_exclude  = 'No';       % 'Yes' If you want to overwrite existing Frames selection that are in Exclude_views.txt (For example if you have already previously selected the Frames to reject and don't want to redo)
 User_boundary      = 'Yes';      % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
-User_trim          = 'Yes';       % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
+User_trim          = 'Yes';      % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
 
 IMOD_bin_coarse    =  4;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (pre_ali) 
 IMOD_bin_aligned   =  2;         %  1 for no binning. Binning amount to be performed when running IMOD aligned stack
@@ -26,8 +26,10 @@ IMOD_bin_aligned   =  2;         %  1 for no binning. Binning amount to be perfo
 % CRYOCARE options
 CryoCARE_prepare   = 'No';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
 CryoCARE_run       = 'No';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
-CryoCARE_bin       =  1;         %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)              
-        
+CryoCARE_bin       =   1;       %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
+
+Epochs             =  20;       % Number of epochs for CryoCARE training
+Steps              = 100;       % Number of steps (per epochs) for CryoCARE training
 
 
 
@@ -226,7 +228,8 @@ if strcmp(CryoCARE_prepare,'Yes')
     system(['sed -i "s|\"train_data\": \".*\"|\"train_data\": \"',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_config.json']);
     system(['sed -i "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_config.json']);
     system(['sed -i "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/model_name.tar.gz\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
-    system(['sed -i "s|\"output\": \".*\"|\"output\": \"',        output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/denoised.rec\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
+    system(sprintf('sed -i "s/\\\"epochs\\\": [0-9]*/\\\"epochs\\\": %d/" %s/CryoCAREful/Bin_%d/train_config.json && sed -i "s/\\\"steps_per_epoch\\\": [0-9]*/\\\"steps_per_epoch\\\": %d/" %s/CryoCAREful/Bin_%d/train_config.json', Epochs, output_dirpath, CryoCARE_bin, Steps, output_dirpath, CryoCARE_bin));
+  
     if CryoCARE_bin == 1
         system(['sed -i ''/\"even\": \[/,/],/c\\"even\": ["',     output_dirpath,'/even/',stack_name,'_rec.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
         system(['sed -i ''/\"odd\": \[/,/],/c\\"odd\": ["',       output_dirpath,'/odd/', stack_name,'_rec.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);

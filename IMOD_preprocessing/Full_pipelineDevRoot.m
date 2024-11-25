@@ -143,6 +143,8 @@ if strcmp(User_trim,'Yes') && strcmp(User_boundary,'Yes')
 
 elseif strcmp(User_trim,'Yes')
     system(['batchruntomo -di ',template_filepath,' -ro ',stack_name,' -current ',output_dirpath,'/',imod_folder,' -deliver ' ,output_dirpath,'/',imod_folder,' -gpu 1 -end 12'])
+    command_file = [output_dirpath, '/', imod_folder, '/', stack_name, '/tilt.com']; % REMEMBER TO CHANGE THIS TO BE RELATIVE TO SIZE IN Y AND TAKING BINNING INTO ACCOUNT??
+    system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS 3000" ',command_file]);
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && submfg sample.com']);
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && 3dmod top_rec.mrc mid_rec.mrc bot_rec.mrc tomopitch.mod']);
     input('Press Enter when you are done with 3dmod...');
@@ -153,7 +155,6 @@ elseif strcmp(User_trim,'Yes')
     [status, Zshift] = system(['sed -n ''/Z shift of/ s/.*Z shift of *\([-0-9.]*\);.*/\1/p'' ',output_dirpath,'/',imod_folder,'/',stack_name,'/tomopitch.log | tail -n 1']);
     [status, Offset] = system(['grep "to make level, add" ',output_dirpath,'/',imod_folder,'/',stack_name,'/tomopitch.log | tail -n 1 | sed ''s/.*add  *\(-*[0-9.]*\).*/\1/''']);
     Xaxistilt = str2double(strtrim(XaxisA))+str2double(strtrim(XaxisB));
-    command_file = [output_dirpath, '/', imod_folder, '/', stack_name, '/tilt.com'];
     system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS ',strtrim(Thickness),'" ',command_file,' || sed -i "/SCALE/a\THICKNESS ',strtrim(Thickness),'" ',command_file]);
     system(['grep -q "XAXISTILT" ',command_file,' && sed -i "/AXISTILT/c\XAXISTILT ',num2str(Xaxistilt),'" ', command_file,' || sed -i "/SCALE/a\XAXISTILT ',num2str(Xaxistilt),'" ', command_file]);
     system(['grep -q "OFFSET" ',command_file,' && sed -i "/OFFSET/c\OFFSET ',strtrim(Offset),'" ',command_file,' || sed -i "/SCALE/a\OFFSET ',strtrim(Offset),'" ',command_file]);

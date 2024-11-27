@@ -31,7 +31,7 @@ cryoCARE_train.py --conf train_config.json
 cryoCARE_predict.py --conf predict_config.json
 ```
 
-Your denoised tomogram will be in **'/denoise.rec/faimg-even_rec.mrc'**
+Your denoised tomogram will be in **'/denoise.rec/stack_AF.....mrc'**
 
 
 ## Full Manual

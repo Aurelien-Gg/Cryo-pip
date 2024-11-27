@@ -6,8 +6,6 @@ Table of contents:
 
 ## Quick Guide
 
-Running CryoCARE through Matlab turns out to be very slow so we will simply run the commands manually through the terminal.
-
 If **Full_pipeline.m** was run with no issues, then open a terminal window in **/<output_dirpath>/<imod_folder>/<stack_name>/CryoCAREful/**
 
 - Find out where your CryoCARE commands are installed by typing:

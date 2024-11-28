@@ -6,25 +6,25 @@
 
 frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/RawAll';      % FULL PATH of Frames + Metadata file folder:
 gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien';             % FULLPATH to specific gain file or folder (if folder, will use first *.dm4 it finds). Usually same as 'frame_dirpath':                    
-output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/Test_full';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
+output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/cryoCARE/Boston_Paula/OldTestAurelien/TestP';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
 
 % Choose output names
 stack_name         = 'stack_AF';             % Choose rootname for .mrc stack output
-imod_folder        = 'imod_1_1_6_50_75';     % Choose directory name that will be created to output results of Alignframes
+imod_folder        = 'imod_2_2_1_50_75';     % Choose directory name that will be created to output results of Alignframes
 
 % IMOD Pre-Processing options
 Exclude_Frames     = 'Yes';      % 'Yes' If you want to be prompted to select Frames to exclude from processing
-Overwrite_exclude  = 'No';       % 'Yes' If you want to overwrite existing Frames selection that are in Exclude_views.txt (For example if you have already previously selected the Frames to reject and don't want to redo)
+Overwrite_exclude  = 'No';       % 'Yes' 4If you want to overwrite existing Frames selection that are in Exclude_views.txt (For example if you have already previously selected the Frames to reject and don't want to redo)
 User_boundary      = 'Yes';      % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
 User_trim          = 'Yes';      % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
 
-IMOD_bin_coarse    =  1;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (pre_ali) 
-IMOD_bin_aligned   =  1;         %  1 for no binning. Binning amount to be performed when running IMOD aligned stack
+IMOD_bin_coarse    =  2;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (pre_ali) 
+IMOD_bin_aligned   =  2;         %  1 for no binning. Binning amount to be performed when running IMOD aligned stack
 
 % CRYOCARE options
 CryoCARE_prepare   = 'Yes';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
 CryoCARE_run       = 'Yes';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
-CryoCARE_bin       =   6;       %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
+CryoCARE_bin       =   1;       %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
 
 Epochs             =  50;       % Number of epochs for CryoCARE training
 Steps              =  75;       % Number of steps (per epochs) for CryoCARE training

@@ -6,7 +6,7 @@
 
 frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RawAll';     % FULL PATH of Frames + Metadata file folder:
 gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RawAll';     % FULLPATH to specific gain file or folder (if folder, will use first *.dm4 it finds). Usually same as 'frame_dirpath':                    
-output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/FullCorrthicktest4';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
+output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/Prese';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
 
 % Choose output names
 stack_name         = 'stack_AF';             % Choose rootname for .mrc stack output
@@ -18,7 +18,7 @@ Overwrite_exclude  = 'No';       % 'Yes' 4If you want to overwrite existing Fram
 User_boundary      = 'Yes';      % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
 User_trim          = 'Yes';      % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
 
-IMOD_bin_coarse    =  4;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (Binning is performed in X and Y)
+IMOD_bin_coarse    =  2;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (Binning is performed in X and Y)
 IMOD_bin_aligned   =  4;         %  1 for no binning. Binning amount to be performed when running IMOD reconstruction  (Binning is performed isotropically)
 
 % CRYOCARE options
@@ -54,10 +54,11 @@ fclose(fileID);
 disp('TimeCapsule.txt created.');
 
 % Template file modifications
-system(sprintf('sed -i '''' ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1#'' "%s"', template_filepath));
-system(sprintf('sed -i '''' ''s/^comparam\\.xcorr_pt\\.tiltxcorr\\.SizeOfPatchesXandY=.*/comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=%d,%d/'' "%s"', round(500./IMOD_bin_coarse), round(500./IMOD_bin_coarse), template_filepath));
-system(['sed -i '''' ''s/^comparam\.prenewst\.newstack\.BinByFactor=.*/comparam.prenewst.newstack.BinByFactor=' num2str(IMOD_bin_coarse) '/'' ' template_filepath]);
-system(['sed -i '''' ''s/^runtime\.AlignedStack\.any\.binByFactor=.*/runtime.AlignedStack.any.binByFactor=' num2str(IMOD_bin_aligned) '/'' ' template_filepath]);
+system(sprintf('sed -i ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1#'' "%s"', template_filepath));
+system(sprintf('sed -i ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1#'' "%s"', template_filepath));
+system(sprintf('sed -i ''s/^comparam\\.xcorr_pt\\.tiltxcorr\\.SizeOfPatchesXandY=.*/comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=%d,%d/'' "%s"', round(500./IMOD_bin_coarse), round(500./IMOD_bin_coarse), template_filepath));
+system(['sed -i ''s/^comparam\.prenewst\.newstack\.BinByFactor=.*/comparam.prenewst.newstack.BinByFactor=' num2str(IMOD_bin_coarse) '/'' ' template_filepath]);
+system(['sed -i ''s/^runtime\.AlignedStack\.any\.binByFactor=.*/runtime.AlignedStack.any.binByFactor=' num2str(IMOD_bin_aligned) '/'' ' template_filepath]);
 
 keep_list = 1;
 if strcmp(Exclude_Frames,'Yes')
@@ -122,12 +123,12 @@ if strcmp(User_trim,'Yes') && strcmp(User_boundary,'Yes')
     
     % Update the template file with the boundary model path
     string_to_replace = [output_dirpath, '/', imod_folder, '/', stack_name, '/stack_AF_ptbound.mod'];
-    system(sprintf('sed -i '''' ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1%s#'' "%s"', string_to_replace, template_filepath));
+    system(sprintf('sed -i ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1%s#'' "%s"', string_to_replace, template_filepath));
     
     % Continue batchruntomo from step 4 up to step 12
     system(['batchruntomo -di ', template_filepath, ' -ro ', stack_name, ' -current ', output_dirpath, '/', imod_folder, ' -deliver ', output_dirpath, '/', imod_folder, ' -gpu 1 -start 4 -end 12']);
     command_file = [output_dirpath, '/', imod_folder, '/', stack_name, '/tilt.com']; % THESE TWO LINES WERE IN ELSEIF BELOW BUT NOT HERE SO I ADDED THEM BECAUSE PROB SHOULD BE HERE? REMEMBER TO CHANGE THIS TO BE RELATIVE TO SIZE IN Y AND TAKING BINNING INTO ACCOUNT??
-    system(['grep -q "THICKNESS" ',command_file,' && sed -i '''' "/THICKNESS/c\THICKNESS 3000" ',command_file]);   % THIS DOESN'T TAKE BINNING INTO ACCOUNT I BELIEVE
+    system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS 3000" ',command_file]);   % THIS DOESN'T TAKE BINNING INTO ACCOUNT I BELIEVE
     
     % Run sample alignment
     system(['cd ', output_dirpath, '/', imod_folder, '/', stack_name, '/ && submfg sample.com']);
@@ -148,10 +149,10 @@ if strcmp(User_trim,'Yes') && strcmp(User_boundary,'Yes')
     Xaxistilt = str2double(strtrim(XaxisA)) + str2double(strtrim(XaxisB));
     
     % Update tilt.com with new parameters
-    system(['grep -q "THICKNESS" ',command_file, ' && sed -i '''' "/THICKNESS/c\THICKNESS ',strtrim(Thickness), '" ',command_file, ' || sed -i '''' "/SCALE/a\THICKNESS ', strtrim(Thickness), '" ',command_file]);
-    system(['grep -q "XAXISTILT" ',command_file, ' && sed -i '''' "/AXISTILT/c\XAXISTILT ',num2str(Xaxistilt), '" ', command_file, ' || sed -i '''' "/SCALE/a\XAXISTILT ', num2str(Xaxistilt), '" ', command_file]);
-    system(['grep -q "OFFSET" ',command_file, ' && sed -i '''' "/OFFSET/c\OFFSET ',strtrim(Offset), '" ',command_file, ' || sed -i '''' "/SCALE/a\OFFSET ',strtrim(Offset), '" ',command_file]);
-    system(['grep -q "SHIFT" ', command_file, ' && sed -i '''' "/SHIFT/c\SHIFT ',  strtrim(Zshift), '" ',command_file, ' || sed -i '''' "/SCALE/a\SHIFT ', strtrim(Zshift), '" ',command_file]);
+    system(['grep -q "THICKNESS" ',command_file, ' && sed -i "/THICKNESS/c\THICKNESS ',strtrim(Thickness), '" ',command_file, ' || sed -i "/SCALE/a\THICKNESS ', strtrim(Thickness), '" ',command_file]);
+    system(['grep -q "XAXISTILT" ',command_file, ' && sed -i "/AXISTILT/c\XAXISTILT ',num2str(Xaxistilt), '" ', command_file, ' || sed -i "/SCALE/a\XAXISTILT ', num2str(Xaxistilt), '" ', command_file]);
+    system(['grep -q "OFFSET" ',command_file, ' && sed -i "/OFFSET/c\OFFSET ',strtrim(Offset), '" ',command_file, ' || sed -i "/SCALE/a\OFFSET ',strtrim(Offset), '" ',command_file]);
+    system(['grep -q "SHIFT" ', command_file, ' && sed -i "/SHIFT/c\SHIFT ',  strtrim(Zshift), '" ',command_file, ' || sed -i "/SCALE/a\SHIFT ', strtrim(Zshift), '" ',command_file]);
     
     % Run tilt reconstruction
     system(['cd ', output_dirpath, '/', imod_folder, '/', stack_name, '/ && submfg tilt.com']);
@@ -164,7 +165,7 @@ elseif strcmp(User_trim,'Yes')
     % Run batchruntomo up to step 12 for tilt alignment definition
     system(['batchruntomo -di ',template_filepath,' -ro ',stack_name,' -current ',output_dirpath,'/',imod_folder,' -deliver ' ,output_dirpath,'/',imod_folder,' -gpu 1 -end 12'])
     command_file = [output_dirpath, '/', imod_folder, '/', stack_name, '/tilt.com']; % REMEMBER TO CHANGE THIS TO BE RELATIVE TO SIZE IN Y AND TAKING BINNING INTO ACCOUNT??
-    system(['grep -q "THICKNESS" ',command_file,' && sed -i '''' "/THICKNESS/c\THICKNESS 3000" ',command_file]);   % THIS DOESN'T TAKE BINNING INTO ACCOUNT I BELIEVE
+    system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS 3000" ',command_file]);   % THIS DOESN'T TAKE BINNING INTO ACCOUNT I BELIEVE
 
     % Run sample alignment
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && submfg sample.com']);
@@ -185,10 +186,10 @@ elseif strcmp(User_trim,'Yes')
     Xaxistilt = str2double(strtrim(XaxisA))+str2double(strtrim(XaxisB));
 
     % Update tilt.com with new parameters
-    system(['grep -q "THICKNESS" ',command_file,' && sed -i '''' "/THICKNESS/c\THICKNESS ',strtrim(Thickness),'" ',command_file,' || sed -i '''' "/SCALE/a\THICKNESS ',strtrim(Thickness),'" ',command_file]);
-    system(['grep -q "XAXISTILT" ',command_file,' && sed -i '''' "/AXISTILT/c\XAXISTILT ',num2str(Xaxistilt),'" ', command_file,' || sed -i '''' "/SCALE/a\XAXISTILT ',num2str(Xaxistilt),'" ', command_file]);
-    system(['grep -q "OFFSET" ',command_file,' && sed -i '''' "/OFFSET/c\OFFSET ',strtrim(Offset),'" ',command_file,' || sed -i '''' "/SCALE/a\OFFSET ',strtrim(Offset),'" ',command_file]);
-    system(['grep -q "SHIFT" ', command_file,' && sed -i '''' "/SHIFT/c\SHIFT ',strtrim(Zshift),'" ',  command_file,' || sed -i '''' "/SCALE/a\SHIFT ',strtrim(Zshift),'" ', command_file]);
+    system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS ',strtrim(Thickness),'" ',command_file,' || sed -i "/SCALE/a\THICKNESS ',strtrim(Thickness),'" ',command_file]);
+    system(['grep -q "XAXISTILT" ',command_file,' && sed -i "/AXISTILT/c\XAXISTILT ',num2str(Xaxistilt),'" ', command_file,' || sed -i "/SCALE/a\XAXISTILT ',num2str(Xaxistilt),'" ', command_file]);
+    system(['grep -q "OFFSET" ',command_file,' && sed -i "/OFFSET/c\OFFSET ',strtrim(Offset),'" ',command_file,' || sed -i "/SCALE/a\OFFSET ',strtrim(Offset),'" ',command_file]);
+    system(['grep -q "SHIFT" ', command_file,' && sed -i "/SHIFT/c\SHIFT ',strtrim(Zshift),'" ',  command_file,' || sed -i "/SCALE/a\SHIFT ',strtrim(Zshift),'" ', command_file]);
 
     % Run tilt reconstruction
     system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && submfg tilt.com']);
@@ -207,7 +208,7 @@ elseif strcmp(User_boundary,'Yes')
 
     % Update the template file with the boundary model path
     string_to_replace = strcat(output_dirpath, '/', imod_folder, '/', stack_name, '/stack_AF_ptbound.mod');
-    system(sprintf('sed -i '''' ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1%s#'' "%s"', string_to_replace, template_filepath));
+    system(sprintf('sed -i ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1%s#'' "%s"', string_to_replace, template_filepath));
 
     % Continue batchruntomo from step 4 onwards
     system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1 -start 4'])
@@ -269,18 +270,18 @@ if strcmp(CryoCARE_prepare,'Yes')
     copyfile([cryo_path,'/train_data_config.json'],[output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/'])
     copyfile([cryo_path,'/train_config.json'],     [output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/'])
     copyfile([cryo_path,'/predict_config.json'],   [output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/'])
-    system(['sed -i '''' "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
-    system(['sed -i '''' "s|\"train_data\": \".*\"|\"train_data\": \"',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_config.json']);
-    system(['sed -i '''' "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_config.json']);
-    system(['sed -i '''' "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/model_name.tar.gz\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
-    system(['sed -i '''' "s|\"output\": \".*\"|\"output\": \"',        output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/denoised.rec\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
-    system(sprintf('sed -i '''' "s/\\\"epochs\\\": [0-9]*/\\\"epochs\\\": %d/" %s/CryoCAREful/Bin_%d/train_config.json && sed -i '''' "s/\\\"steps_per_epoch\\\": [0-9]*/\\\"steps_per_epoch\\\": %d/" %s/CryoCAREful/Bin_%d/train_config.json', Epochs, output_dirpath, CryoCARE_bin, Steps, output_dirpath, CryoCARE_bin));
+    system(['sed -i "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
+    system(['sed -i "s|\"train_data\": \".*\"|\"train_data\": \"',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_config.json']);
+    system(['sed -i "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_config.json']);
+    system(['sed -i "s|\"path\": \".*\"|\"path\": \"',            output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/model_name.tar.gz\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
+    system(['sed -i "s|\"output\": \".*\"|\"output\": \"',        output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/denoised.rec\"|" ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
+    system(sprintf('sed -i "s/\\\"epochs\\\": [0-9]*/\\\"epochs\\\": %d/" %s/CryoCAREful/Bin_%d/train_config.json && sed -i "s/\\\"steps_per_epoch\\\": [0-9]*/\\\"steps_per_epoch\\\": %d/" %s/CryoCAREful/Bin_%d/train_config.json', Epochs, output_dirpath, CryoCARE_bin, Steps, output_dirpath, CryoCARE_bin));
   
     if CryoCARE_bin == 1
-        system(['sed -i '''' ''/\"even\": \[/,/],/c\\"even\": ["',     output_dirpath,'/even/',stack_name,'_rec.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
-        system(['sed -i '''' ''/\"odd\": \[/,/],/c\\"odd\": ["',       output_dirpath,'/odd/', stack_name,'_rec.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
-        system(['sed -i '''' "s|\"even\": \".*\"|\"even\": \"',        output_dirpath,'/even/',stack_name,'_rec.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
-        system(['sed -i '''' "s|\"odd\": \".*\"|\"odd\": \"',          output_dirpath,'/odd/', stack_name,'_rec.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
+        system(['sed -i ''/\"even\": \[/,/],/c\\"even\": ["',     output_dirpath,'/even/',stack_name,'_rec.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
+        system(['sed -i ''/\"odd\": \[/,/],/c\\"odd\": ["',       output_dirpath,'/odd/', stack_name,'_rec.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
+        system(['sed -i "s|\"even\": \".*\"|\"even\": \"',        output_dirpath,'/even/',stack_name,'_rec.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
+        system(['sed -i "s|\"odd\": \".*\"|\"odd\": \"',          output_dirpath,'/odd/', stack_name,'_rec.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
     end 
 
     if isnumeric(CryoCARE_bin) && mod(CryoCARE_bin, 1) == 0 && CryoCARE_bin > 1
@@ -291,10 +292,10 @@ if strcmp(CryoCARE_prepare,'Yes')
         disp(datetime('now', 'Format', 'HH:mm:ss'))  
         'Creating Odd Binned stack for CryoCARE'  
         system(['binvol -QuietOutput -binning ',num2str(CryoCARE_bin),' ',output_dirpath,'/odd/', stack_name,'_rec.mrc ',output_dirpath,'/odd/', stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc']);    
-        system(['sed -i '''' ''/\"even\": \[/,/],/c\\"even\": ["',     output_dirpath,'/even/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
-        system(['sed -i '''' ''/\"odd\": \[/,/],/c\\"odd\": ["',       output_dirpath,'/odd/', stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
-        system(['sed -i '''' "s|\"even\": \".*\"|\"even\": \"',        output_dirpath,'/even/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
-        system(['sed -i '''' "s|\"odd\": \".*\"|\"odd\": \"',          output_dirpath,'/odd/', stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
+        system(['sed -i ''/\"even\": \[/,/],/c\\"even\": ["',     output_dirpath,'/even/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
+        system(['sed -i ''/\"odd\": \[/,/],/c\\"odd\": ["',       output_dirpath,'/odd/', stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
+        system(['sed -i "s|\"even\": \".*\"|\"even\": \"',        output_dirpath,'/even/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
+        system(['sed -i "s|\"odd\": \".*\"|\"odd\": \"',          output_dirpath,'/odd/', stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
     end
     % Run CryoCARE
     if strcmp(CryoCARE_run,'Yes')
@@ -308,7 +309,7 @@ end
 % Plot CTF defocus found in CTFcorrection.log
 [status, defocus_str] = system(['grep "defocus\[" ', output_dirpath, '/', imod_folder, '/', stack_name, '/ctfcorrection.log | sed -E ''s/.*= ([0-9\.]+) microns/\1/''']);
 defocus_values = str2double(strsplit(defocus_str));
-titleCTF = strsplit(frame_dirpath,"/");
+titleCTF = strsplit(output_dirpath,"/");
 fighandnm = figure; plot(defocus_values), xlabel('Slice Number'), ylabel('Defocus (microns)'), ylim([min(defocus_values)-0.1,max(defocus_values)+0.1]), title(['Defocus values across slices for ',[titleCTF{end-3},'/',titleCTF{end-2},'/',titleCTF{end-1}]],'Interpreter','none');
 if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots'], 'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots']), end
 exportgraphics(fighandnm, fullfile([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots/defocus_values.png']),"Resolution",70);
@@ -332,7 +333,7 @@ function keep_list = Exclude_views(mrc_file)
     if exist([slice_output,'/Exclude_views.txt']), system(['rm ',slice_output,'/Exclude_views.txt']), end
     if ~exist(slice_output, 'dir'), mkdir(slice_output), end
     
-    system(['3dmod ',mrc_file])
+    % system(['3dmod ',mrc_file])
     system(['mrc2tif -C b,w ',mrc_path,'/',mrcname,mrcext,' ',slice_output,'/slice']) 
     
     files = dir([slice_output,'/*.tif']);

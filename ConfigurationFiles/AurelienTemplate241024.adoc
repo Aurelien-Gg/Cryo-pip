@@ -21,8 +21,8 @@ comparam.prenewst.newstack.AntialiasFilter=-1
 comparam.prenewst.newstack.ModeToOutput=2
 # Patch tracking options:
 runtime.Fiducials.any.trackingMethod=1
-comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=200,200
-comparam.xcorr_pt.tiltxcorr.OverlapOfPatchesXandY=0.33,0.33
+comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=500,500
+comparam.xcorr_pt.tiltxcorr.OverlapOfPatchesXandY=0.5,0.5
 comparam.xcorr_pt.tiltxcorr.FilterRadius2=0.125
 comparam.xcorr_pt.tiltxcorr.FilterSigma2=0.03
 runtime.PatchTracking.any.adjustTiltAngles=1

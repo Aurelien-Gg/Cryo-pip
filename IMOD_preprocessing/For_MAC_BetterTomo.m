@@ -55,7 +55,7 @@ disp('TimeCapsule.txt created.');
 
 % Template file modifications
 system(sprintf('sed -i '''' ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1#'' "%s"', template_filepath));
-% system(sprintf('sed -i '''' ''s/^comparam\\.xcorr_pt\\.tiltxcorr\\.SizeOfPatchesXandY=.*/comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=%d,%d/'' "%s"', round(500./IMOD_bin_coarse), round(500./IMOD_bin_coarse), template_filepath));
+system(sprintf('sed -i '''' ''s/^comparam\\.xcorr_pt\\.tiltxcorr\\.SizeOfPatchesXandY=.*/comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=%d,%d/'' "%s"', round(500./IMOD_bin_coarse), round(500./IMOD_bin_coarse), template_filepath));
 system(['sed -i '''' ''s/^comparam\.prenewst\.newstack\.BinByFactor=.*/comparam.prenewst.newstack.BinByFactor=' num2str(IMOD_bin_coarse) '/'' ' template_filepath]);
 system(['sed -i '''' ''s/^runtime\.AlignedStack\.any\.binByFactor=.*/runtime.AlignedStack.any.binByFactor=' num2str(IMOD_bin_aligned) '/'' ' template_filepath]);
 

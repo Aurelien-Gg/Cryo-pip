@@ -67,6 +67,34 @@ For CryoCARE:
   - Full_pipelineDevRoot.m prepares the three necessary .Json files for CryoCARE and puts them in /output_folder/CryoCAREful/
 
 
+File structures :
+```bash
+└── Cryo-Pip
+    ├── Code
+    │   ├── BetterTomo.m
+    │   └── SortEvenOdd.sh
+    ├── ConfigurationFiles
+    │   └── AurelienTemplate241024.adoc 
+    └── CryoCARE
+        ├── train_data_config.json
+        ├── train_config.json
+        └── predict_config.json
+```
+
+Folder structure for tilt series to be processed:
+
+```bash
+└── /path/to/frames/
+    ├── <Metadata>.mdoc
+    ├── <gain_file>.md4
+    ├── Image_1.tiff
+    ├── Image_2.tiff
+    ├── ...
+    ├── ...
+
+```
+
+
 ## MAC specific
 
 ### MATLAB
@@ -194,6 +222,8 @@ pip install cryoCARE
 ```
 > [!IMPORTANT]
 > You need to type "conda activate cryocare_11" in Terminal window in order to have access to CryoCARE commands
+
+
 
 
 ## Patch notes (Version 2.0)

@@ -6,11 +6,11 @@
 
 frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RawAll';     % FULL PATH of Frames + Metadata file folder:
 gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RawAll';     % FULLPATH to specific gain file or folder (if folder, will use first *.dm4 it finds). Usually same as 'frame_dirpath':                    
-output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RetestCTF2cl';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
+output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/LaTESTpres2';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
 
 % Choose output names
 stack_name         = 'stack_AF';             % Choose rootname for .mrc stack output
-imod_folder        = 'imod_4_1';     % Choose directory name that will be created to output results of Alignframes
+imod_folder        = 'imod_1_1_4';     % Choose directory name that will be created to output results of Alignframes
 
 % IMOD Pre-Processing options
 Exclude_Frames     = 'Yes';      % 'Yes' If you want to be prompted to select Frames to exclude from processing
@@ -18,7 +18,7 @@ Overwrite_exclude  = 'No';       % 'Yes' If you want to overwrite existing Frame
 User_boundary      = 'Yes';      % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
 User_trim          = 'Yes';      % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
 
-IMOD_bin_coarse    =  4;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (Binning is performed in X and Y)
+IMOD_bin_coarse    =  1;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (Binning is performed in X and Y)
 IMOD_bin_aligned   =  1;         %  1 for no binning. Binning amount to be performed when running IMOD reconstruction  (Binning is performed isotropically)
 
 % CRYOCARE options
@@ -26,8 +26,8 @@ CryoCARE_prepare   = 'es';      % 'Yes' If you want to create Even / Odd Tomogra
 CryoCARE_run       = 'es';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
 CryoCARE_bin       =   4;       %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
 
-Epochs             =  20;       % Number of epochs for CryoCARE training
-Steps              =  75;       % Number of steps (per epochs) for CryoCARE training
+Epochs             =  200;       % Number of epochs for CryoCARE training
+Steps              =  100;       % Number of steps (per epochs) for CryoCARE training
 
 
 
@@ -55,7 +55,7 @@ disp('TimeCapsule.txt created.');
 
 % Template file modifications
 system(sprintf('sed -i '''' ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1#'' "%s"', template_filepath));
-system(sprintf('sed -i '''' ''s/^comparam\\.xcorr_pt\\.tiltxcorr\\.SizeOfPatchesXandY=.*/comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=%d,%d/'' "%s"', round(500./IMOD_bin_coarse), round(500./IMOD_bin_coarse), template_filepath));
+% system(sprintf('sed -i '''' ''s/^comparam\\.xcorr_pt\\.tiltxcorr\\.SizeOfPatchesXandY=.*/comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=%d,%d/'' "%s"', round(500./IMOD_bin_coarse), round(500./IMOD_bin_coarse), template_filepath));
 system(['sed -i '''' ''s/^comparam\.prenewst\.newstack\.BinByFactor=.*/comparam.prenewst.newstack.BinByFactor=' num2str(IMOD_bin_coarse) '/'' ' template_filepath]);
 system(['sed -i '''' ''s/^runtime\.AlignedStack\.any\.binByFactor=.*/runtime.AlignedStack.any.binByFactor=' num2str(IMOD_bin_aligned) '/'' ' template_filepath]);
 
@@ -370,8 +370,8 @@ function keep_list = Exclude_views(mrc_file)
         img = imread([files(k).folder, '/', files(k).name]);
         img = imadjust(img);
         imshow(img);
-        xlabel('Left click: Accept.  Right click: Reject.  Middle click: Return to previous. ''s'' to accept and skip 5 images', 'Color', 'red', 'FontSize', 50, 'FontWeight', 'bold');
-        title(['Image ', num2str(k), ' of ', num2str(nFiles), ': ', files(k).name],'FontSize', 50);
+        xlabel('Left click: Accept.  Right click: Reject.  Middle click: Return to previous. ''s'' to accept and skip 5 images', 'Color', 'red', 'FontSize', 30, 'FontWeight', 'bold');
+        title(['Image ', num2str(k), ' of ', num2str(nFiles), ': ', files(k).name],'FontSize', 30);
         [~,~,button] = ginput(1);
         if button == 1              % Left click to keep
             status(k) = 1;

@@ -9,24 +9,24 @@ setupset.copyarg.montage=0
 setupset.copyarg.gold=10.0
 # setupset.copyarg.rotation=-87.01
 # setupset.copyarg.twodir=-1.21
-setupset.copyarg.defocus=200000
+setupset.copyarg.defocus=2000
 setupset.copyarg.voltage=300
 runtime.Preprocessing.any.removeXrays=1
 runtime.Preprocessing.any.archiveOriginal=0
 comparam.eraser.ccderaser.PeakCriterion=8.0
 comparam.eraser.ccderaser.DiffCriterion=6.0
 # Coarse alignment:
-comparam.prenewst.newstack.BinByFactor=2
+comparam.prenewst.newstack.BinByFactor=1
 comparam.prenewst.newstack.AntialiasFilter=-1
 comparam.prenewst.newstack.ModeToOutput=2
 # Patch tracking options:
 runtime.Fiducials.any.trackingMethod=1
-comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=250,250
+comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=500,500
 comparam.xcorr_pt.tiltxcorr.OverlapOfPatchesXandY=0.5,0.5
 comparam.xcorr_pt.tiltxcorr.FilterRadius2=0.125
 comparam.xcorr_pt.tiltxcorr.FilterSigma2=0.03
 runtime.PatchTracking.any.adjustTiltAngles=1
-runtime.PatchTracking.any.prealiBoundaryModel=
+runtime.PatchTracking.any.prealiBoundaryModel=/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/LaTEST/imod_1_1_4/stack_AF/stack_AF_ptbound.mod
 comparam.track.beadtrack.SobelFilterCentering=1
 comparam.track.beadtrack.ScalableSigmaForSobel=0.12
 comparam.align.tiltalign.SurfacesToAnalyze=1
@@ -39,14 +39,14 @@ comparam.align.tiltalign.WeightWholeTracks=1
 # CTF estimation and correction:
 runtime.AlignedStack.any.correctCTF=1
 runtime.AlignedStack.any.linearInterpolation=1
-runtime.AlignedStack.any.binByFactor=4
+runtime.AlignedStack.any.binByFactor=1
 comparam.golderaser.ccderaser.ExpandCircleIterations=3
 runtime.CTFplotting.any.autoFitRangeAndStep=6,0
 comparam.ctfplotter.ctfplotter.FrequencyRangeToFit=0.06,0.17
 comparam.ctfplotter.ctfplotter.VaryExponentInFit=1
 #comparam.ctfplotter.ctfplotter.BaselineFittingOrder=2
 #comparam.ctfplotter.ctfplotter.DefocusTol=50
-comparam.ctfplotter.ctfplotter.ScanDefocusRange=500,1000000
+comparam.ctfplotter.ctfplotter.ScanDefocusRange=500,10000
 comparam.ctfcorrection.ctfphaseflip.UseGPU=1
 # Make final aligned stack:
 comparam.newst.newstack.AntialiasFilter=-1
@@ -54,7 +54,7 @@ comparam.newst.newstack.TaperAtFill=1,1
 # Tomogram reconstruction:
 comparam.tilt.tilt.LOG=
 # comparam.tilt.tilt.FakeSIRTiterations=30
-# comparam.tilt.tilt.THICKNESS=2500
+comparam.tilt.tilt.THICKNESS=2500
 # runtime.Trimvol.any.reorient=2
 # runtime.Cleanup.any.doCleanup=1
 # runtime.Cleanup.any.keepAligned=1

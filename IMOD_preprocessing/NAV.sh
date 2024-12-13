@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ascii_art=(
-"NNNNNNNNN      NNNNNNN        AAAAAAAAA VVVVVVV                VVVVVVV"
-"N::::::::N     N:::::N       A:::::::::A V:::::V  V       V   V:::::V"
-"N:::::::::N    N:::::N      A:::::A:::::A V:::::V   V   V    V:::::V "
-"N::::::::::N   N:::::N     A:::::A A:::::A V:::::V    V     V:::::V"
+"NNNNNNNNN      NNNNNNN        AAAAAAAAA VVVVVVV               VVVVVVV"
+"N::::::::N     N:::::N       A:::::::::A V:::::V  V       V  V:::::V"
+"N:::::::::N    N:::::N      A:::::A:::::A V:::::V   V   V   V:::::V "
+"N::::::::::N   N:::::N     A:::::A A:::::A V:::::V    V    V:::::V"
 "N::::::N::::N  N:::::N    A:::::A   A:::::A V:::::V       V:::::V"
 "N:::::N N::::N N:::::N   A:::::A     A:::::A V:::::V     V:::::V"
 "N:::::N  N::::N::::::N  A:::::AAAAAAAAA:::::A V:::::V   V:::::V"

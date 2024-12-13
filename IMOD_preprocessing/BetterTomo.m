@@ -2,32 +2,32 @@
 
 %% MODIFY THE FOLLOWING TO FIT YOUR CONFIG
 
-% Define Path of your data
+% Define Path of your data  
 
 frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RawAll';     % FULL PATH of Frames + Metadata file folder:
 gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RawAll';     % FULLPATH to specific gain file or folder (if folder, will use first *.dm4 it finds). Usually same as 'frame_dirpath':                    
-output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/Prese';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
+output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/LaTEST';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
 
 % Choose output names
 stack_name         = 'stack_AF';             % Choose rootname for .mrc stack output
-imod_folder        = 'imod_2_1_8_20_75';     % Choose directory name that will be created to output results of Alignframes
+imod_folder        = 'imod_1_1_4';     % Choose directory name that will be created to output results of Alignframes
 
 % IMOD Pre-Processing options
 Exclude_Frames     = 'Yes';      % 'Yes' If you want to be prompted to select Frames to exclude from processing
-Overwrite_exclude  = 'No';       % 'Yes' 4If you want to overwrite existing Frames selection that are in Exclude_views.txt (For example if you have already previously selected the Frames to reject and don't want to redo)
+Overwrite_exclude  = 'No';       % 'Yes' If you want to overwrite existing Frames selection that are in Exclude_views.txt (For example if you have already previously selected the Frames to reject and don't want to redo)
 User_boundary      = 'Yes';      % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
 User_trim          = 'Yes';      % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
 
-IMOD_bin_coarse    =  2;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (Binning is performed in X and Y)
-IMOD_bin_aligned   =  4;         %  1 for no binning. Binning amount to be performed when running IMOD reconstruction  (Binning is performed isotropically)
+IMOD_bin_coarse    =  1;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (Binning is performed in X and Y)
+IMOD_bin_aligned   =  1;         %  1 for no binning. Binning amount to be performed when running IMOD reconstruction  (Binning is performed isotropically)
 
 % CRYOCARE options
-CryoCARE_prepare   = 'es';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
+CryoCARE_prepare   = 'Yes';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
 CryoCARE_run       = 'es';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
 CryoCARE_bin       =   4;       %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
 
-Epochs             =  20;       % Number of epochs for CryoCARE training
-Steps              =  75;       % Number of steps (per epochs) for CryoCARE training
+Epochs             =  200;       % Number of epochs for CryoCARE training
+Steps              =  100;       % Number of steps (per epochs) for CryoCARE training
 
 
 
@@ -54,7 +54,6 @@ fclose(fileID);
 disp('TimeCapsule.txt created.');
 
 % Template file modifications
-system(sprintf('sed -i ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1#'' "%s"', template_filepath));
 system(sprintf('sed -i ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1#'' "%s"', template_filepath));
 system(sprintf('sed -i ''s/^comparam\\.xcorr_pt\\.tiltxcorr\\.SizeOfPatchesXandY=.*/comparam.xcorr_pt.tiltxcorr.SizeOfPatchesXandY=%d,%d/'' "%s"', round(500./IMOD_bin_coarse), round(500./IMOD_bin_coarse), template_filepath));
 system(['sed -i ''s/^comparam\.prenewst\.newstack\.BinByFactor=.*/comparam.prenewst.newstack.BinByFactor=' num2str(IMOD_bin_coarse) '/'' ' template_filepath]);
@@ -84,21 +83,22 @@ if strcmp(CryoCARE_prepare,'Yes')
     system(['cd ',frame_dirpath,' && alignframes -mdoc ',frame_dirpath,'/*mdoc -output ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc -mode 2 -adjust -binning 8,2 -gain ',gain_path,' -debug 10000']);
 
     % Get and set Pixel Spacing and Stack Size from combined for Even/Odd
+    [a, SizeOut] = system(['header -size ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc']);
+    parts2 = strsplit(SizeOut); 
+    SizeOut = (parts2(~cellfun('isempty', strsplit(SizeOut))));
     [~, pix] = system(['header -pixel ',output_dirpath,'/',imod_folder,'/',stack_name,'.mrc']);
     parts = strsplit(pix);
     pix = (parts(~cellfun('isempty', strsplit(pix))));
-    system(['alterheader ',output_dirpath,'/even/',stack_name,'.mrc -PixelSize ',pix{1},',',pix{2},',',pix{3}])
-    system(['alterheader ',output_dirpath,'/odd/', stack_name,'.mrc -PixelSize ',pix{1},',',pix{2},',',pix{3}])
-    [a, SizeOut] = system(['header -size ',output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'.mrc'])
-    parts2 = strsplit(SizeOut); 
-    SizeOut = (parts2(~cellfun('isempty', strsplit(SizeOut))));
 
     % Sort Even and Odd frames into Even and Odd folder
     SortEvenOdd(frame_dirpath,output_dirpath)
     'Creating Even stack'
-    system(['newstack -QuietOutput -ModeToOutput 2 -SizeToOutputInXandY ',SizeOut{1},',',SizeOut{2},',',SizeOut{3},' $(ls ',output_dirpath,'/even/faimg-*.mrc | sort -V) ',output_dirpath,'/even/',stack_name,'Size.mrc']);
+    system(['newstack -QuietOutput -ModeToOutput 2 -SizeToOutputInXandY ',SizeOut{1},',',SizeOut{2},',',SizeOut{3},' $(ls ',output_dirpath,'/even/faimg-*.mrc | sort -V) ',output_dirpath,'/even/',stack_name,'.mrc']);
     'Creating Odd stack'
     system(['newstack -QuietOutput -ModeToOutput 2 -SizeToOutputInXandY ',SizeOut{1},',',SizeOut{2},',',SizeOut{3},' $(ls ',output_dirpath,'/odd/faimg-*.mrc | sort -V) ', output_dirpath,'/odd/', stack_name,'.mrc']);
+
+    system(['alterheader ',output_dirpath,'/even/',stack_name,'.mrc -PixelSize ',pix{1},',',pix{2},',',pix{3}])
+    system(['alterheader ',output_dirpath,'/odd/', stack_name,'.mrc -PixelSize ',pix{1},',',pix{2},',',pix{3}])
 
     % Remove Excluded Views
     if ~all(keep_list == 1)
@@ -118,18 +118,18 @@ if strcmp(User_trim,'Yes') && strcmp(User_boundary,'Yes')
     system(['batchruntomo -di ', template_filepath, ' -ro ', stack_name, ' -current ', output_dirpath, '/', imod_folder, ' -deliver ', output_dirpath, '/', imod_folder, ' -gpu 1 -end 3']);
     
     % Open 3dmod for boundary model creation
-    system(['3dmod ', output_dirpath, '/', imod_folder, '/', stack_name, '/', stack_name, '_preali.mrc ', output_dirpath, '/', imod_folder, '/', stack_name, '/stack_AF_ptbound.mod']);
+    system(['3dmod ', output_dirpath, '/', imod_folder, '/', stack_name, '/', stack_name, '_preali.mrc ', output_dirpath, '/', imod_folder, '/', stack_name, '/', stack_name, '_ptbound.mod']);
     input('Press Enter when you are done with 3dmod...');
     
     % Update the template file with the boundary model path
-    string_to_replace = [output_dirpath, '/', imod_folder, '/', stack_name, '/stack_AF_ptbound.mod'];
+    string_to_replace = [output_dirpath, '/', imod_folder, '/', stack_name, '/', stack_name, '_ptbound.mod'];
     system(sprintf('sed -i ''s#^\\(runtime\\.PatchTracking\\.any\\.prealiBoundaryModel=\\).*#\\1%s#'' "%s"', string_to_replace, template_filepath));
     
     % Continue batchruntomo from step 4 up to step 12
     system(['batchruntomo -di ', template_filepath, ' -ro ', stack_name, ' -current ', output_dirpath, '/', imod_folder, ' -deliver ', output_dirpath, '/', imod_folder, ' -gpu 1 -start 4 -end 12']);
     command_file = [output_dirpath, '/', imod_folder, '/', stack_name, '/tilt.com']; % THESE TWO LINES WERE IN ELSEIF BELOW BUT NOT HERE SO I ADDED THEM BECAUSE PROB SHOULD BE HERE? REMEMBER TO CHANGE THIS TO BE RELATIVE TO SIZE IN Y AND TAKING BINNING INTO ACCOUNT??
     system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS 3000" ',command_file]);   % THIS DOESN'T TAKE BINNING INTO ACCOUNT I BELIEVE
-    
+
     % Run sample alignment
     system(['cd ', output_dirpath, '/', imod_folder, '/', stack_name, '/ && submfg sample.com']);
     
@@ -149,14 +149,15 @@ if strcmp(User_trim,'Yes') && strcmp(User_boundary,'Yes')
     Xaxistilt = str2double(strtrim(XaxisA)) + str2double(strtrim(XaxisB));
     
     % Update tilt.com with new parameters
+    system(['grep -q "OutputFile" ',command_file,' && sed -i "/OutputFile/c\OutputFile ',stack_name,'_full_rec.mrc" ',command_file,' || sed -i "/SCALE/a\OutputFile ',stack_name,'_full_rec.mrc" ',command_file]);
     system(['grep -q "THICKNESS" ',command_file, ' && sed -i "/THICKNESS/c\THICKNESS ',strtrim(Thickness), '" ',command_file, ' || sed -i "/SCALE/a\THICKNESS ', strtrim(Thickness), '" ',command_file]);
     system(['grep -q "XAXISTILT" ',command_file, ' && sed -i "/AXISTILT/c\XAXISTILT ',num2str(Xaxistilt), '" ', command_file, ' || sed -i "/SCALE/a\XAXISTILT ', num2str(Xaxistilt), '" ', command_file]);
     system(['grep -q "OFFSET" ',command_file, ' && sed -i "/OFFSET/c\OFFSET ',strtrim(Offset), '" ',command_file, ' || sed -i "/SCALE/a\OFFSET ',strtrim(Offset), '" ',command_file]);
     system(['grep -q "SHIFT" ', command_file, ' && sed -i "/SHIFT/c\SHIFT ',  strtrim(Zshift), '" ',command_file, ' || sed -i "/SCALE/a\SHIFT ', strtrim(Zshift), '" ',command_file]);
     
     % Run tilt reconstruction
-    system(['cd ', output_dirpath, '/', imod_folder, '/', stack_name, '/ && submfg tilt.com']);
-    
+    system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && submfg tilt.com']);
+
     % Continue batchruntomo from step 15 onwards
     system(['batchruntomo -di ', template_filepath, ' -ro ', stack_name, ' -current ', output_dirpath, '/', imod_folder, ' -deliver ', output_dirpath, '/', imod_folder, ' -gpu 1 -start 15']);
 
@@ -186,6 +187,7 @@ elseif strcmp(User_trim,'Yes')
     Xaxistilt = str2double(strtrim(XaxisA))+str2double(strtrim(XaxisB));
 
     % Update tilt.com with new parameters
+    system(['grep -q "OutputFile" ',command_file,' && sed -i "/OutputFile/c\OutputFile ',stack_name,'_full_rec.mrc" ',command_file,' || sed -i "/SCALE/a\OutputFile ',stack_name,'_full_rec.mrc" ',command_file]);
     system(['grep -q "THICKNESS" ',command_file,' && sed -i "/THICKNESS/c\THICKNESS ',strtrim(Thickness),'" ',command_file,' || sed -i "/SCALE/a\THICKNESS ',strtrim(Thickness),'" ',command_file]);
     system(['grep -q "XAXISTILT" ',command_file,' && sed -i "/AXISTILT/c\XAXISTILT ',num2str(Xaxistilt),'" ', command_file,' || sed -i "/SCALE/a\XAXISTILT ',num2str(Xaxistilt),'" ', command_file]);
     system(['grep -q "OFFSET" ',command_file,' && sed -i "/OFFSET/c\OFFSET ',strtrim(Offset),'" ',command_file,' || sed -i "/SCALE/a\OFFSET ',strtrim(Offset),'" ',command_file]);
@@ -217,8 +219,10 @@ else
     system(['batchruntomo -di ',template_filepath,' -ro ', stack_name ,' -current ' output_dirpath,'/',imod_folder, ' -deliver ' , output_dirpath,'/',imod_folder,' -gpu 1'])
 end
 
+tic
 'Running clip rotx'
 system(['cd ',output_dirpath,'/',imod_folder,'/',stack_name,'/ && clip rotx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
+toc
 
 % Update TimeCapsule.txt log file
 fileID = fopen([output_dirpath,'/TimeCapsule.txt'], 'a');
@@ -245,24 +249,46 @@ if strcmp(CryoCARE_prepare,'Yes')
     copyfile([output_dirpath,'/',imod_folder,'/',stack_name,'/',stack_name,'.xtilt'],[output_dirpath,'/odd/',stack_name,'.xtilt'])
 
     % Create Even/Odd tomograms using transformation files from Original reconstruction
+                  'Running eraser.com on Even'
+                  tic
                   system(['cd ',output_dirpath,'/even/ && submfg eraser.com']);
                   system(['cd ',output_dirpath,'/even/ && mv ',stack_name,'.mrc ',stack_name,'_notfixed.mrc']);
                   system(['cd ',output_dirpath,'/even/ && mv ',stack_name,'_fixed.mrc ',stack_name,'.mrc']);
+                  toc
+                  tic
+                  'Running newst.com on Even'
     [status, ~] = system(['cd ',output_dirpath,'/even/ && submfg newst.com']);
+                  toc
+                  tic
+                  'Running tilt.com on Even'
                   system(['cd ',output_dirpath,'/even/ && submfg tilt.com']);
+                  toc
+                  tic
                   'Running clip rotx for even stack'
                   disp(datetime('now', 'Format', 'HH:mm:ss'))
                   system(['cd ',output_dirpath,'/even/ && clip rotx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
+                  toc
                   % system(['tomocleanup -aligned ',output_dirpath,'/even/']);
 
+                  'Running eraser.com on Odd'
+                  tic
                   system(['cd ',output_dirpath,'/odd/ && submfg eraser.com']);
                   system(['cd ',output_dirpath,'/odd/ && mv ',stack_name,'.mrc ',stack_name,'_notfixed.mrc']);
                   system(['cd ',output_dirpath,'/odd/ && mv ',stack_name,'_fixed.mrc ',stack_name,'.mrc']);
+                  toc
+                  tic
+                  'Running newst.com on Odd'
     [status, ~] = system(['cd ',output_dirpath,'/odd/ && submfg newst.com']);
+                  toc
+                  tic
+                  'Running tilt.com on Odd'
                   system(['cd ',output_dirpath,'/odd/ && submfg tilt.com']);
+                  toc
+                  tic
                   'Running clip rotx for odd stack'
                   disp(datetime('now', 'Format', 'HH:mm:ss'))
                   system(['cd ',output_dirpath,'/odd/ && clip rotx ',stack_name,'_full_rec.mrc ',stack_name,'_rec.mrc']);
+                  toc
                   % system(['tomocleanup -aligned ',output_dirpath,'/odd/']);
 
     % Adjust CryoCARE .json parameter files
@@ -288,10 +314,10 @@ if strcmp(CryoCARE_prepare,'Yes')
         % Use BinVol to bin Even/Odd tomograms for CryoCARE denoising
         disp(datetime('now', 'Format', 'HH:mm:ss'))
         'Creating Even Binned stack for CryoCARE'
-        system(['binvol -QuietOutput -binning ',num2str(CryoCARE_bin),' ',output_dirpath,'/even/',stack_name,'_rec.mrc ',output_dirpath,'/even/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc']);
+        system(['binvol -binning ',num2str(CryoCARE_bin),' ',output_dirpath,'/even/',stack_name,'_rec.mrc ',output_dirpath,'/even/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc']);
         disp(datetime('now', 'Format', 'HH:mm:ss'))  
         'Creating Odd Binned stack for CryoCARE'  
-        system(['binvol -QuietOutput -binning ',num2str(CryoCARE_bin),' ',output_dirpath,'/odd/', stack_name,'_rec.mrc ',output_dirpath,'/odd/', stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc']);    
+        system(['binvol -binning ',num2str(CryoCARE_bin),' ',output_dirpath,'/odd/', stack_name,'_rec.mrc ',output_dirpath,'/odd/', stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc']);    
         system(['sed -i ''/\"even\": \[/,/],/c\\"even\": ["',     output_dirpath,'/even/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
         system(['sed -i ''/\"odd\": \[/,/],/c\\"odd\": ["',       output_dirpath,'/odd/', stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc"],'' ',output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/train_data_config.json']);
         system(['sed -i "s|\"even\": \".*\"|\"even\": \"',        output_dirpath,'/even/',stack_name,'_recBin',num2str(CryoCARE_bin),'.mrc\"|" ', output_dirpath,'/CryoCAREful/Bin_',num2str(CryoCARE_bin),'/predict_config.json']);
@@ -319,9 +345,9 @@ exportgraphics(fighandnm, fullfile([output_dirpath,'/',imod_folder,'/',stack_nam
 [~, data2] = system(['grep "Ratio of total measured values to all unknowns =" ',output_dirpath,'/',imod_folder,'/',stack_name,'/align.log | sed ''s/^[^=]*= //''']);
 resid = str2double(strsplit(strtrim(data)));
 fighandnm = figure; plot(resid), xlabel('Frame'), ylabel('Residual (nm)'), title('Residuals from Align.log for each frames');
-text(mean(xlim), max(ylim), ['Ratio of measured to unknowns =',data2], 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'FontSize', 70);
+text(mean(xlim), max(ylim), ['Ratio of measured to unknowns =',data2], 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'FontSize', 25);
 if ~exist([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots'], 'dir'), mkdir([output_dirpath,'/',imod_folder,'/',stack_name,'/Validate_plots']), end
-exportgraphics(fighandnm,fullfile([output_dirpath,'/',imod_folder, '/',stack_name,'/Validate_plots/residual_values.png']),"Resolution",70);
+exportgraphics(fighandnm,fullfile([output_dirpath,'/',imod_folder, '/',stack_name,'/Validate_plots/residual_values.png']),"Resolution",25);
 
 
 %% FUNCTIONS
@@ -344,8 +370,8 @@ function keep_list = Exclude_views(mrc_file)
         img = imread([files(k).folder, '/', files(k).name]);
         img = imadjust(img);
         imshow(img);
-        xlabel('Left click: Accept.  Right click: Reject.  Middle click: Return to previous. ''s'' to accept and skip 5 images', 'Color', 'red', 'FontSize', 25, 'FontWeight', 'bold');
-        title(['Image ', num2str(k), ' of ', num2str(nFiles), ': ', files(k).name],'FontSize', 20);
+        xlabel('Left click: Accept.  Right click: Reject.  Middle click: Return to previous. ''s'' to accept and skip 5 images', 'Color', 'red', 'FontSize', 30, 'FontWeight', 'bold');
+        title(['Image ', num2str(k), ' of ', num2str(nFiles), ': ', files(k).name],'FontSize', 30);
         [~,~,button] = ginput(1);
         if button == 1              % Left click to keep
             status(k) = 1;

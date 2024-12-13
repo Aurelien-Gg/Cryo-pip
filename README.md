@@ -28,14 +28,6 @@ This will download everything from the Github and place them in the correct dire
 For CryoCARE:
   - Full_pipelineDevRoot.m prepares the three necessary .Json files for CryoCARE and puts them in /output_folder/CryoCAREful/
 
-~~More info can be found [HERE](Code/README.md/#How-to-use-Full_pipeline.m)~~
-
-#### To only get tomogram only using IMOD (no CryoCARE denoising or Even/Odd splitting)
-
-OBSOLETE AT THE MOMENT
-  - ~~Open IMOD_pipeline.m~~
-  - ~~Modify the necessary paths to fit your config~~
-  - ~~Execute the code~~
 
 ## MAC specific
 

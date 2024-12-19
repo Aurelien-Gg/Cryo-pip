@@ -14,7 +14,6 @@ imod_folder        = 'imod_1_1_4';     % Choose directory name that will be crea
 
 % IMOD Pre-Processing options
 Exclude_Frames     = 'Yes';      % 'Yes' If you want to be prompted to select Frames to exclude from processing
-Overwrite_exclude  = 'No';       % 'Yes' If you want to overwrite existing Frames selection that are in Exclude_views.txt (For example if you have already previously selected the Frames to reject and don't want to redo)
 User_boundary      = 'Yes';      % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
 User_trim          = 'Yes';      % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
 
@@ -22,12 +21,14 @@ IMOD_bin_coarse    =  1;         %  1 for no binning. Binning amount to be perfo
 IMOD_bin_aligned   =  1;         %  1 for no binning. Binning amount to be performed when running IMOD reconstruction  (Binning is performed isotropically)
 
 % CRYOCARE options
-CryoCARE_prepare   = 'es';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
-CryoCARE_run       = 'es';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
+CryoCARE_prepare   = 'Yes';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
 CryoCARE_bin       =   4;       %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
 
-Epochs             =  200;       % Number of epochs for CryoCARE training
-Steps              =  100;       % Number of steps (per epochs) for CryoCARE training
+
+% CryoCARE_run       = 'es';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
+% Epochs             =  200;       % Number of epochs for CryoCARE training
+% Steps              =  100;       % Number of steps (per epochs) for CryoCARE training
+% Overwrite_exclude  = 'No';       % 'Yes' If you want to overwrite existing Frames selection that are in Exclude_views.txt (For example if you have already previously selected the Frames to reject and don't want to redo)
 
 
 
@@ -35,7 +36,7 @@ Steps              =  100;       % Number of steps (per epochs) for CryoCARE tra
 %% DON'T MODIFIY THE FOLLOWING:
 %% PROCESSING PART
 disp(datetime('now', 'Format', 'HH:mm:ss'))
-NAV
+try NAV; catch, end
 script_dir = fileparts(matlab.desktop.editor.getActiveFilename);
 git_root_dir = fileparts(script_dir);
 template_filepath = fullfile(git_root_dir, 'ConfigurationFiles', 'AurelienTemplate241024.adoc');

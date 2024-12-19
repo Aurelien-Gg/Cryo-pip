@@ -3,31 +3,28 @@
 %% MODIFY THE FOLLOWING TO FIT YOUR CONFIG
 
 % Define Path of your data  
-
-frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RawAll';     % FULL PATH of Frames + Metadata file folder:
-gain_path          = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RawAll';     % FULLPATH to specific gain file or folder (if folder, will use first *.dm4 it finds). Usually same as 'frame_dirpath':                    
-output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/LaTESTpres2';   % FULLPATH to output files folder. Usually same as 'frame_dirpath':
+frame_dirpath      = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/RawAll';      % FULL PATH of Frames + Metadata file folder
+gain_path          = frame_dirpath;                                                                                                           % FULLPATH to specific gain file or folder    (if folder, will use first *.dm4 it finds)                    
+output_dirpath     = '/mnt/nas/FAC/FBM/DMF/pnavarr1/default/D2c/FondationPierreMercier/BostonPaula/Boston_Paula/OldTestAurelien/LaTESTpres3'; % FULLPATH to output files folder
 
 % Choose output names
-stack_name         = 'stack_AF';             % Choose rootname for .mrc stack output
-imod_folder        = 'imod_1_1_4';     % Choose directory name that will be created to output results of Alignframes
+stack_name         = 'stack_AF';   % Choose rootname for .mrc stack output
+imod_folder        = 'imod_1_1_4'; % Choose directory name that will be created to output results of Alignframes
 
 % IMOD Pre-Processing options
-Exclude_Frames     = 'Yes';      % 'Yes' If you want to be prompted to select Frames to exclude from processing
-Overwrite_exclude  = 'No';       % 'Yes' If you want to overwrite existing Frames selection that are in Exclude_views.txt (For example if you have already previously selected the Frames to reject and don't want to redo)
-User_boundary      = 'Yes';      % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
-User_trim          = 'Yes';      % 'Yes' If you want to be prompted to manually trim volume (this step is performed at end of combined stack processing)
-
-IMOD_bin_coarse    =  1;         %  1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (Binning is performed in X and Y)
-IMOD_bin_aligned   =  1;         %  1 for no binning. Binning amount to be performed when running IMOD reconstruction  (Binning is performed isotropically)
+Exclude_Frames     = 'Yes';        % 'Yes' If you want to be prompted to select Frames to exclude from processing
+Overwrite_exclude  = 'No';         % 'Yes' If you want to overwrite existing Frames selection that are in Exclude_views.txt
+User_boundary      = 'Yes';        % 'Yes' If you want to be prompted to build Boundary model for Patch Tracking
+User_trim          = 'Yes';        % 'Yes' If you want to be prompted to manually trim volume
+IMOD_bin_coarse    =  1;           % 1 for no binning. Binning amount to be performed when running IMOD coarse-alignment (Binning is performed in X and Y)
+IMOD_bin_aligned   =  1;           % 1 for no binning. Binning amount to be performed when running IMOD reconstruction  (Binning is performed isotropically)
 
 % CRYOCARE options
-CryoCARE_prepare   = 'es';      % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
-CryoCARE_run       = 'es';      % 'Yes' if you want to run CryoCARE denoising. Your CryoCARE needs to be installed in cryocare_11 conda environment (like installed in github)
-CryoCARE_bin       =   4;       %  1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
-
-Epochs             =  200;       % Number of epochs for CryoCARE training
-Steps              =  100;       % Number of steps (per epochs) for CryoCARE training
+CryoCARE_prepare   = 'Yes';        % 'Yes' If you want to create Even / Odd Tomogram and prepare .json files for denoising with CryoCARE
+CryoCARE_run       = 'es';        % 'Yes' if you want to run CryoCARE denoising. 
+CryoCARE_bin       =   4;          % 1 for no binning. Binning amount to be performed before running CryoCARE (in addition to previous binning)
+Epochs             =  200;         % Number of epochs for CryoCARE training
+Steps              =  100;         % Number of steps (per epochs) for CryoCARE training
 
 
 
@@ -35,7 +32,7 @@ Steps              =  100;       % Number of steps (per epochs) for CryoCARE tra
 %% DON'T MODIFIY THE FOLLOWING:
 %% PROCESSING PART
 disp(datetime('now', 'Format', 'HH:mm:ss'))
-NAV
+try NAV; catch, end
 script_dir = fileparts(matlab.desktop.editor.getActiveFilename);
 git_root_dir = fileparts(script_dir);
 template_filepath = fullfile(git_root_dir, 'ConfigurationFiles', 'AurelienTemplate241024.adoc');

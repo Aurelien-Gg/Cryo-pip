@@ -45,6 +45,8 @@ Replace `-o /scratch/$USER/alphafold_output` with your desired output directory.
 
 For multimer predictions, change -m monomer to -m multimer.
 
+etc...
+
 ### Step 3: Submit the Job
 ```
 sbatch run_alphafold.sh

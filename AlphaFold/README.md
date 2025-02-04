@@ -1,6 +1,6 @@
 # Template SLURM script
 
-Template for SLURM script `run_alphafold.sh` 
+Template for SLURM script: `run_alphafold.sh` 
 ```
 #!/bin/bash
 #SBATCH -c 24                # 24 CPUs (matches CPU-heavy parts)

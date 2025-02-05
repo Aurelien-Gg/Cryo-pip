@@ -4,11 +4,7 @@ How to use IMOD commands on cluster:
 
 1. Add IMOD singularity path to the end of your bashrc file (this only needs to be done once)
 
-Type: `nano ~/.bashrc`
-
-Add at end of file: export PATH="/work/FAC/FBM/DMF/pnavarr1/default/Aurelien/IMOD/imod_singularity/:$PATH"
-
-(To make these changes take effect use source ~/.bashrc, or simply re-log in to the cluster)
+```echo 'export PATH="/work/FAC/FBM/DMF/pnavarr1/default/Aurelien/IMOD/imod_singularity/:$PATH"' >> ~/.bashrc && source ~/.bashrc```
 
 You can now use IMOD commands in the following way:
 

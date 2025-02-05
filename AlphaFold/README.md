@@ -53,6 +53,8 @@ For multimer predictions, change -m monomer to -m multimer.
 
 etc...
 
+Uncomment (by removing the `#`) the optional parameters in order to use them
+
 ### Step 3: Submit the Job
 ```
 sbatch run_alphafold.sh

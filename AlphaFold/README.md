@@ -1,8 +1,9 @@
 # Template SLURM script
 
-Template for SLURM script: `run_alphafold.sh` 
+Template for SLURM script: `run_alphafold_template.sh` (can be found in /work/FAC/FBM/DMF/pnavarr1/default/AlphaFold/ )
 ```
 #!/bin/bash
+
 #SBATCH -c 24                # 24 CPUs (matches CPU-heavy parts)
 #SBATCH -p gpu               # GPU partition
 #SBATCH --gres=gpu:1         # 1 GPU
@@ -41,7 +42,10 @@ bash /dcsrsoft/singularity/containers/run_alphafold_032e2f2.sh \
 Place your protein sequence(s) in a single/multi-sequence FASTA file (e.g., my_protein.fasta).
 
 ### Step 2: Customize the Template
-Replace `-f /work/FAC/FBM/DMF/pnavarr1/default/CryoSPARC/.../YOUR_INPUT.fasta` with your FASTA file path.
+
+Make your own AlphaFold SLURM script (by copying /work/FAC/FBM/DMF/pnavarr1/default/AlphaFold/run_alphafold_template.sh or creating your own)
+
+Replace `-f /work/FAC/FBM/DMF/pnavarr1/default/AlphaFold/.../YOUR_INPUT.fasta` with your FASTA file path.
 
 Replace `-o /scratch/$USER/alphafold_output` with your desired output directory.
 

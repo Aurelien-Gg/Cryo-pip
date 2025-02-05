@@ -18,7 +18,7 @@ export SINGULARITY_BINDPATH="/scratch,/users,/work,/reference"
 
 # Run AlphaFold via helper script
 bash /dcsrsoft/singularity/containers/run_alphafold_032e2f2.sh \
-  -f /work/FAC/FBM/DMF/pnavarr1/default/CryoSPARC/.../YOUR_INPUT.fasta \  # REQUIRED: Path to input FASTA file(s). For multiple files, separate with commas.
+  -f /work/FAC/FBM/DMF/pnavarr1/default/AlphaFold/.../YOUR_INPUT.fasta \  # REQUIRED: Path to input FASTA file(s). For multiple files, separate with commas.
   -o /scratch/$USER/alphafold_output \# REQUIRED: Path to output directory (replace with your desired location)
   -m monomer \                        # REQUIRED: Model preset. Options: "monomer", "monomer_casp14", "monomer_ptm", "multimer"
   -n 24 \                             # REQUIRED: Number of CPUs to use (matches SBATCH -c value)

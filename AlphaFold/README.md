@@ -20,12 +20,12 @@ export SINGULARITY_BINDPATH="/scratch,/users,/work,/reference"
 # Run AlphaFold via helper script
 bash /dcsrsoft/singularity/containers/run_alphafold_032e2f2.sh \
   -f /work/FAC/FBM/DMF/pnavarr1/default/AlphaFold/.../YOUR_INPUT.fasta \  # REQUIRED: Path to input FASTA file(s). For multiple files, separate with commas.
-  -o /scratch/$USER/alphafold_output \# REQUIRED: Path to output directory (replace with your desired location)
-  -m monomer \                        # REQUIRED: Model preset. Options: "monomer", "monomer_casp14", "monomer_ptm", "multimer"
-  -n 24 \                             # REQUIRED: Number of CPUs to use (matches SBATCH -c value)
-  -d /reference/alphafold/20221206 \  # REQUIRED: Path to AlphaFold databases (update if newer exists)
-  -t 2022-12-06 \                     # REQUIRED: Max template date (match database date, ISO-8601 format: YYYY-MM-DD)
-  -g true \                           # REQUIRED: Enable GPU (true/false)
+  -o /scratch/$USER/alphafold_output \ # REQUIRED: Path to output directory (replace with your desired location)
+  -m monomer \                         # REQUIRED: Model preset. Options: "monomer", "monomer_casp14", "monomer_ptm", "multimer"
+  -n 24 \                              # REQUIRED: Number of CPUs to use (matches SBATCH -c value)
+  -d /reference/alphafold/20221206 \   # REQUIRED: Path to AlphaFold databases (update if newer exists)
+  -t 2022-12-06 \                      # REQUIRED: Max template date (match database date, ISO-8601 format: YYYY-MM-DD)
+  -g true \                            # REQUIRED: Enable GPU (true/false)
 
   # -r true \                         # OPTIONAL: Run relaxation step (true/false). Default: true. Turn off for faster runs.
   # -e true \                         # OPTIONAL: Run relaxation on GPU if GPU is enabled (true/false). Default: true.

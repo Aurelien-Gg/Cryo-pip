@@ -91,6 +91,37 @@ Check slurm-<JOBID>.out for progress/errors.
 | `-l <num_multimer_predictions_per_model>` | Number of predictions per model (only applies if `model_preset=multimer`). If set to 2 and there are 5 models, there will be 10 predictions per input | `5` |
 | `-b <benchmark>` | Run multiple JAX model evaluations to get a timing that excludes compilation time (useful for benchmarking) | `false` |
 
+### AlphaFold prediction speed
+
+The table below reports prediction runtimes for proteins of various lengths. We
+only measure unrelaxed structure prediction with three recycles while excluding
+runtimes from MSA and template search. When running `docker/run_docker.py` with
+`--benchmark=true`, this runtime is stored in `timings.json`. All runtimes are
+from a single A100 NVIDIA GPU. Prediction speed on A100 for smaller structures
+can be improved by increasing `global_config.subbatch_size` in
+`alphafold/model/config.py`.
+
+No. residues | Prediction time (s)
+-----------: | ------------------:
+100          | 4.9
+200          | 7.7
+300          | 13
+400          | 18
+500          | 29
+600          | 36
+700          | 53
+800          | 60
+900          | 91
+1,000        | 96
+1,100        | 140
+1,500        | 280
+2,000        | 450
+2,500        | 969
+3,000        | 1,240
+3,500        | 2,465
+4,000        | 5,660
+4,500        | 12,475
+5,000        | 18,824
 
 # Expected Output Structure:
 

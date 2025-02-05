@@ -2,7 +2,7 @@
 
 How to use IMOD commands on cluster:
 
-1. Add IMOD singularity path to the end of your bashrc (this only needs to be done once)
+1. Add IMOD singularity path to the end of your bashrc file (this only needs to be done once)
 
 Type: `nano ~/.bashrc`
 

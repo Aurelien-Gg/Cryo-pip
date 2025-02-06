@@ -1,4 +1,4 @@
-% !! Metadata file ".mdoc" needs to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder (should be changed)
+% d!! Metadata file ".mdoc" needs to be in same folder as frames !! Currently uses the first .mdoc file it finds in folder (should be changed)
 
 %% MODIFY THE FOLLOWING TO FIT YOUR CONFIG
 

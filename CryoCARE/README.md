@@ -1,4 +1,5 @@
 Table of contents:
+conda activate /work/FAC/FBM/DMF/pnavarr1/default/Aurelien/Shared/CryoCARE/
 
 [Quick Guide](#Quick-Guide)
 

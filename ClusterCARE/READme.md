@@ -11,11 +11,15 @@ To use CryoCARE on the cluster, simply type
 
 Select option (currently only option 1 works)
 
-Enter path to even mrc
-Enter path to odd mrc
-Choose output path (will create if doesn't exist)
-Choose epochs number
-Choose steps per epoch
+- Enter path to even mrc
+
+- Enter path to odd mrc
+
+- Choose output path (will create if doesn't exist)
+
+- Choose epochs number
+
+- Choose steps per epoch
 
 ![image](https://github.com/user-attachments/assets/810de6e6-54bc-4b3f-a738-144d8c55a1ee)
 

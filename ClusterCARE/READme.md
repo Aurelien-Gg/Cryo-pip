@@ -11,9 +11,9 @@ To use CryoCARE on the cluster, simply type
 
 Select option (currently only option 1 works)
 
-- Enter path to even mrc
+- Enter path to even reconstrution
 
-- Enter path to odd mrc
+- Enter path to odd reconstrution
 
 - Choose output path (will create if doesn't exist)
 

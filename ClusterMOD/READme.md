@@ -38,7 +38,7 @@ Two step method for removing views from an MRC file
 
 Will open 3dmod and create a model file called "exclude.mod"
 
-Switch to 'model' mode and add a Contour/Point on any frame you wish to exclude. Save model by pressing 's'.
+Switch to 'model' mode and add atleast one Contour/Point on any frame you wish to exclude. Save model by pressing 's'.
 
 2. Running excludeviews
 

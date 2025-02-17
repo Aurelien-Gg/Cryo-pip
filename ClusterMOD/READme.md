@@ -19,7 +19,7 @@ Example:
 
 All IMOD commands can be run as cluster jobs by typing
 
-```jimod [imod_command] [options]```
+```jmod [imod_command] [options]```
 
 This will send the job to the SLURM queue
 

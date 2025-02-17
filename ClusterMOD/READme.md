@@ -8,7 +8,7 @@ All IMOD commands can be used by typing:
 
 Example:
 
-```imod 3dmod ./Stack_MC.mrc```
+```imod 3dmod ./stack_MC.mrc```
 
 > [!IMPORTANT]
 > This method will run the command on the login node which is not meant for heavy usage.

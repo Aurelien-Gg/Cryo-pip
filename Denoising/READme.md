@@ -16,7 +16,7 @@ The pipeline supports three main workflows, each with its own set of required pa
 ### 1. Starting from Raw Data (.mdoc and .mrc)
 
 #### Required Parameters:
-- `--mdoc (-m)`: Path to .mdoc file
+- `--mdoc (-m)`: Path to .mdoc file. Must be in same folder as .eer images
 - `--mrc  (-r)`: Path to original stack (.mrc). The files eraser.com, newst.com, tilt.com, .xf, .tlt, .xtilt must be in the same folder
 - `--gain (-g)`: Path to gain reference file (optional, will be auto-detected if possible)
 

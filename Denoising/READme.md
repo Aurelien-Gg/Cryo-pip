@@ -26,7 +26,7 @@ The pipeline supports three main workflows, each with its own set of required pa
 
 #### Example:
 
-```ddw_cc.py -m /path/to/data.mdoc -r /path/to/stack.mrc -cc```
+```ddw_cc.py -m /path/to/stack.mdoc -r /path/to/stack.mrc -cc```
 
 Output will be located in original stack (`--mrc`) folder.
 
@@ -55,7 +55,7 @@ Output will be located in original stack (`--mrc`) folder.
 #### Example 1: Full Pipeline from Raw Data with CryoCARE ####
 ```
 ddw_cc.py \
-    --mdoc /path/to/tilt.mdoc \
+    --mdoc /path/to/stack.mdoc \
     --mrc /path/to/stack.mrc \
     --cryocare \
     --epochs 150 \

@@ -2,10 +2,10 @@
 
 A pipeline tool supporting CryoCARE and DeepDeWedge denoising for cryo-EM data.
 
-## Basic Usage
-
-```ddw_cc.py [OPTIONS]```
-```ddw_cc.py --help```
+```
+ddw_cc.py [OPTIONS]
+ddw_cc.py --help
+```
 
 Use `--help` to see all available options.
 
@@ -35,7 +35,7 @@ Output will be located in original stack (`--mrc`) folder.
 #### Required Parameters:
 - `--evenstack (-es)`: Path to even stack (.mrc)
 - `--oddstack  (-os)`: Path to odd stack (.mrc)
-- `--mrc       (-r)` : Path to original stack (.mrc)
+- `--mrc       (-r)` : Path to original stack (.mrc). The files eraser.com, newst.com, tilt.com, .xf, .tlt, .xtilt must be in the same folder
 
 #### Example:
 
@@ -98,27 +98,41 @@ This command will:
 
 - Use 2 GPUs (devices 0 and 1) for processing
 
-# Options # 
-### General Parameters ### 
-
+## Options
+#### Reconstruction Parameters
 ```markdown
-| Parameter    | Alias  | Description                         | Default                         |
-|--------------|--------|-------------------------------------|---------------------------------|
-| `--output`   | `-out` | Output directory                    | None                            |
-| `--epochs`   | `-ep`  | Number of epochs for training       | 100 (CryoCARE), 200 (DeepDeWedge) |
-| `--binning`  | `-b`   | Binning factor for denoising input  | 1                               |
-```
-
-### CryoCARE Specific Parameters### 
-
+| Parameter     | Alias  | Description                                                   | Default |
+|---------------|--------|---------------------------------------------------------------|---------|
+| `--mdoc`      | `-m`   | Path to .mdoc file                                            | None    |
+| `--gain`      | `-g`   | Path to gain reference file                                   | None    |
+| `--mrc`       | `-r`   | Path to original stack (.mrc, where eraser, newst, tilt, .tlt, .xf, .xtilt are) | None    |
+| `--evenstack` | `-es`  | Path to even stack (.mrc)                                     | None    |
+| `--oddstack`  | `-os`  | Path to odd stack (.mrc)                                      | None    |
+| `--even`      | `-et`  | Path to even tomogram (.mrc)                                  | None    |
+| `--odd`       | `-ot`  | Path to odd tomogram (.mrc)                                   | None    |
+``` 
+#### Denoising Methods
 ```markdown
-| Parameter  | Alias | Description                  | Default |
-|------------|-------|------------------------------|---------|
-| `--steps`  | `-s`  | Steps per epoch for training | 200     |
+| Parameter      | Alias  | Description                    | Default |
+|----------------|--------|--------------------------------|---------|
+| `--cryocare`   | `-cc`  | Use CryoCARE denoising         | False   |
+| `--deepdewedge`| `-dd`  | Use DeepDeWedge denoising      | False   |
 ```
-
-### DeepDeWedge Specific Parameters### 
-
+#### General Parameters
+```markdown
+| Parameter      | Alias  | Description                         | Default                         |
+|----------------|--------|-------------------------------------|---------------------------------|
+| `--output`     | `-out` | Output directory                    | None                            |
+| `--epochs`     | `-ep`  | Number of epochs for training       | 100 (CryoCARE), 200 (DeepDeWedge) |
+| `--binning`    | `-b`   | Binning factor for denoising input  | 1                               |
+```
+#### CryoCARE Specific Parameters
+```markdown
+| Parameter      | Alias | Description                  | Default |
+|----------------|-------|------------------------------|---------|
+| `--steps`      | `-s`  | Steps per epoch for training | 200     |
+```
+#### DeepDeWedge Specific Parameters
 ```markdown
 | Parameter          | Alias  | Description                                              | Default |
 |--------------------|--------|----------------------------------------------------------|---------|

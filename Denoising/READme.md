@@ -99,6 +99,9 @@ This command will:
 - Use 2 GPUs (devices 0 and 1) for processing
 
 ## Options
+
+![image](https://github.com/user-attachments/assets/1950b6cb-5ba6-4d5e-bc4b-4df47ed7fa22)
+
 #### Reconstruction Parameters
 ```markdown
 | Parameter     | Alias  | Description                                                   | Default |

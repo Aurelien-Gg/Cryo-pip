@@ -82,7 +82,7 @@ This will create a PDF file named `[your_output]_avrot.pdf` in the same director
    Ctffind5
    ```
 
-2. Enter the requested parameters (or accept defaults)
+2. Enter the requested parameters (or accept [defaults] by leaving empty)
 
 ![image](https://github.com/user-attachments/assets/839085c4-209e-478c-9d9f-dd6d900357c6)
 

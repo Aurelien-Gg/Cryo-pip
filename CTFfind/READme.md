@@ -15,7 +15,7 @@ A guide for using CTFfind4 and CTFfind5 on the cluster installation.
 
 ## 🔍 Overview
 
-This guide covers how to use CTFfind4 and CTFfind5 for contrast transfer function (CTF) estimation in cryo-electron microscopy. Both versions have been configured to run without loading any additional modules.
+This guide covers how to use CTFfind4 and CTFfind5 for contrast transfer function (CTF) estimation in cryo-electron microscopy.
 
 ## 💻 Installation
 

@@ -83,12 +83,12 @@ This will create a PDF file named `[your_output]_avrot.pdf` in the same director
    ```
 
 2. Enter the requested parameters (or accept defaults)
-3. 
+
 ![image](https://github.com/user-attachments/assets/839085c4-209e-478c-9d9f-dd6d900357c6)
 
-4. Wait for CTF estimation to complete ( < 1 min)
+3. Wait for CTF estimation to complete ( < 1 min)
    
-5. Check for the terminal output message:
+4. Check for the terminal output message:
    ```
    Use this command to plot 1D fit profiles: ctffind_plot_results.sh Position_1_2_stack_output_avrot.txt
    ```

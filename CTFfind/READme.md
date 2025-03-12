@@ -6,7 +6,7 @@ A guide for using CTFfind4 and CTFfind5 on the cluster installation.
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
+- [Overview](#Overview)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [Visualizing Results](#visualizing-results)

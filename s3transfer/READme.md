@@ -1,11 +1,11 @@
-# S3 to HPC Transfer Tool
+# 🔄 S3 to HPC Transfer Tool
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
 
 A robust script for transferring data from Amazon S3 buckets to High-Performance Computing (HPC) environments using `rclone`.
 
-## Features
+## ✨ Features
 
 - **Interactive or command-line operation** - Use with prompts or direct parameters
 - **Smart folder discovery** - Automatically lists available folders from your S3 bucket
@@ -16,28 +16,45 @@ A robust script for transferring data from Amazon S3 buckets to High-Performance
 - **Detailed logging** - Comprehensive logs with transfer statistics
 - **Colorized output** - Clear, color-coded terminal interface
 
-## Prerequisites
+## 📋 Prerequisites
 
 - `rclone` - Must be installed and configured with an S3 remote named "s3-dci-ro"
 - `tmux` - Recommended for long-running transfers
 
-## Installation
+## 🔑 Rclone Configuration
 
-1. Download the script:
-
-```bash
-curl -O https://raw.githubusercontent.com/yourusername/s3-hpc-transfer/main/s3transfer.sh
-```
-
-2. Make it executable:
+Use a text editor to create a configuration file in your home directory. Be sure to replace the S3 server name and the cryptographic key values with the ones sent in the email S3 form DCSR.
 
 ```bash
-chmod +x s3transfer.sh
+mkdir -p ~/.config/rclone
+nano ~/.config/rclone/rclone.conf
 ```
 
-3. Ensure your rclone configuration includes an S3 remote named "s3-dci-ro"
+The configuration file should look like this:
 
-## Usage
+```
+[s3-dci-ro]
+type = s3
+provider = Other
+access_key_id = T******************M
+secret_access_key = S**************************************i
+region =
+endpoint = https://scl-s3.unil.ch
+```
+
+For many different S3 tools, the pair of authentication/cryptographic keys have different names. For Rclone, they are named `access_key_id` and `secret_access_key`. Corresponding respectively to **Access key** and **Private key** in the mail sent by DCSR.
+
+Next, secure your key file:
+
+```bash
+chmod 600 ~/.config/rclone/rclone.conf
+```
+
+Now, **s3-dci-ro** is a S3 configured connection alias that you can use in Rclone without repeating the connection information in the CLI.
+
+**s3-dci-ro:** In this connection alias, the cryptographic keys are assigned to a user attached to a read-only policy on the S3 cluster. This prevents you from modifying or accidentally deleting your source data when using this connection alias.
+
+## 🚀 Usage
 
 ### Interactive Mode
 
@@ -68,7 +85,7 @@ Options:
 - `-dryrun` - Test transfer without copying files
 - `-help` - Show help message
 
-## Examples
+## 📝 Examples
 
 ```bash
 # Interactive mode
@@ -81,7 +98,7 @@ Options:
 ./s3transfer.sh -copythis MyData -tohere /work/myproject -dryrun
 ```
 
-## How It Works
+## ⚙️ How It Works
 
 1. **Initialization** - Checks for requirements and parses commands
 2. **Folder Selection** - Lists S3 folders up to 3 levels deep
@@ -91,11 +108,11 @@ Options:
 6. **Verification** - Validates transferred files with checksums
 7. **Cleanup** - Sets secure permissions and offers to delete S3 source
 
-## Logging
+## 📊 Logging
 
 Transfer logs are stored in `$HOME/.s3transfer_logs/` with timestamps.
 
-## Advanced Configuration
+## 🛠️ Advanced Configuration
 
 The script is configured with the following defaults:
 
@@ -105,13 +122,7 @@ The script is configured with the following defaults:
 
 To modify these defaults, edit the variables at the top of the script.
 
-## Troubleshooting
+## 🔍 Troubleshooting
 
-- **Script fails to start**: Ensure rclone is installed and configured
-- **Permission denied**: Check file permissions with `chmod +x s3transfer.sh`
 - **S3 access issues**: Verify your rclone configuration with `rclone config`
 - **Transfer verification fails**: Check available disk space and file permissions
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.

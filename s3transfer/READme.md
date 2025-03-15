@@ -61,7 +61,7 @@ Now, **s3-dci-ro** is a S3 configured connection alias that you can use in Rclon
 Simply run the script without arguments:
 
 ```bash
-./s3transfer.sh
+s3transfer.sh
 ```
 
 The script will:
@@ -76,7 +76,7 @@ The script will:
 Run with explicit parameters:
 
 ```bash
-./s3transfer.sh -copythis SOURCE_FOLDER -tohere DESTINATION_PATH [-dryrun]
+s3transfer.sh -copythis SOURCE_FOLDER -tohere DESTINATION_PATH [-dryrun]
 ```
 
 Options:
@@ -89,13 +89,13 @@ Options:
 
 ```bash
 # Interactive mode
-./s3transfer.sh
+s3transfer.sh
 
 # Transfer the "MyData" folder to your work directory
-./s3transfer.sh -copythis MyData -tohere /work/myproject
+s3transfer.sh -copythis MyData -tohere /work/myproject
 
 # Test a transfer without copying files
-./s3transfer.sh -copythis MyData -tohere /work/myproject -dryrun
+s3transfer.sh -copythis MyData -tohere /work/myproject -dryrun
 ```
 
 ## ⚙️ How It Works

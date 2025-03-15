@@ -98,16 +98,6 @@ s3transfer.sh -copythis MyData -tohere /work/myproject
 s3transfer.sh -copythis MyData -tohere /work/myproject -dryrun
 ```
 
-## ⚙️ How It Works
-
-1. **Initialization** - Checks for requirements and parses commands
-2. **Folder Selection** - Lists S3 folders up to 3 levels deep
-3. **Destination Setup** - Confirms or creates the destination directory
-4. **Pre-transfer Checks** - Analyzes data size and existing files
-5. **Transfer Process** - Performs the copy with 16 parallel transfers
-6. **Verification** - Validates transferred files with checksums
-7. **Cleanup** - Sets secure permissions and offers to delete S3 source
-
 ## 📊 Logging
 
 Transfer logs are stored in `$HOME/.s3transfer_logs/` with timestamps.

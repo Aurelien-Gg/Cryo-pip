@@ -23,7 +23,7 @@ A robust script for transferring data from Amazon S3 buckets to High-Performance
 
 ## 🔑 Rclone Configuration
 
-Use a text editor to create a configuration file in your home directory. Be sure to replace the S3 server name and the cryptographic key values with the ones sent in the email S3 form DCSR.
+Use a text editor to create a configuration file in your home directory. Be sure to replace the S3 server name and the cryptographic key values with the ones sent in the email S3 from DCSR.
 
 ```bash
 mkdir -p ~/.config/rclone

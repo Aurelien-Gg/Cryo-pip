@@ -41,8 +41,6 @@ region =
 endpoint = https://scl-s3.unil.ch
 ```
 
-For many different S3 tools, the pair of authentication/cryptographic keys have different names. For Rclone, they are named `access_key_id` and `secret_access_key`. Corresponding respectively to **Access key** and **Private key** in the mail sent by DCSR.
-
 Next, secure your key file:
 
 ```bash
@@ -50,8 +48,6 @@ chmod 600 ~/.config/rclone/rclone.conf
 ```
 
 Now, **s3-dci-ro** is a S3 configured connection alias that you can use in Rclone without repeating the connection information in the CLI.
-
-**s3-dci-ro:** In this connection alias, the cryptographic keys are assigned to a user attached to a read-only policy on the S3 cluster. This prevents you from modifying or accidentally deleting your source data when using this connection alias.
 
 ## 🚀 Usage
 
@@ -100,16 +96,6 @@ s3transfer.sh -copythis MyData -tohere /work/myproject -dryrun
 ## 📊 Logging
 
 Transfer logs are stored in `$HOME/.s3transfer_logs/` with timestamps.
-
-## 🛠️ Advanced Configuration
-
-The script is configured with the following defaults:
-
-- S3 Remote: `s3-dci-ro` (configured in rclone)
-- Default Bucket: `recn-fac-fbm-dmf-pnavarr1-dci-data-transfer`
-- Default Destination: `/work/FAC/FBM/DMF/pnavarr1/default/`
-
-To modify these defaults, edit the variables at the top of the script.
 
 ## 🔍 Troubleshooting
 

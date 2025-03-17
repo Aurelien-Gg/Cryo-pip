@@ -18,8 +18,7 @@ A robust script for transferring data from Amazon S3 buckets to High-Performance
 
 ## 📋 Prerequisites
 
-- `rclone` - Must be installed and configured with an S3 remote named "s3-dci-ro"
-- `tmux` - Recommended for long-running transfers
+- `rclone` - Must be installed and **configured** with an S3 remote named "s3-dci-ro"
 
 ## 🔑 Rclone Configuration
 

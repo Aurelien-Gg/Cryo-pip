@@ -73,10 +73,11 @@ Options:
 ```bash
 # Interactive mode
 s3transfer.sh
+```
 ![image](https://github.com/user-attachments/assets/9152fba7-c40e-4dc5-8664-517960c02423)
 ![image](https://github.com/user-attachments/assets/8201a929-10a4-492d-8d86-1cd0ef647f5e)
 
-
+```
 # Transfer the "MyData" folder to your work directory
 s3transfer.sh -copythis MyData -tohere /work/myproject
 

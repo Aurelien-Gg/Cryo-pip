@@ -1,12 +1,10 @@
 # 🔄 S3 to HPC Transfer Tool
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
 
 A robust script for transferring data from Amazon S3 buckets to High-Performance Computing (HPC) environments using `rclone`.
 
 ## ✨ Features
-
 - **Interactive or command-line operation** - Use with prompts or direct parameters
 - **Smart folder discovery** - Automatically lists available folders from your S3 bucket
 - **Transfer verification** - Validates successful transfers with checksums
@@ -17,11 +15,9 @@ A robust script for transferring data from Amazon S3 buckets to High-Performance
 - **Colorized output** - Clear, color-coded terminal interface
 
 ## 📋 Prerequisites
-
 - `rclone` - Must be installed and **configured** with an S3 remote named "s3-dci-ro"
 
 ## 🔑 Rclone Configuration
-
 Use a text editor to create a configuration file in your home directory. Be sure to replace the S3 server name and the cryptographic key values with the ones sent in the email S3 from DCSR.
 
 ```bash
@@ -30,7 +26,6 @@ nano ~/.config/rclone/rclone.conf
 ```
 
 The configuration file should look like this:
-
 ```
 [s3-dci-ro]
 type = s3
@@ -42,7 +37,6 @@ endpoint = https://scl-s3.unil.ch
 ```
 
 Next, secure your key file:
-
 ```bash
 chmod 600 ~/.config/rclone/rclone.conf
 ```
@@ -52,9 +46,7 @@ Now, **s3-dci-ro** is a S3 configured connection alias that you can use in Rclon
 ## 🚀 Usage
 
 ### Interactive Mode
-
 Simply run the script without arguments:
-
 ```bash
 s3transfer.sh
 ```
@@ -67,9 +59,7 @@ The script will:
 5. Perform the transfer with progress display
 
 ### Command-line Mode
-
 Run with explicit parameters:
-
 ```bash
 s3transfer.sh -copythis SOURCE_FOLDER -tohere DESTINATION_PATH [-dryrun]
 ```
@@ -81,7 +71,6 @@ Options:
 - `-help` - Show help message
 
 ## 📝 Examples
-
 ```bash
 # Interactive mode
 s3transfer.sh
@@ -94,10 +83,64 @@ s3transfer.sh -copythis MyData -tohere /work/myproject -dryrun
 ```
 
 ## 📊 Logging
-
 Transfer logs are stored in `$HOME/.s3transfer_logs/` with timestamps.
 
-## 🔍 Troubleshooting
+## 🔒 Overwrite Protection
+The script includes safeguards to prevent accidental file overwrites:
 
-- **S3 access issues**: Verify your rclone configuration with `rclone config`
-- **Transfer verification fails**: Check available disk space and file permissions
+**Multiple Options** - When files exist, you can:
+   - **Skip** existing files (default, preserves existing data)
+   - **Overwrite** existing files (use with caution)
+   - **Abort** the transfer entirely (if you need to reconsider)
+
+## 📱 Tmux Integration
+
+### Why Tmux?
+SSH connections to HPC clusters can disconnect due to network issues or idle timeouts. When this happens, any running transfer would be interrupted. Tmux solves this by allowing your transfer to continue in the background, even if your connection drops.
+
+### Automatic Tmux Detection
+The script automatically:
+1. Detects if you're already in a tmux session
+2. If not, offers to create a dedicated session for your transfer
+3. Creates a unique session name (e.g., `s3transfer-1`)
+4. Provides instructions for reconnecting if disconnected
+
+### Reconnecting to Transfers
+If your connection drops during a transfer:
+
+1. SSH back to the HPC cluster
+2. Reconnect to your tmux session with:
+   ```bash
+   tmux attach -t s3transfer
+   ```
+   or
+   ```bash
+   tmux attach -t s3transfer-1
+   ```
+   (Use the session name shown in the initial output)
+
+### Managing Tmux Sessions
+- **View all sessions**: `tmux list-sessions`
+- **Attach to a session**: `tmux attach -t SESSION_NAME`
+- **Detach from a session**: Press `Ctrl+B` then `D`
+- **End a session**: Type `exit` within the session
+
+The system automatically notifies you about existing tmux sessions when you log in, showing:
+- Number of active sessions
+- Session names and status
+- Commands to attach to each session
+
+### Running Multiple Transfers
+You can run multiple transfers simultaneously, each in its own tmux session:
+```bash
+s3transfer.sh -copythis FOLDER1 -tohere /path/to/destination1
+```
+In another terminal:
+```bash
+s3transfer.sh -copythis FOLDER2 -tohere /path/to/destination2
+```
+
+## 🔍 Troubleshooting
+- S3 access issues: Verify your rclone configuration with rclone config
+- Transfer verification fails: Check available disk space and file permissions
+

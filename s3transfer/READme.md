@@ -50,11 +50,12 @@ s3transfer.sh
 ```
 
 The script will:
-1. List available folders in your S3 bucket
-2. Prompt you to select a folder by number or name
-3. Ask for a destination path (with tab completion)
-4. Show transfer statistics and confirmation before starting
-5. Perform the transfer with progress display
+1. Offers to create a dedicated Tmux session for your transfer
+2. List available folders in your S3 bucket
+3. Prompt you to select a folder by number or name
+4. Ask for a destination path (with tab completion)
+5. Show transfer statistics and confirmation before starting
+6. Perform the transfer with progress display
 
 ### Command-line Mode
 Run with explicit parameters:

@@ -1,6 +1,4 @@
 # 🔄 S3 to HPC Transfer Tool
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
 
 A robust script for transferring data from Amazon S3 buckets to High-Performance Computing (HPC) environments using `rclone`.
 

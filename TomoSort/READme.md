@@ -1,25 +1,73 @@
-# TomoSort
+# 🧬 TomoSort
 
-A file organization and processing tool for electron tomography data. Automatically sorts .mdoc and .eer files into appropriate directories and optionally submits alignment jobs to the SLURM scheduler.
+A streamlined tool for organizing and processing cryo-electron tomography data files with automated workflow.
 
-## Features
+## 📋 Overview
 
-- Automatically organizes tomography data files into a structured directory hierarchy
-- Handles gain reference files for image correction
-- Creates appropriate directory structures for each dataset
-- Prepares and submits alignframes jobs with customized parameters
-- Optional CTF processing integration
-- Compatible with IMOD batch processing
+TomoSort is a powerful bash script that automatically organizes your tomography data files (`.mdoc`, `.eer`, `.gain`) into a well-structured directory hierarchy and optionally submits alignment jobs to the SLURM scheduler. It eliminates the tedious manual organization steps in your tomography processing pipeline!
 
-## Overview
+## ✨ Features
 
-TomoSort was developed to streamline the organization and initial processing of tomography data. It eliminates the tedious manual file sorting and allows for immediate processing by:
+- **📊 Automatic File Organization**: Intelligently sorts `.mdoc` and `.eer` files into appropriate directories
+- **📁 Directory Structure Creation**: Creates all necessary subdirectories for a smooth tomography workflow
+- **🚀 SLURM Integration**: Seamlessly submits alignment jobs to the cluster
+- **🔍 CTF Processing**: Optional CTF parameter estimation using CTFfind4
+- **🔧 IMOD Integration**: Sets up files for efficient batch processing with BatchRunTomo
 
-1. Creating organized directories for each tomogram
-2. Moving .mdoc and associated .eer files to appropriate locations
-3. Setting up SLURM jobs for alignframes and initial tomogram reconstruction
+## 💻 Usage
 
-## Usage
+Basic usage:
 
 ```bash
-./TomoSort.sh /path/to/data [-CTF] [-alignframes alignframes_command]
+./TomoSort.sh /path/to/data
+```
+
+With alignframes processing:
+
+```bash
+./TomoSort.sh /path/to/data -alignframes "alignframes [options]"
+```
+
+With CTF processing enabled:
+
+```bash
+./TomoSort.sh /path/to/data -CTF -alignframes "alignframes [options]"
+```
+
+## 🗂️ Directory Structure
+
+For each `.mdoc` file, the script creates a clean organization:
+
+```
+/data_path/mdoc_rootname/
+├── frames/           # 📊 Raw .eer files
+├── CTFfind/          # 🔍 CTF estimation results
+├── IMOD/             # 🔄 Aligned stacks and reconstruction data
+└── CryoCARE/         # ✨ Folder for denoising
+```
+
+## ✅ Requirements
+
+No installation required! 🎉 This tool is designed to work directly on your lab's computing environment without any setup.
+
+## 🔄 Workflow
+
+1. 📥 Place your `.mdoc`, `.eer`, and `.gain` files in a single directory
+2. 🚀 Run the script on that directory
+3. 🔧 The script organizes files and optionally submits processing jobs
+4. 📈 Results will be available in the created directory structure
+
+## ⚙️ Advanced Options
+
+- **`-CTF`**: 🔬 Enables CTF estimation with CTFfind4 after alignment
+- **`-alignframes`**: 🛠️ Specifies command-line options for IMOD's alignframes program
+
+## 📝 Notes
+
+- The script requires access to IMOD, Apptainer, and CTFfind4 modules (pre-configured in your lab environment)
+- Processing uses the configured template `/work/FAC/FBM/DMF/pnavarr1/default/tools/AurelienTemplate241024.adoc`
+- Gain reference files are detected automatically or can be specified in the alignframes command
+
+---
+
+🌟 **Happy tomography processing!** 🌟

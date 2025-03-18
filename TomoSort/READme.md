@@ -40,10 +40,10 @@ For each `.mdoc` file, the script creates a clean organization:
 
 ```
 /data_path/mdoc_rootname/
-├── frames/           # 📊 Raw .eer files
-├── CTFfind/          # 🔍 CTF estimation results
-├── IMOD/             # 🔄 Pre-aligned stacks and reconstruction data
-└── CryoCARE/         # ✨ Folder for denoising
+├── frames/           # ✨ Raw .eer files
+├── CTFfind/          # 📊 CTF estimation results
+├── IMOD/             # 📝 Pre-aligned stacks and reconstruction data
+└── CryoCARE/         # 🔍 Folder for denoising
 ```
 
 ## 🔄 Workflow

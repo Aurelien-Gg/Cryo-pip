@@ -4,7 +4,7 @@ A streamlined tool for organizing and processing cryo-electron tomography data f
 
 ## 📋 Overview
 
-TomoSort is a powerful bash script that automatically organizes your tomography data files (`.mdoc`, `.eer`, `.gain`) into a well-structured directory hierarchy and optionally submits alignment jobs to the SLURM scheduler. It eliminates the tedious manual organization steps in your tomography processing pipeline!
+TomoSort is a script that automatically organizes your tomography data files (`.mdoc`, `.eer`, `.gain`) into a well-structured directory hierarchy and optionally submits alignment jobs to the SLURM scheduler. It eliminates the tedious manual organization steps in your tomography processing pipeline!
 
 ## ✨ Features
 

@@ -46,10 +46,6 @@ For each `.mdoc` file, the script creates a clean organization:
 └── CryoCARE/         # ✨ Folder for denoising
 ```
 
-## ✅ Requirements
-
-No installation required! 🎉 This tool is designed to work directly on your lab's computing environment without any setup.
-
 ## 🔄 Workflow
 
 1. 📥 Place your `.mdoc`, `.eer`, and `.gain` files in a single directory
@@ -60,7 +56,11 @@ No installation required! 🎉 This tool is designed to work directly on your la
 ## ⚙️ Advanced Options
 
 - **`-CTF`**: 🔬 Enables CTF estimation with CTFfind4 after alignment
-- **`-alignframes`**: 🛠️ Specifies command-line options for IMOD's alignframes program. Pixel size is determined automotically from .mdoc header.
+- **`-alignframes`**: 🛠️ Specifies command-line options for IMOD's alignframes program. Pixel size is determined automotically from .mdoc header. Gain reference files is detected automatically or can be specified
+
+## ✅ Requirements
+
+No installation required! 🎉 This tool is designed to work directly on your lab's computing environment without any setup.
 
 ## 📝 Notes
 

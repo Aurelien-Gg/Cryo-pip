@@ -19,19 +19,19 @@ TomoSort is a powerful bash script that automatically organizes your tomography 
 Basic usage:
 
 ```bash
-./TomoSort.sh /path/to/data
+TomoSort.sh /path/to/data
 ```
 
 With alignframes processing:
 
 ```bash
-./TomoSort.sh /path/to/data -alignframes "alignframes [options]"
+TomoSort.sh /path/to/data -alignframes "alignframes [options]"
 ```
 
-With CTF processing enabled:
+With CTF processing enabled (-CTF flag must be written before -alignframes flag):
 
 ```bash
-./TomoSort.sh /path/to/data -CTF -alignframes "alignframes [options]"
+TomoSort.sh /path/to/data -CTF -alignframes "alignframes [options]"
 ```
 
 ## 🗂️ Directory Structure
@@ -42,7 +42,7 @@ For each `.mdoc` file, the script creates a clean organization:
 /data_path/mdoc_rootname/
 ├── frames/           # 📊 Raw .eer files
 ├── CTFfind/          # 🔍 CTF estimation results
-├── IMOD/             # 🔄 Aligned stacks and reconstruction data
+├── IMOD/             # 🔄 Pre-aligned stacks and reconstruction data
 └── CryoCARE/         # ✨ Folder for denoising
 ```
 
@@ -60,7 +60,7 @@ No installation required! 🎉 This tool is designed to work directly on your la
 ## ⚙️ Advanced Options
 
 - **`-CTF`**: 🔬 Enables CTF estimation with CTFfind4 after alignment
-- **`-alignframes`**: 🛠️ Specifies command-line options for IMOD's alignframes program
+- **`-alignframes`**: 🛠️ Specifies command-line options for IMOD's alignframes program. Pixel size is determined automotically from .mdoc header.
 
 ## 📝 Notes
 

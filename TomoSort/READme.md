@@ -37,6 +37,7 @@ TomoSort.sh /path/to/data -CTF -alignframes "alignframes [options]"
 ## 🗂️ Directory Structure
 
 For each `.mdoc` file, the script creates a clean organization:
+![image](https://github.com/user-attachments/assets/72bdb2bf-aff4-427d-b126-770aabafa0f1)
 
 ```
 /data_path/mdoc_rootname/

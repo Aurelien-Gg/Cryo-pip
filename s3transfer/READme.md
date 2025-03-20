@@ -46,7 +46,7 @@ Now, **s3-dci-ro** is a S3 configured connection alias that you can use in Rclon
 ### Interactive Mode
 Simply run the script without arguments:
 ```bash
-s3transfer.sh
+s3transfer
 ```
 
 The script will:
@@ -60,7 +60,7 @@ The script will:
 ### Command-line Mode
 Run with explicit parameters:
 ```bash
-s3transfer.sh -copythis SOURCE_FOLDER -tohere DESTINATION_PATH [-dryrun]
+s3transfer -copythis SOURCE_FOLDER -tohere DESTINATION_PATH [-dryrun]
 ```
 
 Options:
@@ -72,17 +72,17 @@ Options:
 ## 📝 Examples
 ```bash
 # Interactive mode
-s3transfer.sh
+s3transfer
 ```
 ![image](https://github.com/user-attachments/assets/9152fba7-c40e-4dc5-8664-517960c02423)
 ![image](https://github.com/user-attachments/assets/8201a929-10a4-492d-8d86-1cd0ef647f5e)
 
 ```
 # Transfer the "MyData" folder to your work directory
-s3transfer.sh -copythis MyData -tohere /work/myproject
+s3transfer -copythis MyData -tohere /work/myproject
 
 # Test a transfer without copying files
-s3transfer.sh -copythis MyData -tohere /work/myproject -dryrun
+s3transfer -copythis MyData -tohere /work/myproject -dryrun
 ```
 
 ## 📊 Logging
@@ -136,11 +136,11 @@ The system automatically notifies you about existing tmux sessions when you log 
 ### Running Multiple Transfers
 You can run multiple transfers simultaneously, each in its own tmux session:
 ```bash
-s3transfer.sh -copythis FOLDER1 -tohere /path/to/destination1
+s3transfer -copythis FOLDER1 -tohere /path/to/destination1
 ```
 In another terminal:
 ```bash
-s3transfer.sh -copythis FOLDER2 -tohere /path/to/destination2
+s3transfer -copythis FOLDER2 -tohere /path/to/destination2
 ```
 
 ## 🔍 Troubleshooting

@@ -1,6 +1,32 @@
-# ddw_cc.py
+# 🧬 DDW_CC: CryoCARE & DeepDeWedge Pipeline Tool
 
-A pipeline tool supporting CryoCARE and DeepDeWedge denoising for cryo-EM data.
+A comprehensive pipeline tool supporting CryoCARE and DeepDeWedge denoising for cryo-electron microscopy (cryo-EM) data. Streamlining your tomography workflow from raw data to denoised tomograms.
+
+[![Python 3.8+](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![IMOD](https://img.shields.io/badge/IMOD-Compatible-green.svg)](https://bio3d.colorado.edu/imod/)
+[![CryoCARE](https://img.shields.io/badge/CryoCARE-Supported-orange.svg)](https://github.com/juglab/cryoCARE)
+[![DeepDeWedge](https://img.shields.io/badge/DeepDeWedge-Supported-red.svg)](https://github.com/deepdewedge)
+
+## ✨ Features
+
+- **Complete Pipeline**: Process data from raw .mdoc/.eer files all the way to denoised tomograms
+- **Multiple Entry Points**: Start from raw data, stacks, or tomograms
+- **Neural Network Denoising**: Integrated support for CryoCARE and DeepDeWedge algorithms
+- **Interactive Mode**: User-friendly menu system for beginners
+- **Command-line Interface**: For power users and scripting
+- **SLURM Integration**: Automatically submits jobs to HPC environments
+
+### 🌟 Quality of Life Improvements
+
+- **Auto-detection**: Automatically finds gain reference files
+- **Smart Validation**: Checks inputs before submitting jobs to avoid wasted compute time
+- **Interactive Job Summary**: Clear overview of what will be processed
+- **Tilt Angle Comparisons**: Identifies missing or problematic tilt angles
+- **Tab Completion**: For file paths in interactive mode
+- **Rich Terminal Output**: Color-coded progress and status updates
+- **Flexible Output Naming**: Avoids overwriting existing data
+
+## 🚀 Usage
 
 ```
 ddw_cc.py [OPTIONS]
@@ -9,7 +35,7 @@ ddw_cc.py --help
 
 Use `--help` to see all available options.
 
-## Workflows
+## 🧩 Workflows
 
 The pipeline supports three main workflows, each with its own set of required parameters:
 
@@ -26,7 +52,9 @@ The pipeline supports three main workflows, each with its own set of required pa
 
 #### Example:
 
-```ddw_cc.py -m /path/to/stack.mdoc -r /path/to/stack.mrc -cc```
+```bash
+ddw_cc.py -m /path/to/stack.mdoc -r /path/to/stack.mrc -cc
+```
 
 Output will be located in original stack (`--mrc`) folder.
 
@@ -39,7 +67,9 @@ Output will be located in original stack (`--mrc`) folder.
 
 #### Example:
 
-```ddw_cc.py -es /path/to/even.mrc -os /path/to/odd.mrc -r /path/to/stack.mrc -dd```
+```bash
+ddw_cc.py -es /path/to/even.mrc -os /path/to/odd.mrc -r /path/to/stack.mrc -dd
+```
 
 Output will be located in original stack (`--mrc`) folder.
 
@@ -50,10 +80,11 @@ Output will be located in original stack (`--mrc`) folder.
 - `--odd (-ot)`: Path to odd tomogram (.mrc)
 - `--output (-out)`: Output directory path. Will be created if doesn't exist. If CryoCARE or DeepDeWedge folder already exist, will create new with _# appended to foldername.
 
-## Workflow Examples ##
+## 📋 Detailed Workflow Examples
 
-#### Example 1: Full Pipeline from Raw Data with CryoCARE ####
-```
+### Example 1: Full Pipeline from Raw Data with CryoCARE
+
+```bash
 ddw_cc.py \
     --mdoc /path/to/stack.mdoc \
     --mrc /path/to/stack.mrc \
@@ -64,18 +95,14 @@ ddw_cc.py \
 ```
     
 This command will:
-
 - Process raw data from .mdoc and .mrc files
-
 - Create even and odd stacks and tomograms
-
 - Apply CryoCARE denoising with 150 epochs and 300 steps per epoch
-
 - Apply a binning factor of 2 to the tomograms before denoising
 
-#### Example 2: DeepDeWedge Denoising on Existing Tomograms ####
+### Example 2: DeepDeWedge Denoising on Existing Tomograms
 
-```
+```bash
 ddw_cc.py \
     --even /path/to/even_tomo_rec.mrc \
     --odd /path/to/odd_tomo_rec.mrc \
@@ -91,14 +118,12 @@ ddw_cc.py \
 ```
 
 This command will:
-
 - Use existing even and odd tomograms
-
 - Apply DeepDeWedge denoising with custom parameters
-
 - Use 2 GPUs (devices 0 and 1) for processing
 
-## Options
+
+## 📖 Options
 
 ![image](https://github.com/user-attachments/assets/1950b6cb-5ba6-4d5e-bc4b-4df47ed7fa22)
 

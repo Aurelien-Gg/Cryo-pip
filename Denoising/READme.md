@@ -134,7 +134,8 @@ This command will:
 | `--oddstack`  | `-os`  | Path to odd stack (.mrc)                                      | None    |
 | `--even`      | `-et`  | Path to even tomogram (.mrc)                                  | None    |
 | `--odd`       | `-ot`  | Path to odd tomogram (.mrc)                                   | None    |
-``` 
+```
+
 #### Denoising Methods
 ```markdown
 | Parameter      | Alias  | Description                    | Default |
@@ -142,36 +143,53 @@ This command will:
 | `--cryocare`   | `-cc`  | Use CryoCARE denoising         | False   |
 | `--deepdewedge`| `-dd`  | Use DeepDeWedge denoising      | False   |
 ```
+
 #### General Parameters
 ```markdown
-| Parameter      | Alias  | Description                         | Default                         |
-|----------------|--------|-------------------------------------|---------------------------------|
-| `--output`     | `-out` | Output directory                    | None                            |
-| `--epochs`     | `-ep`  | Number of epochs for training       | 100 (CryoCARE), 200 (DeepDeWedge) |
-| `--binning`    | `-b`   | Binning factor for denoising input  | 1                               |
+| Parameter        | Alias    | Description                              | Default                         |
+|------------------|----------|------------------------------------------|---------------------------------|
+| `--output`       | `-out`   | Output directory                         | None                            |
+| `--epochs`       | `-ep`    | Number of epochs for training            | 100 (CryoCARE), 200 (DeepDeWedge) |
+| `--binning`      | `-b`     | Binning factor for denoising input       | 1                               |
+| `--boxsize`      | `-box`   | Box size in pixels                       | 72                              |
+| `--depth`        | `-dep`   | Depth of neural network                  | 3                               |
+| `--nfirst`       | `-nf`    | Number of initial feature channels       | 32                              |
+| `--batch`        | N/A      | Number of subtomograms per batch         | 32 (CryoCARE), 5 (DeepDeWedge)  |
+| `--skiptraining` | N/A      | Skip training phase ("y" or "n")         | "n"                             |
+| `--skipprediction` | N/A    | Skip prediction phase ("y" or "n")       | "n"                             |
+| `--bytes`        | N/A      | Convert output to bytes to save space    | "n"                             |
 ```
+
 #### CryoCARE Specific Parameters
 ```markdown
-| Parameter      | Alias | Description                  | Default |
-|----------------|-------|------------------------------|---------|
-| `--steps`      | `-s`  | Steps per epoch for training | 200     |
+| Parameter           | Alias  | Description                          | Default      |
+|---------------------|--------|--------------------------------------|--------------|
+| `--steps`           | `-s`   | Steps per epoch for training         | 200          |
+| `--model`           | N/A    | Name of model for training/prediction| "model_name" |
+| `--number-subtomos` | `-ns`  | Number of subtomograms for training  | 1200         |
+| `--split`           | N/A    | Fraction of subtomograms for training| 0.9          |
 ```
+
 #### DeepDeWedge Specific Parameters
 ```markdown
 | Parameter          | Alias  | Description                                              | Default |
 |--------------------|--------|----------------------------------------------------------|---------|
 | `--mask`           | N/A    | Binary mask for subtomogram extraction                   | None    |
-| `--boxsize`        | `-box` | Box size in pixels                                       | 72      |
 | `--zstride`        | `-z`   | Z interval to sample subtomograms                        | 72      |
 | `--splitval`       | `-sp`  | Fraction of subtomograms for validation                  | 0.1     |
 | `--mwangle`        | `-mw`  | Width of missing wedge in degrees                        | 70.0    |
-| `--depth`          | `-dep` | Depth of neural network                                  | 3       |
-| `--nfirst`         | `-nf`  | Number of initial feature channels                       | 32      |
-| `--batch`          | N/A    | Number of subtomograms per batch                         | 5       |
-| `--nworkers`       | N/A    | Number of data loading workers                           | 8       |
 | `--dropprob`       | N/A    | Dropout probability                                      | 0.0     |
 | `--seed`           | N/A    | Random seed                                              | 42      |
-| `--skiptraining`   | N/A    | Skip training phase ("y" or "n")                         | "n"     |
-| `--skipprediction` | N/A    | Skip prediction phase ("y" or "n")                       | "n"     |
-| `--bytes`          | N/A    | Convert output to bytes to save space ("y" or "n")       | "n"     |
+| `--nworkers`       | N/A    | Number of data loading workers                           | 8       |
+```
+
+#### Compute Resources
+```markdown
+| Parameter     | Alias  | Description                                    | Default      |
+|---------------|--------|------------------------------------------------|--------------|
+| `--gpu`       | N/A    | GPU devices to use                             | "[0]"        |
+| `--ngpu`      | N/A    | Number of GPUs                                 | 1            |
+| `--partition` | `-p`   | SLURM partition (options: 'gpu', 'gpu-l40')    | "gpu"        |
+| `--qos`       | `-q`   | SLURM QOS                                      | None         |
+| `--time`      | N/A    | Job time limit                                 | "00-06:00:00" (CryoCARE), "00-24:00:00" (DeepDeWedge) |
 ```

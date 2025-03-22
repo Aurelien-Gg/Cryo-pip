@@ -1,11 +1,7 @@
-# 🧬 DDW_CC: CryoCARE & DeepDeWedge Pipeline Tool
+# 🧬 ddw_cc: DeepDeWedge & CryoCARE  Pipeline Tool
 
 A comprehensive pipeline tool supporting CryoCARE and DeepDeWedge denoising for cryo-electron microscopy (cryo-EM) data. Streamlining your tomography workflow from raw data to denoised tomograms.
 
-[![Python 3.8+](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![IMOD](https://img.shields.io/badge/IMOD-Compatible-green.svg)](https://bio3d.colorado.edu/imod/)
-[![CryoCARE](https://img.shields.io/badge/CryoCARE-Supported-orange.svg)](https://github.com/juglab/cryoCARE)
-[![DeepDeWedge](https://img.shields.io/badge/DeepDeWedge-Supported-red.svg)](https://github.com/deepdewedge)
 
 ## ✨ Features
 

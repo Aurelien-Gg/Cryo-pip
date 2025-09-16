@@ -28,7 +28,7 @@ The `generate_images` script is a tool for generating images & gifs of raw, pre-
 
 ⚠️ Important Note - IMOD Commands
 
-Warning: This script is currently configured to run IMOD commands with the imod prefix (e.g., imod command) because it was designed for use with a containerized IMOD installation.
+Warning: This script is currently configured to run IMOD commands with the imod prefix (e.g., imod <command>) because it was designed for use with a containerized IMOD installation.
 If you're running this on a system with IMOD installed directly, you'll need to modify the script to remove the imod prefix from all IMOD command calls (e.g., change "imod mrc2tif" to just "mrc2tif" and "imod header" to just "header").
 
 ## Syntax

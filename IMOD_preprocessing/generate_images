@@ -1,66 +1,402 @@
-# Generate Images Script - Usage Guide
+#!/bin/bash -l
 
-## Overview
+# Script: generate_images
+# Usage: generate_images <ts_basename> [folder_path] [image_size]
+# Example: generate_images Position_1 folderA 512
 
-The `generate_images` script is a tool for generating images & gifs of raw, pre-aligned, aligned, and reconstructed tomograms, and plots of alignment residuals (nm) and defocus estimation (nm).
+# Parse command line arguments
+TS_BASENAME="$1"
+shift
 
-## Syntax
+FOLDER_PATH="."
+IMAGE_SIZE="1024"
 
-```bash
-generate_images <ts_basename> [folder_path] [image_size]
-```
+for arg in "$@"; do
+    if [[ "$arg" =~ ^[0-9]+$ ]]; then
+        IMAGE_SIZE="$arg"
+    else
+        FOLDER_PATH="$arg"
+    fi
+done
 
-## Parameters
+echo "  Loading ImageMagick module..."
+module load imagemagick 2>/dev/null || echo "  Warning: Could not load imagemagick module"
 
-| Parameter | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `ts_basename` | ✅ Yes | - | Base name of the tilt series (without file extensions) |
-| `folder_path` | ❌ No | `.` (current directory) | Path to the folder containing the data files |
-| `image_size` | ❌ No | `1024` | Target size for image resizing (pixels) |
+# Check if basename is provided
+if [ -z "$TS_BASENAME" ]; then
+    echo "Error: Tilt series basename is required"
+    echo "Usage: generate_images <ts_basename> [folder_path] [image_size]"
+    exit 1
+fi
 
-## Usage Examples
+# Convert to absolute path if relative
+if [[ "$FOLDER_PATH" != /* ]]; then
+    FOLDER_PATH="$(pwd)/$FOLDER_PATH"
+fi
 
-```bash
-# Basic usage - process files in current directory
-generate_images Position_1
+# Check if folder exists
+if [ ! -d "$FOLDER_PATH" ]; then
+    echo "Error: Folder '$FOLDER_PATH' does not exist"
+    exit 1
+fi
 
-# Specify folder and custom image size
-generate_images Position_1 /path/to/data 512
-```
+# Check if IMAGE_SIZE is a valid integer
+PERFORM_RESIZE=false
+if [ -n "$IMAGE_SIZE" ]; then
+    if [[ "$IMAGE_SIZE" =~ ^[0-9]+$ ]]; then
+        PERFORM_RESIZE=true
+        echo "Target image size: ${IMAGE_SIZE}x${IMAGE_SIZE}"
+    else
+        echo "Warning: Invalid image size '$IMAGE_SIZE' - skipping resize"
+        IMAGE_SIZE=""
+    fi
+else
+    echo "No image size specified - images will not be resized"
+fi
 
-## Input Files
+echo "Processing tilt series: $TS_BASENAME"
+echo "Working in folder: $FOLDER_PATH"
+echo "----------------------------------------"
 
-The script automatically searches for and processes the following files:
+# Change to working directory
+cd "$FOLDER_PATH" || exit 1
 
-| File Pattern | Description |
-|--------------|-------------|
-| `align.log` | Alignment log file containing residual values |
-| `{basename}.defocus` | Defocus values for each tilt image |
-| `{basename}.mrc` | Raw tilt series stack |
-| `{basename}_preali.mrc` | Pre-aligned tilt series stack |
-| `{basename}_ali.mrc` | Aligned tilt series stack |
-| `{basename}*_rec*.mrc` | Reconstruction/tomogram files |
+# Setup environment for Python plotting
+echo "Setting up Python environment..."
+module unload python 2>/dev/null || true  # Unload any loaded Python modules
+source $(conda info --base)/etc/profile.d/conda.sh
+conda activate /work/FAC/FBM/DMF/pnavarr1/default/tools/conda-envs/cryoem
 
-## Output Files Generated
+# --- Function to create Python plotting script ---
+create_plot_script() {
+    cat > plot_alignment_data.py << 'EOF'
+import sys
+import os
+import re
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
 
-### 1. Alignment and Defocus Plots
-- `{basename}_alignment_plot.png` - Plot of alignment residuals vs. image view
-- `{basename}_defocus_plot.png` - Plot of defocus values vs. image view
+def parse_align_log(log_file_path):
+    """Parse align.log file to extract view numbers and resid-nm values."""
+    views = []
+    resid_nms = []
+    header_pattern = re.compile(r"^\s*view\s+rotation\s+tilt\s+deltilt\s+mag\s+dmag\s+skew\s+resid-nm\s*$")
+    data_pattern = re.compile(r"^\s*(\d+)\s+[\d\.-]+\s+[\d\.-]+\s+[\d\.-]+\s+[\d\.-]+\s+[\d\.-]+\s+[\d\.-]+\s+([\d\.-]+)\s*")
+    parsing_data = False
 
-### 2. Animated GIFs (Tilt Series)
-- `{basename}.gif` - Animation from raw tilt series
-- `{basename}_preali.gif` - Animation from pre-aligned tilt series
-- `{basename}_ali.gif` - Animation from aligned tilt series
+    if not os.path.exists(log_file_path):
+        print(f"Warning: Align log file not found: {log_file_path}", file=sys.stderr)
+        return None
 
-### 3. Representative Images
-- `{basename}_middle.jpg` - Middle image from raw tilt series
-- `{basename}_preali_middle.jpg` - Middle image from pre-aligned series
-- `{basename}_ali_middle.jpg` - Middle image from aligned series
+    try:
+        with open(log_file_path, 'r', encoding='utf-8', errors='replace') as f:
+            for line in f:
+                if header_pattern.match(line):
+                    parsing_data = True
+                    continue
+                
+                if parsing_data:
+                    match = data_pattern.match(line)
+                    if match:
+                        try:
+                            views.append(int(match.group(1)))
+                            resid_nms.append(float(match.group(2)))
+                        except ValueError:
+                            print(f"Warning: Could not parse data line: {line.strip()}", file=sys.stderr)
+                    elif not line.strip(): 
+                        parsing_data = False 
+                        break 
+        
+        if not views or not resid_nms:
+            return None
+        
+        print(f"Successfully extracted {len(views)} views from align.log")
+        return {'views': views, 'resid_nms': resid_nms}
 
-### 4. Tomogram Slices
-- `{basename}*_rec*_middle.jpg` - Middle slice from each reconstruction file
+    except Exception as e:
+        print(f"Error parsing align.log: {e}", file=sys.stderr)
+        return None
 
-## File Location
+def parse_defocus_file(defocus_file_path):
+    """Parse .defocus file to extract view numbers and defocus values."""
+    views = []
+    defocus_values = []
 
-- All output files are generated in the specified folder path
-- Original input files are never modified
+    if not os.path.exists(defocus_file_path):
+        print(f"Warning: Defocus file not found: {defocus_file_path}", file=sys.stderr)
+        return None
+
+    try:
+        with open(defocus_file_path, 'r', encoding='utf-8', errors='replace') as f:
+            for line_number, line in enumerate(f, 1):
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                
+                parts = line.split()
+                if len(parts) >= 5:
+                    try:
+                        view_num = int(parts[0])
+                        defocus_val = float(parts[4])
+                        views.append(view_num)
+                        defocus_values.append(defocus_val)
+                    except ValueError:
+                        print(f"Warning: Could not parse line {line_number}: '{line}'", file=sys.stderr)
+                else:
+                    print(f"Warning: Line {line_number} has fewer than 5 columns", file=sys.stderr)
+        
+        if not views or not defocus_values:
+            return None
+        
+        print(f"Successfully extracted {len(views)} views from defocus file")
+        return {'views': views, 'defocus_values': defocus_values}
+
+    except Exception as e:
+        print(f"Error parsing defocus file: {e}", file=sys.stderr)
+        return None
+
+def create_plots(align_data, defocus_data, ts_basename):
+    """Create separate plots for alignment and defocus data."""
+    
+    # Plot 1: Residual (nm) vs Image View
+    if align_data:
+        fig, ax = plt.subplots(1, 1, figsize=(8, 6))
+        ax.plot(align_data['views'], align_data['resid_nms'], 'b.-', markersize=4)
+        ax.set_xlabel('Image View', fontsize=12)
+        ax.set_ylabel('Residual (nm)', fontsize=12)
+        ax.set_title(f'Alignment Residuals - {ts_basename}', fontsize=14)
+        ax.grid(True, alpha=0.3)
+        ax.set_xlim(left=0)
+        plt.tight_layout()
+        output_file = f"{ts_basename}_alignment_plot.png"
+        plt.savefig(output_file, dpi=150, bbox_inches='tight')
+        print(f"Saved alignment plot to {output_file}")
+        plt.close()
+    
+    # Plot 2: Defocus (nm) vs Image View
+    if defocus_data:
+        fig, ax = plt.subplots(1, 1, figsize=(8, 6))
+        ax.plot(defocus_data['views'], defocus_data['defocus_values'], 'r.-', markersize=4)
+        ax.set_xlabel('Image View', fontsize=12)
+        ax.set_ylabel('Defocus (nm)', fontsize=12)
+        ax.set_title(f'Defocus Values - {ts_basename}', fontsize=14)
+        ax.grid(True, alpha=0.3)
+        ax.set_xlim(left=0)
+        plt.tight_layout()
+        output_file = f"{ts_basename}_defocus_plot.png"
+        plt.savefig(output_file, dpi=150, bbox_inches='tight')
+        print(f"Saved defocus plot to {output_file}")
+        plt.close()
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python plot_alignment_data.py <ts_basename>")
+        sys.exit(1)
+    
+    ts_basename = sys.argv[1]
+    
+    # Parse files
+    align_data = parse_align_log("align.log")
+    defocus_data = parse_defocus_file(f"{ts_basename}.defocus")
+    
+    # Create plots if we have data
+    create_plots(align_data, defocus_data, ts_basename)
+    
+    if not align_data and not defocus_data:
+        print("No data available for plotting")
+EOF
+}
+
+# --- Process align.log and .defocus files ---
+echo "Processing alignment and defocus data..."
+if [ -f "align.log" ] || [ -f "${TS_BASENAME}.defocus" ]; then
+    create_plot_script
+    python plot_alignment_data.py "$TS_BASENAME"
+    rm -f plot_alignment_data.py
+else
+    echo "  Skipping: No align.log or ${TS_BASENAME}.defocus files found"
+fi
+
+# --- Process _ali.mrc file ---
+echo "Processing ${TS_BASENAME}_ali.mrc..."
+if [ -f "${TS_BASENAME}_ali.mrc" ]; then
+    echo "  Extracting images from aligned stack..."
+    imod mrc2tif -a 0,0 -j -q 90 "${TS_BASENAME}_ali.mrc" "${TS_BASENAME}_ali"
+    
+    if ls "${TS_BASENAME}_ali."*.jpg 1> /dev/null 2>&1; then
+        # Count the number of files and save middle image
+        NUM_FILES=$(ls -1 "${TS_BASENAME}_ali."*.jpg | wc -l)
+        MIDDLE_INDEX=$(( (NUM_FILES - 1) / 2 ))
+        MIDDLE_FILE=$(printf "${TS_BASENAME}_ali.%03d.jpg" $((MIDDLE_INDEX + 1)))
+        
+        if [ -f "$MIDDLE_FILE" ]; then
+            echo "  Saving middle image as ${TS_BASENAME}_ali_middle.jpg"
+            cp "$MIDDLE_FILE" "${TS_BASENAME}_ali_middle.jpg"
+        fi
+        
+        # Only resize if PERFORM_RESIZE is true
+        if [ "$PERFORM_RESIZE" = true ]; then
+            echo "  Loading ImageMagick module..."
+            module load imagemagick 2>/dev/null || echo "  Note: Could not load imagemagick module"
+            
+            echo "  Resizing images to ${IMAGE_SIZE}x${IMAGE_SIZE}..."
+            for img in "${TS_BASENAME}_ali."*.jpg; do
+                convert "$img" -resize "${IMAGE_SIZE}x${IMAGE_SIZE}>" "$img"
+            done
+        fi
+        
+        echo "  Creating GIF with patrol cycle..."
+        convert -coalesce "${TS_BASENAME}_ali."*.jpg -duplicate 1,-2-1 -layers OptimizePlus -loop 0 "${TS_BASENAME}_ali.gif"
+        echo "  Created ${TS_BASENAME}_ali.gif"
+        
+        # Clean up individual images
+        rm -f "${TS_BASENAME}_ali."*.jpg
+    else
+        echo "  Warning: No images extracted from ${TS_BASENAME}_ali.mrc"
+    fi
+else
+    echo "  Skipping: ${TS_BASENAME}_ali.mrc not found"
+fi
+
+# --- Process _preali.mrc file ---
+echo "Processing ${TS_BASENAME}_preali.mrc..."
+if [ -f "${TS_BASENAME}_preali.mrc" ]; then
+    echo "  Extracting images from pre-aligned stack..."
+    imod mrc2tif -a 0,0 -j -q 90 "${TS_BASENAME}_preali.mrc" "${TS_BASENAME}_preali"
+    
+    if ls "${TS_BASENAME}_preali."*.jpg 1> /dev/null 2>&1; then
+        # Count the number of files and save middle image
+        NUM_FILES=$(ls -1 "${TS_BASENAME}_preali."*.jpg | wc -l)
+        MIDDLE_INDEX=$(( (NUM_FILES - 1) / 2 ))
+        MIDDLE_FILE=$(printf "${TS_BASENAME}_preali.%03d.jpg" $((MIDDLE_INDEX + 1)))
+        
+        if [ -f "$MIDDLE_FILE" ]; then
+            echo "  Saving middle image as ${TS_BASENAME}_preali_middle.jpg"
+            cp "$MIDDLE_FILE" "${TS_BASENAME}_preali_middle.jpg"
+        fi
+        
+        # Only resize if PERFORM_RESIZE is true
+        if [ "$PERFORM_RESIZE" = true ]; then
+            echo "  Loading ImageMagick module..."
+            module load imagemagick 2>/dev/null || echo "  Note: Could not load imagemagick module"
+            
+            echo "  Resizing images to ${IMAGE_SIZE}x${IMAGE_SIZE}..."
+            for img in "${TS_BASENAME}_preali."*.jpg; do
+                convert "$img" -resize "${IMAGE_SIZE}x${IMAGE_SIZE}>" "$img"
+            done
+        fi
+        
+        echo "  Creating GIF with patrol cycle..."
+        convert "${TS_BASENAME}_preali."*.jpg -coalesce -duplicate 1,-2-1 -layers OptimizePlus -loop 0 "${TS_BASENAME}_preali.gif"
+        echo "  Created ${TS_BASENAME}_preali.gif"
+        
+        # Clean up individual images
+        rm -f "${TS_BASENAME}_preali."*.jpg
+    else
+        echo "  Warning: No images extracted from ${TS_BASENAME}_preali.mrc"
+    fi
+else
+    echo "  Skipping: ${TS_BASENAME}_preali.mrc not found"
+fi
+
+# --- Process base .mrc file ---
+echo "Processing ${TS_BASENAME}.mrc..."
+if [ -f "${TS_BASENAME}.mrc" ]; then
+    echo "  Extracting images from raw stack (lower quality)..."
+    imod mrc2tif -a 0,0 -j -q 90 "${TS_BASENAME}.mrc" "${TS_BASENAME}"
+    
+    if ls "${TS_BASENAME}."*.jpg 1> /dev/null 2>&1; then
+        # Count the number of files
+        NUM_FILES=$(ls -1 "${TS_BASENAME}."*.jpg | wc -l)
+        
+        # Calculate the index of the middle file (0-based index)
+        MIDDLE_INDEX=$(( (NUM_FILES - 1) / 2 ))
+        
+        # Get the middle file name (files are numbered starting from 001)
+        MIDDLE_FILE=$(printf "${TS_BASENAME}.%03d.jpg" $((MIDDLE_INDEX + 1)))
+        
+        if [ -f "$MIDDLE_FILE" ]; then
+            echo "  Saving middle image as ${TS_BASENAME}_middle.jpg"
+            cp "$MIDDLE_FILE" "${TS_BASENAME}_middle.jpg"
+        fi
+        
+        # Only resize if PERFORM_RESIZE is true
+        if [ "$PERFORM_RESIZE" = true ]; then
+            echo "  Loading ImageMagick module..."
+            module load imagemagick 2>/dev/null || echo "  Note: Could not load imagemagick module"
+            
+            echo "  Resizing images to ${IMAGE_SIZE}x${IMAGE_SIZE}..."
+            for img in "${TS_BASENAME}."*.jpg; do
+                convert "$img" -resize "${IMAGE_SIZE}x${IMAGE_SIZE}>" "$img"
+            done
+        fi
+        
+        echo "  Creating GIF with patrol cycle..."
+        convert "${TS_BASENAME}."*.jpg -coalesce -duplicate 1,-2-1 -layers OptimizePlus -loop 0 "${TS_BASENAME}.gif"
+        echo "  Created ${TS_BASENAME}.gif"
+        
+        # Clean up individual images
+        rm -f "${TS_BASENAME}."[0-9]*.jpg
+    else
+        echo "  Warning: No images extracted from ${TS_BASENAME}.mrc"
+    fi
+else
+    echo "  Skipping: ${TS_BASENAME}.mrc not found or is a backup file"
+fi
+
+# --- Process reconstruction files ---
+echo "Processing reconstruction files (*_rec*.mrc)..."
+for REC_FILE in ${TS_BASENAME}*_rec*.mrc; do
+    if [ -f "$REC_FILE" ]; then
+        echo "  Processing $REC_FILE..."
+        
+        # Get the Z dimension using imod header command
+        Z_DIM=$(imod header -size "$REC_FILE" | awk '{print $3}')
+        
+        if [ -n "$Z_DIM" ] && [ "$Z_DIM" -gt 0 ]; then
+            # Calculate middle slice (0-based index)
+            MIDDLE_SLICE=$(( (Z_DIM - 1) / 2 ))
+            
+            # Extract base name without extension
+            BASE_NAME="${REC_FILE%.mrc}"
+            
+            echo "    Tomogram has $Z_DIM slices, extracting slice $MIDDLE_SLICE"
+            
+            # Extract middle slice directly as JPG (using -j flag)
+            imod mrc2tif -a 0,0 -j -q 90 -z ${MIDDLE_SLICE},${MIDDLE_SLICE} "$REC_FILE" "${BASE_NAME}_middle"
+            
+            if [ -f "${BASE_NAME}_middle.jpg" ]; then
+                echo "    Created ${BASE_NAME}_middle.jpg"
+                
+                # Only resize if PERFORM_RESIZE is true
+                if [ "$PERFORM_RESIZE" = true ]; then
+                    module load imagemagick 2>/dev/null || echo "  Note: Could not load imagemagick module"
+                    convert "${BASE_NAME}_middle.jpg" -resize "${IMAGE_SIZE}x${IMAGE_SIZE}>" "${BASE_NAME}_middle_resized.jpg"
+                    mv "${BASE_NAME}_middle_resized.jpg" "${BASE_NAME}_middle.jpg"
+                    echo "    Resized to ${IMAGE_SIZE}x${IMAGE_SIZE}"
+                fi
+            fi
+        else
+            echo "    Warning: Could not determine Z dimension for $REC_FILE"
+        fi
+    fi
+done
+
+# Check if any reconstruction files were found
+if ! ls ${TS_BASENAME}*_rec*.mrc 1> /dev/null 2>&1; then
+    echo "  No reconstruction files (*_rec*.mrc) found"
+fi
+
+echo "----------------------------------------"
+echo "Processing complete!"
+echo "Generated files:"
+[ -f "${TS_BASENAME}_alignment_plot.png" ] && echo "  - ${TS_BASENAME}_alignment_plot.png"
+[ -f "${TS_BASENAME}_defocus_plot.png" ] && echo "  - ${TS_BASENAME}_defocus_plot.png"
+[ -f "${TS_BASENAME}_ali.gif" ] && echo "  - ${TS_BASENAME}_ali.gif"
+[ -f "${TS_BASENAME}_ali_middle.jpg" ] && echo "  - ${TS_BASENAME}_ali_middle.jpg"
+[ -f "${TS_BASENAME}_preali.gif" ] && echo "  - ${TS_BASENAME}_preali.gif"
+[ -f "${TS_BASENAME}_preali_middle.jpg" ] && echo "  - ${TS_BASENAME}_preali_middle.jpg"
+[ -f "${TS_BASENAME}.gif" ] && echo "  - ${TS_BASENAME}.gif"
+[ -f "${TS_BASENAME}_middle.jpg" ] && echo "  - ${TS_BASENAME}_middle.jpg"
+ls ${TS_BASENAME}*_rec*_middle.jpg 2>/dev/null | while read f; do echo "  - $f"; done
